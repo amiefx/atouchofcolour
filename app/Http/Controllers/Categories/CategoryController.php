@@ -1,0 +1,32 @@
+<?php
+
+namespace App\Http\Controllers\Categories;
+
+use App\Http\Controllers\Controller;
+use App\Http\Resources\CategoryResource;
+use App\Models\Category;
+use Illuminate\Http\Request;
+
+class CategoryController extends Controller
+{
+    public function index()
+    {
+        return CategoryResource::collection(
+            Category::with('children')->parents()->ordered()->active()->get()
+        );
+    }
+
+    public function homeSection()
+    {
+        return CategoryResource::collection(
+            Category::ordered()->active()->home()->get()
+        );
+    }
+
+    public function show(Category $category)
+    {
+        return new CategoryResource(
+            $category
+        );
+    }
+}
