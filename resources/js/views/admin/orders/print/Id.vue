@@ -29,7 +29,8 @@
                         </tr>
                         <tr>
                             <td>Date:</td>
-                            <td class="pl-5">{{order.created_at | formatDate}}</td>
+                            <td class="pl-5">{{order.created_at | date}}</td>
+                            <!-- <td class="pl-5">{{order.created_at | formatDate}}</td> -->
                         </tr>
                         <tr>
                             <td class="">Payment Method:</td>
@@ -111,7 +112,7 @@
 </template>
 
 <script>
-var moment = require('moment');
+//var moment = require('moment');
 export default {
   layout: 'print',
     metaInfo: {
@@ -134,11 +135,11 @@ export default {
 
     },
 
-    filters: {
-      formatDate: function (value) {
-          return moment(value).format('MMMM D, YYYY');
-      }
-  },
+//     filters: {
+//       formatDate: function (value) {
+//           return moment(value).format('MMMM D, YYYY');
+//       }
+//   },
 
     created() {
     axios

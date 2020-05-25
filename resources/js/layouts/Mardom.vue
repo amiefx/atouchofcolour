@@ -90,7 +90,7 @@
           v-for="(item,i) in homeSlides"
           :key="i"
           :src="item.large_image"
-          :to="`/products/categories/${item.link}`"
+          :to="`/collection/${item.link}`"
         ></v-carousel-item>
       </v-carousel>
 
@@ -99,7 +99,7 @@
           v-for="(item,i) in homeSlides"
           :key="i"
           :src="item.small_image"
-          :to="`/products/categories/${item.link}`"
+          :to="`/collection/${item.link}`"
         ></v-carousel-item>
       </v-carousel>
     </div>

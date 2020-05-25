@@ -42,7 +42,8 @@
       ></v-rating>
     </template>
     <template v-slot:item.created_at="{ item }">
-      <span>{{item.created_at | formatDate}}</span>
+      <!-- <span>{{item.created_at | formatDate}}</span> -->
+      <span>{{item.created_at | date }}</span>
     </template>
     <template v-slot:no-data>
       <v-btn color="primary" @click="initialize">Reset</v-btn>
@@ -55,7 +56,7 @@
 </template>
 
 <script>
-var moment = require('moment');
+//var moment = require('moment');
   export default {
     layout: 'khod',
   middleware: ['auth'],
@@ -84,11 +85,11 @@ var moment = require('moment');
       reviews: [],
     }),
 
-    filters: {
-      formatDate: function (value) {
-          return moment(value).format('MMMM D, YYYY');
-      }
-  },
+//     filters: {
+//       formatDate: function (value) {
+//           return moment(value).format('MMMM D, YYYY');
+//       }
+//   },
 
     created () {
       this.initialize()

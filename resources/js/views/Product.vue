@@ -209,6 +209,7 @@
           :navigationClickTargetSize="15"
           :autoplay="true"
           :paginationEnabled="true"
+          class="hidden-sm-and-down"
         >
           <slide v-if="product.image1">
             <zoom-on-hover :img-normal="product.image1" :img-zoom="product.image1" :scale="1.5"></zoom-on-hover>
@@ -227,6 +228,39 @@
           </slide>
           <slide v-if="product.image6">
             <zoom-on-hover :img-normal="product.image6" :img-zoom="product.image6" :scale="1.5"></zoom-on-hover>
+          </slide>
+        </carousel>
+
+        <carousel
+          :perPage="1"
+          :scrollPerPage="true"
+          :mouse-drag="true"
+          :touchDrag="true"
+          :navigationEnabled="true"
+          :navigation-next-label='`<img src="https://img.icons8.com/ios-glyphs/24/000000/chevron-right.png" class="chev-next"/>`'
+          :navigation-prev-label='`<img src="https://img.icons8.com/ios-glyphs/24/000000/chevron-left.png" class="chev-prev"/>`'
+          :navigationClickTargetSize="15"
+          :autoplay="true"
+          :paginationEnabled="true"
+          class="hidden-md-and-up"
+        >
+          <slide v-if="product.image1">
+            <v-img :aspect-ratio="0.66" :src="product.image1"></v-img>
+          </slide>
+          <slide v-if="product.image2">
+            <v-img :aspect-ratio="0.66" :src="product.image2"></v-img>
+          </slide>
+          <slide v-if="product.image3">
+            <v-img :aspect-ratio="0.66" :src="product.image3"></v-img>
+          </slide>
+          <slide v-if="product.image4">
+            <v-img :aspect-ratio="0.66" :src="product.image4"></v-img>
+          </slide>
+          <slide v-if="product.image5">
+            <v-img :aspect-ratio="0.66" :src="product.image5"></v-img>
+          </slide>
+          <slide v-if="product.image6">
+            <v-img :aspect-ratio="0.66" :src="product.image6"></v-img>
           </slide>
         </carousel>
       </v-col>
@@ -351,7 +385,10 @@
         </div>
           <p
             class="overline font-italic grey--text text--darken-3 mb-1"
-          >{{ review.name }} on {{ review.created_at | formatDate }}</p>
+          >
+          <!-- {{ review.name }} on {{ review.created_at | formatDate }} -->
+           {{ review.name }} on {{ review.created_at | date }}
+          </p>
         <p class="mt-0">{{ review.body }}</p>
         <v-divider></v-divider>
       </v-col>
@@ -388,7 +425,7 @@
 </template>
 
 <script>
-var moment = require('moment')
+//var moment = require('moment')
 import RelatedProducts from '../components/products/RelatedProducts'
 import SocialSharing from '../components/global/SocialSharing'
 //import { mapActions } from "vuex"
@@ -486,11 +523,11 @@ export default {
 //       })
 // },
 
-  filters: {
-    formatDate: function(value) {
-      return moment(value).format('MMMM D, YYYY')
-    }
-  },
+//   filters: {
+//     formatDate: function(value) {
+//       return moment(value).format('MMMM D, YYYY')
+//     }
+//   },
 
 //   mounted() {
 //     axios

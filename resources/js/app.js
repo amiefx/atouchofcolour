@@ -3,6 +3,7 @@ window.Vue = require('vue');
 import vuetify from './vuetify';
 import router from './router/router';
 import store from './store';
+import DateFilter from './filters/date'
 
 require('./store/subscriber')
 
@@ -37,6 +38,7 @@ const options = {
 
   Vue.use(VueProgressBar, options)
 
+Vue.filter('date', DateFilter)
 
 import VueCarousel from 'vue-carousel';
 Vue.use(VueCarousel);
