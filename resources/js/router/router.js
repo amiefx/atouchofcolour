@@ -22,6 +22,7 @@ const routes = [
             layout: 'mardom'
         }
     },
+    { path: '/collection/home', redirect: '/' },
     {
         path: '/collection/:slug',
         name: 'product-collection',

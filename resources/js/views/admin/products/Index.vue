@@ -256,18 +256,17 @@
       </v-avatar>
     </template>
 
-    <template v-slot:item.role="{ item }">
-      <v-edit-dialog large block persistent :return-value.sync="item.role" @save="updateRole(item)">
-        {{item.role}}
-        <template v-slot:input>
-          <v-select
-            v-model="item.role"
-            :items="roles"
-            label="Select Role"
-            :rules="[rules.required]"
-          ></v-select>
-        </template>
-      </v-edit-dialog>
+    <template v-slot:item.is_active = "{ item }">
+        <v-edit-dialog large block persistent :return-value.sync="item.is_active" @save="updateActiveStatus(item)">
+
+            <v-chip :color="getColor(item.is_active)" dark>
+                <span v-if="item.is_active == 1">Active</span>
+                <span v-else>InActive</span>
+            </v-chip>
+            <template v-slot:input>
+                <v-select v-model="item.is_active" :items="status" :item-text="status.text" :item-value="status.value" label="Select Status"></v-select>
+            </template>
+        </v-edit-dialog>
     </template>
 
     <template v-slot:item.image1="{ item }">
@@ -347,6 +346,10 @@ export default {
       sortBy: ["name"],
       sortDesc: [true]
     },
+    status: [
+          {text: 'Active', value: true},
+          {text: 'InActive', value: false}
+      ],
     rules: {
       required: v => !!v || "This Field is Required",
       min: v => v.length >= 5 || "Minimum 5 Chracters Required",
@@ -457,6 +460,20 @@ export default {
     },
 
   methods: {
+
+    updateActiveStatus(item) {
+        const index = this.categories.indexOf(item);
+        axios.post('/api/admin/products/change-active', {'is_active': item.is_active, 'product': item.id})
+          .then(res => {
+              this.text = "Products active status updated successfully."
+              this.snackbar = true
+              })
+          .catch(error => {
+              this.categories[index].role = error.response
+              this.snackbar = true
+              console.dir(error.response)
+              })
+      },
 
     uploadImage1(e) {
         let file = e.target.files[0];
@@ -772,7 +789,12 @@ export default {
 
     link(item) {
       this.$router.replace(`/admin/products/${item.slug}`)
-    }
+    },
+
+    getColor (status) {
+        if (status == 0) return 'red'
+        else return 'green'
+      },
   }
 };
 </script>

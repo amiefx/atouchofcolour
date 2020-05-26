@@ -5,7 +5,7 @@
 
       <v-divider class="mx-5"></v-divider>
       <!-- second part --->
-      <v-list dense>
+      <!-- <v-list dense>
         <template v-for="item in items2">
           <v-list-group
             v-if="item.children"
@@ -33,7 +33,7 @@
             </v-list-item-content>
           </v-list-item>
         </template>
-      </v-list>
+      </v-list> -->
       <!-- second part --->
 
       <!-- third part --->

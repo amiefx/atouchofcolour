@@ -1,1 +1,591 @@
-(window.webpackJsonp=window.webpackJsonp||[]).push([[28],{120:function(t,e,s){"use strict";s.r(e);var a={layout:"admin",middleware:["auth","admin"],metaInfo:{title:"Orders",titleTemplate:"%s | Khodgi"},data:function(){return{valid:!0,dialog:!1,loading:!1,snackbar:!1,text:"",roles:[],success:"",error:"",options:{sortBy:["id"],sortDesc:[!0]},rules:{required:function(t){return!!t||"This Field is Required"},min:function(t){return t.length>=5||"Minimum 5 Chracters Required"},validEmail:function(t){return/.+@.+\..+/.test(t)||"Email must be valid"}},headers:[{text:"#",value:"id"},{text:"Customer Name",value:"billing_first_name"},{text:"Customer Email",value:"customer_email"},{text:"Status",value:"status"},{text:"Total",value:"total"},{text:"Created",value:"created_at"},{text:"Actions",value:"action",sortable:!1}],statusItems:["Canceled","Completed","On Hold","Pending","Pending Payment","Processing","Refunded"],orders:[],editedIndex:-1,editedItem:{id:"",billing_first_name:"",customer_email:"",status:"",created_at:"",total:""},defaultItem:{id:"",billing_first_name:"",customer_email:"",status:"",created_at:"",total:""}}},computed:{formTitle:function(){return-1===this.editedIndex?"New Item":"Edit Item"},passwordMatch:function(){return this.editedItem.password==this.editedItem.rpassword||"Password does Not Match"}},watch:{dialog:function(t){t||this.close()}},created:function(){this.initialize()},methods:{updateStatus:function(t){var e=this,s=this.orders.data.indexOf(t);axios.post("/api/admin/orders/change-status",{status:t.status,order:t.id}).then((function(t){e.text=t.data.order.id+" Status Updated to "+t.data.order.status,e.snackbar=!0})).catch((function(t){e.text="Error Updating Orders Status",e.orders.data[s].status=t.response.order.status,e.snackbar=!0,console.dir(t.response)}))},checkEmail:function(){var t=this;/.+@.+\..+/.test(this.editedItem.email)&&axios.post("/api/admin/email/verify",{email:this.editedItem.email}).then((function(e){t.success=e.data.data.message,t.error=""})).catch((function(e){t.success="",t.error="Email Already Exists"}))},selectAll:function(t){this.selected=[],t.length>0&&(this.selected=t.map((function(t){return t.id}))),console.dir(this.selected)},deleteAll:function(){var t=this;confirm("Are you sure you want to delete these items?")&&axios.post("/api/admin/orders/delete",{orders:this.selected}).then((function(e){t.text="Rcords Deleted Successfully!",t.selected.map((function(e){var s=t.orders.data.indexOf(e);t.orders.data.splice(s,1)})),t.snackbar=!0})).catch((function(e){console.log(e.response),t.text="Error Deleting Record",t.snackbar=!0}))},searchIt:function(t){var e=this;if(t.length>3&&axios.get("/api/admin/orders/".concat(t)).then((function(t){return e.orders=t.data.orders})).catch((function(t){return console.dir(t.response)})),t.length<=0){var s=0==this.options.sortBy.length?"id":this.options.sortBy[0],a=this.options.sortDesc.length>0||this.options.sortDesc[0]?"asc":"desc";axios.get("/api/admin/orders?page=".concat(t.page),{params:{per_page:t.itemsPerPage,sort_by:s,order_by:a}}).then((function(t){e.orders=t.data.orders})).catch((function(t){return console.dir(t.response)}))}},paginate:function(t){var e=this,s=0==this.options.sortBy.length?"id":this.options.sortBy[0],a=this.options.sortDesc.length>0||this.options.sortDesc[0]?"asc":"desc";axios.get("/api/admin/orders?page=".concat(t.page),{params:{per_page:t.itemsPerPage,sort_by:s,order_by:a}}).then((function(t){e.orders=t.data.orders})).catch((function(t){}))},initialize:function(){var t=this;axios.interceptors.request.use((function(e){return t.loading=!0,e}),(function(e){return t.loading=!1,Promise.reject(e)})),axios.interceptors.response.use((function(e){return t.loading=!1,e}),(function(e){return t.loading=!1,Promise.reject(e)}))},editItem:function(t){this.editedIndex=this.orders.data.indexOf(t),this.editedItem=Object.assign({},t),this.dialog=!0},deleteItem:function(t){var e=this,s=this.orders.data.indexOf(t);confirm("Are you sure you want to delete this item?")&&axios.delete("/api/admin/orders/"+t.id).then((function(t){e.snackbar=!0,e.orders.data.splice(s,1)})).catch((function(t){console.log(t.response),e.text="Error Deleting Record",e.snackbar=!0}))},close:function(){var t=this;this.dialog=!1,setTimeout((function(){t.editedItem=Object.assign({},t.defaultItem),t.editedIndex=-1}),300)},save:function(){var t=this;if(this.editedIndex>-1){var e=this.editedIndex;axios.put("/api/admin/orders/"+this.editedItem.id,this.editedItem).then((function(s){t.text="Record Updated Successfully!",t.snackbar=!0,Object.assign(t.orders.data[e],s.data.data.user)})).catch((function(e){console.log(e.response),t.text="Error Updating Record",t.snackbar=!0}))}else axios.post("/api/admin/orders",this.editedItem).then((function(e){t.text="Record Added Successfully!",t.snackbar=!0,t.orders.data.push(e.data.data.user)})).catch((function(e){console.dir(e),t.text="Error Inserting Record",t.snackbar=!0}));this.close()}}},n=s(0),i=Object(n.a)(a,(function(){var t=this,e=t.$createElement,s=t._self._c||e;return s("v-data-table",{staticClass:"elevation-1",attrs:{headers:t.headers,items:t.orders.data,"items-per-page":5,"item-key":"id",loading:t.loading,options:t.options,"server-items-length":t.orders.total,"loading-text":"Loading.. Please Wait!","footer-props":{itemsPerPageOptions:[5,10,15],"show-current-page":!0,"show-first-last-page":!0}},on:{pagination:t.paginate,"update:options":function(e){t.options=e},input:t.selectAll},scopedSlots:t._u([{key:"top",fn:function(){return[s("v-toolbar",{attrs:{flat:"",color:""}},[s("v-toolbar-title",[t._v("Order Management")]),t._v(" "),s("v-divider",{staticClass:"mx-4",attrs:{inset:"",vertical:""}}),t._v(" "),s("v-spacer")],1),t._v(" "),s("v-text-field",{staticClass:"mx-4",attrs:{"append-icon":"mdi-search",label:"Search","single-line":"","hide-details":""},on:{input:t.searchIt}})]},proxy:!0},{key:"item.action",fn:function(e){var a=e.item;return[s("v-btn",{attrs:{icon:"",to:"/admin/orders/"+a.id}},[s("v-icon",{attrs:{small:""}},[t._v("\n      mdi-eye\n    ")])],1)]}},{key:"item.total",fn:function(e){var a=e.item;return[s("span",[t._v(t._s(a.currency_symbol)+t._s(a.total))])]}},{key:"item.created_at",fn:function(e){var a=e.item;return[s("span",[t._v(t._s(t._f("date")(a.created_at)))])]}},{key:"no-data",fn:function(){return[s("v-btn",{attrs:{color:"primary"},on:{click:t.initialize}},[t._v("Reset")])]},proxy:!0},{key:"item.photo",fn:function(t){var e=t.item;return[s("v-avatar",{attrs:{size:"36px"}},[s("img",{attrs:{src:e.photo,alt:"Avatar"}})])]}},{key:"item.status",fn:function(e){var a=e.item;return[s("v-edit-dialog",{attrs:{large:"",block:"",persistent:"","return-value":a.status},on:{"update:returnValue":function(e){return t.$set(a,"status",e)},"update:return-value":function(e){return t.$set(a,"status",e)},save:function(e){return t.updateStatus(a)}},scopedSlots:t._u([{key:"input",fn:function(){return[s("v-select",{attrs:{items:t.statusItems,label:"Select Status",rules:[t.rules.required]},model:{value:a.status,callback:function(e){t.$set(a,"status",e)},expression:"item.status"}})]},proxy:!0}],null,!0)},[t._v("\n          "+t._s(a.status)+"\n          ")])]}}])},[t._v(" "),t._v(" "),t._v(" "),t._v(" "),t._v(" "),t._v(" "),t._v(" "),s("v-snackbar",{model:{value:t.snackbar,callback:function(e){t.snackbar=e},expression:"snackbar"}},[t._v("\n  "+t._s(t.text)+"\n  "),s("v-btn",{attrs:{color:"white",text:""},on:{click:function(e){t.snackbar=!1}}},[t._v("\n      Close\n  ")])],1)],1)}),[],!1,null,null,null);e.default=i.exports}}]);
+(window["webpackJsonp"] = window["webpackJsonp"] || []).push([[28],{
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/admin/orders/print/Id.vue?vue&type=script&lang=js&":
+/*!***************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/admin/orders/print/Id.vue?vue&type=script&lang=js& ***!
+  \***************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//var moment = require('moment');
+/* harmony default export */ __webpack_exports__["default"] = ({
+  layout: 'print',
+  metaInfo: {
+    // title will be injected into parent titleTemplate
+    title: 'Orders',
+    titleTemplate: '%s | Khodgi'
+  },
+  data: function data() {
+    return {
+      order: [],
+      logoImg: window.location.origin + "/storage/images/khodgilogo.png"
+    };
+  },
+  updated: function updated() {
+    setTimeout(function () {
+      window.addEventListener("load", window.print());
+    }, 1000);
+  },
+  //     filters: {
+  //       formatDate: function (value) {
+  //           return moment(value).format('MMMM D, YYYY');
+  //       }
+  //   },
+  created: function created() {
+    var _this = this;
+
+    axios.get("/api/admin/orders/single-order/".concat(this.$route.params.id)).then(function (res) {
+      _this.order = res.data.order;
+    })["catch"](function (err) {
+      console.log();
+    });
+  },
+  methods: {
+    printme: function printme(el) {
+      // let restorepage = document.body.innerHTML;
+      // let printcontent = document.getElementById(el).innerHTML;
+      // document.body.innerHTML = restorepage;
+      window.print(); // document.body.innerHTML = restorepage;
+    }
+  },
+  filters: {
+    formatDate: function formatDate(value) {
+      return moment(value).format('MMMM D, YYYY');
+    }
+  },
+  computed: {
+    subtotal: function subtotal() {
+      return parseFloat(this.order.total) + parseFloat(this.order.discount);
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/admin/orders/print/Id.vue?vue&type=template&id=42433618&":
+/*!*******************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/admin/orders/print/Id.vue?vue&type=template&id=42433618& ***!
+  \*******************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "v-app",
+    [
+      _c("v-container", [
+        _c("div", { attrs: { id: "printable" } }, [
+          _c("div", { staticClass: "mx-2" }, [
+            _c("div", { staticClass: "d-flex justify-space-between" }, [
+              _c(
+                "div",
+                {
+                  staticClass: "float-left",
+                  attrs: { cols: "6", sm: "6", md: "6", lg: "6" }
+                },
+                [
+                  _c("v-img", {
+                    attrs: {
+                      height: "80",
+                      width: "100",
+                      src: _vm.logoImg,
+                      alt: "Khodgi"
+                    }
+                  })
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "div",
+                {
+                  staticClass: "float-right",
+                  attrs: { cols: "6", sm: "6", md: "6", lg: "6" }
+                },
+                [
+                  _c("h1", { staticClass: "my-2 display-1" }, [
+                    _vm._v("INVOICE")
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "float-left" }, [
+                    _vm._v("Invove ID:")
+                  ]),
+                  _vm._v(" "),
+                  _c("span", { staticClass: "float-right" }, [
+                    _vm._v("#" + _vm._s(_vm.order.id))
+                  ])
+                ]
+              )
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", {}, [
+            _c(
+              "div",
+              { staticClass: "d-flex-inline" },
+              [
+                _c(
+                  "v-col",
+                  { attrs: { cols: "12", sm: "6", md: "6", lg: "6" } },
+                  [
+                    _c("h4", { staticClass: "my-2" }, [
+                      _vm._v("Order Details")
+                    ]),
+                    _vm._v(" "),
+                    _c("tbody", [
+                      _c("tr", [
+                        _c("td", [_vm._v("Telephone:")]),
+                        _vm._v(" "),
+                        _c("td", { staticClass: "pl-5" }, [
+                          _vm._v(_vm._s(_vm.order.customer_phone))
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("tr", [
+                        _c("td", [_vm._v("Email:")]),
+                        _vm._v(" "),
+                        _c("td", { staticClass: "pl-5" }, [
+                          _vm._v(_vm._s(_vm.order.customer_email))
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("tr", [
+                        _c("td", [_vm._v("Date:")]),
+                        _vm._v(" "),
+                        _c("td", { staticClass: "pl-5" }, [
+                          _vm._v(_vm._s(_vm._f("date")(_vm.order.created_at)))
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("tr", [
+                        _c("td", {}, [_vm._v("Payment Method:")]),
+                        _vm._v(" "),
+                        _c("td", { staticClass: "pl-5" }, [
+                          _vm._v(_vm._s(_vm.order.payment_method))
+                        ])
+                      ])
+                    ])
+                  ]
+                )
+              ],
+              1
+            )
+          ]),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "d-flex-inline" },
+            [
+              _c(
+                "v-col",
+                {
+                  staticClass: "float-left",
+                  attrs: { cols: "6", sm: "6", md: "6", lg: "6" }
+                },
+                [
+                  _c("h4", { staticClass: "my-2" }, [
+                    _vm._v("Billing Address")
+                  ]),
+                  _vm._v(" "),
+                  _c("tr", [
+                    _vm._v(
+                      _vm._s(_vm.order.billing_first_name) +
+                        " " +
+                        _vm._s(_vm.order.billing_last_name)
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("tr", [_vm._v(_vm._s(_vm.order.billing_address))]),
+                  _vm._v(" "),
+                  _c("tr", [_vm._v(_vm._s(_vm.order.billing_appartment))]),
+                  _vm._v(" "),
+                  _c("tr", [
+                    _vm._v(
+                      _vm._s(_vm.order.billing_city) +
+                        " " +
+                        _vm._s(_vm.order.billing_postal_code)
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("tr", [_vm._v(_vm._s(_vm.order.billing_country_region))])
+                ]
+              ),
+              _vm._v(" "),
+              _c(
+                "v-col",
+                {
+                  staticClass: "float-right",
+                  attrs: { cols: "6", sm: "6", md: "6", lg: "6" }
+                },
+                [
+                  _c("h4", { staticClass: "my-2" }, [
+                    _vm._v("Shipping Address")
+                  ]),
+                  _vm._v(" "),
+                  _c("tr", [
+                    _vm._v(
+                      _vm._s(_vm.order.shipping_first_name) +
+                        " " +
+                        _vm._s(_vm.order.shipping_last_name)
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("tr", [_vm._v(_vm._s(_vm.order.shipping_address))]),
+                  _vm._v(" "),
+                  _c("tr", [_vm._v(_vm._s(_vm.order.shipping_appartment))]),
+                  _vm._v(" "),
+                  _c("tr", [
+                    _vm._v(
+                      _vm._s(_vm.order.shipping_city) +
+                        " " +
+                        _vm._s(_vm.order.shipping_postal_code)
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("tr", [_vm._v(_vm._s(_vm.order.shipping_country_region))])
+                ]
+              )
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            [
+              _c(
+                "v-col",
+                { staticClass: "mt-6", attrs: { cols: "12" } },
+                [
+                  _c("h4", { staticClass: "my-2" }, [_vm._v("Items Ordered")]),
+                  _vm._v(" "),
+                  _c("v-divider"),
+                  _vm._v(" "),
+                  _c("v-simple-table", {
+                    scopedSlots: _vm._u([
+                      {
+                        key: "default",
+                        fn: function() {
+                          return [
+                            _c("thead", [
+                              _c("tr", [
+                                _c("th", { staticClass: "text-left" }, [
+                                  _vm._v("Product")
+                                ]),
+                                _vm._v(" "),
+                                _c("th", { staticClass: "text-left" }, [
+                                  _vm._v("Type")
+                                ]),
+                                _vm._v(" "),
+                                _c("th", { staticClass: "text-left" }, [
+                                  _vm._v("Size")
+                                ]),
+                                _vm._v(" "),
+                                _c("th", { staticClass: "text-left" }, [
+                                  _vm._v("Unit Price")
+                                ]),
+                                _vm._v(" "),
+                                _c("th", { staticClass: "text-left" }, [
+                                  _vm._v("Quantity")
+                                ]),
+                                _vm._v(" "),
+                                _c("th", { staticClass: "text-left" }, [
+                                  _vm._v("Line Total")
+                                ])
+                              ])
+                            ]),
+                            _vm._v(" "),
+                            _c(
+                              "tbody",
+                              _vm._l(_vm.order.order_items, function(item) {
+                                return _c("tr", { key: item.id }, [
+                                  _c("td", [_vm._v(_vm._s(item.product_name))]),
+                                  _vm._v(" "),
+                                  _c("td", [_vm._v(_vm._s(item.type))]),
+                                  _vm._v(" "),
+                                  _c("td", [_vm._v(_vm._s(item.size))]),
+                                  _vm._v(" "),
+                                  _c("td", [
+                                    _vm._v(
+                                      _vm._s(item.currency_symbol) +
+                                        _vm._s(item.unit_price)
+                                    )
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("td", [_vm._v(_vm._s(item.qty))]),
+                                  _vm._v(" "),
+                                  _c("td", [
+                                    _vm._v(
+                                      _vm._s(item.currency_symbol) +
+                                        _vm._s(item.line_total)
+                                    )
+                                  ])
+                                ])
+                              }),
+                              0
+                            )
+                          ]
+                        },
+                        proxy: true
+                      }
+                    ])
+                  })
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-col",
+                {
+                  staticClass: "float-right",
+                  attrs: { cols: "5", sm: "5", md: "5", lg: "5" }
+                },
+                [
+                  _c("v-simple-table", [
+                    _c("tbody", {}, [
+                      _c("tr", [
+                        _c("td", [_vm._v("Subtotal:")]),
+                        _vm._v(" "),
+                        _c("td", { staticClass: "pl-5 text-right" }, [
+                          _vm._v(
+                            _vm._s(_vm.order.currency_symbol) +
+                              _vm._s(_vm.subtotal)
+                          )
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("tr", [
+                        _c("td", [_vm._v("Discount:")]),
+                        _vm._v(" "),
+                        _c("td", { staticClass: "pl-5 text-right" }, [
+                          _vm._v(
+                            _vm._s(_vm.order.currency_symbol) +
+                              _vm._s(_vm.order.discount)
+                          )
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("tr", [
+                        _c("td", [_c("strong", [_vm._v("Total:")])]),
+                        _vm._v(" "),
+                        _c("td", { staticClass: "pl-5 text-right" }, [
+                          _c("strong", [
+                            _vm._v(
+                              _vm._s(_vm.order.currency_symbol) +
+                                _vm._s(_vm.order.total)
+                            )
+                          ])
+                        ])
+                      ])
+                    ])
+                  ])
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ])
+      ])
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./resources/js/views/admin/orders/print/Id.vue":
+/*!******************************************************!*\
+  !*** ./resources/js/views/admin/orders/print/Id.vue ***!
+  \******************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Id_vue_vue_type_template_id_42433618___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Id.vue?vue&type=template&id=42433618& */ "./resources/js/views/admin/orders/print/Id.vue?vue&type=template&id=42433618&");
+/* harmony import */ var _Id_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Id.vue?vue&type=script&lang=js& */ "./resources/js/views/admin/orders/print/Id.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _Id_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _Id_vue_vue_type_template_id_42433618___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _Id_vue_vue_type_template_id_42433618___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/views/admin/orders/print/Id.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/views/admin/orders/print/Id.vue?vue&type=script&lang=js&":
+/*!*******************************************************************************!*\
+  !*** ./resources/js/views/admin/orders/print/Id.vue?vue&type=script&lang=js& ***!
+  \*******************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Id_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../node_modules/babel-loader/lib??ref--4-0!../../../../../../node_modules/vue-loader/lib??vue-loader-options!./Id.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/admin/orders/print/Id.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Id_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/views/admin/orders/print/Id.vue?vue&type=template&id=42433618&":
+/*!*************************************************************************************!*\
+  !*** ./resources/js/views/admin/orders/print/Id.vue?vue&type=template&id=42433618& ***!
+  \*************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Id_vue_vue_type_template_id_42433618___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../../node_modules/vue-loader/lib??vue-loader-options!./Id.vue?vue&type=template&id=42433618& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/admin/orders/print/Id.vue?vue&type=template&id=42433618&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Id_vue_vue_type_template_id_42433618___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Id_vue_vue_type_template_id_42433618___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ })
+
+}]);

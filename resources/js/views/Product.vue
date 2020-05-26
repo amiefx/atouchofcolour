@@ -563,14 +563,14 @@ export default {
 
   methods: {
     decreaseqty: function() {
-      if (this.qty > 1) {
-        this.qty--
+      if (this.quantity > 1) {
+        this.quantity--
       }
     },
 
     save() {
       axios
-        .post('/api/admin/ratings', this.form)
+        .post('/api/ratings', this.form)
         .then(res => {
           this.showForm = false
         })

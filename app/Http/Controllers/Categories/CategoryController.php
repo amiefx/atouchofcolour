@@ -12,7 +12,7 @@ class CategoryController extends Controller
     public function index()
     {
         return CategoryResource::collection(
-            Category::with('children')->parents()->ordered()->active()->get()
+            Category::with('children')->parents()->ordered()->active()->where('is_menu', true)->get()
         );
     }
 

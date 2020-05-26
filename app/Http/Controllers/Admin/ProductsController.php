@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ProductCollection;
+use App\Http\Resources\ProductIndexResource;
 use App\Http\Resources\ProductResource;
 use App\Models\Product;
 use App\Models\Product_size;
@@ -393,6 +394,14 @@ class ProductsController extends Controller
         $product->image6 = $photo;
         $product->save();
         return response()->json(['product' => new ProductResource($product)], 200);
+    }
+
+    public function changeActiveStatus(Request $request)
+    {
+        $product = Product::find($request->product);
+        $product->is_active = $request->is_active;
+        $product->save();
+        return new ProductIndexResource($product);
     }
 
 }

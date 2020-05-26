@@ -97,6 +97,7 @@ Route::group(['middleware' => ['auth:api']], function () {
         Route::resource('admin/product-sizes', 'ProductSizesController');
 
         // Products
+        Route::post('admin/products/change-active', 'ProductsController@changeActiveStatus');
         Route::post('admin/products/change-photo1', 'ProductsController@changePhoto1');
         Route::post('admin/products/change-photo2', 'ProductsController@changePhoto2');
         Route::post('admin/products/change-photo3', 'ProductsController@changePhoto3');

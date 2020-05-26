@@ -18,7 +18,8 @@ class ProductIndexResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'slug' => $this->slug,
-            'is_active' => $this->is_active == 1 ? 'Active' : 'Inactive',
+           // 'is_active' => $this->is_active == 1 ? 'Active' : 'Inactive',
+           'is_active' => $this->is_active,
             'image1' => asset('storage/' . $this->image1),
             'image2' => $this->image2 ? asset('storage/' . $this->image2) : null,
             'formatted_price' => $this->formattedPrice,
@@ -30,11 +31,11 @@ class ProductIndexResource extends JsonResource
             'rating' => round($this->ratings->where('approved', true)->average('rating'), 1) ,
         ];
 
-        if ($this->is_active == 1) {
-            $data['is_active'] = 'Active';
-        } else {
-            $data['is_active'] = 'InActive';
-        }
+        // if ($this->is_active == 1) {
+        //     $data['is_active'] = 'Active';
+        // } else {
+        //     $data['is_active'] = 'InActive';
+        // }
 
         return $data;
     }
