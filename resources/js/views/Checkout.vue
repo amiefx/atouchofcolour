@@ -343,7 +343,7 @@
               </v-card>
 
               <v-btn class="float-left" text @click="e1 = 2">Back to Shipping</v-btn>
-              <v-btn class="float-right" color="primary" @click="saveOrder">Complet Order</v-btn>
+              <v-btn class="float-right" color="primary" :loading="loading" @click="saveOrder">Complete Order</v-btn>
 
             </v-stepper-content>
           </v-stepper-items>
@@ -450,6 +450,7 @@ export default {
   data: () => ({
     menu: false,
     dialog: false,
+    loading: false,
     snackbar: false,
     text: "",
     total: null,
@@ -1614,6 +1615,25 @@ export default {
             },
             orderedItems: this.cart,
         }
+
+        // Add a request interceptor
+        axios.interceptors.request.use((config) => {
+            this.loading = true
+            return config;
+        },  (error) => {
+            this.loading = false
+            return Promise.reject(error);
+        });
+
+        // Add a response interceptor
+        axios.interceptors.response.use((response) => {
+            this.loading = false
+            return response;
+        }, (error) => {
+            this.loading = false
+            return Promise.reject(error);
+        });
+
         axios.post('/api/orders', orderData)
             .then(res => {
                 this.$router.push(`/checkout/${res.data.id}`)

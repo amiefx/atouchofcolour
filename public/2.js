@@ -469,6 +469,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     return {
       menu: false,
       dialog: false,
+      loading: false,
       snackbar: false,
       text: "",
       total: null,
@@ -1375,7 +1376,23 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           total: this.cartTotalPrice
         },
         orderedItems: this.cart
-      };
+      }; // Add a request interceptor
+
+      axios.interceptors.request.use(function (config) {
+        _this3.loading = true;
+        return config;
+      }, function (error) {
+        _this3.loading = false;
+        return Promise.reject(error);
+      }); // Add a response interceptor
+
+      axios.interceptors.response.use(function (response) {
+        _this3.loading = false;
+        return response;
+      }, function (error) {
+        _this3.loading = false;
+        return Promise.reject(error);
+      });
       axios.post('/api/orders', orderData).then(function (res) {
         _this3.$router.push("/checkout/".concat(res.data.id));
 
@@ -2692,10 +2709,10 @@ var render = function() {
                             "v-btn",
                             {
                               staticClass: "float-right",
-                              attrs: { color: "primary" },
+                              attrs: { color: "primary", loading: _vm.loading },
                               on: { click: _vm.saveOrder }
                             },
-                            [_vm._v("Complet Order")]
+                            [_vm._v("Complete Order")]
                           )
                         ],
                         1

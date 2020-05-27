@@ -3,10 +3,13 @@
 namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\SendOrderTransactionMail;
+use App\Mail\OrderPlaced;
 use App\Models\Order;
 use App\Models\OrderItem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 
 class OrdersController extends Controller
 {
@@ -81,8 +84,8 @@ class OrdersController extends Controller
 
             }
 
-           // Mail::to($order->customer_email)->send(new OrderPlaced);
-         //  SendEmail::dispatch($order)->delay(now()->addMinutes(1));
+            Mail::send(new OrderPlaced($order));
+          // SendOrderTransactionMail::dispatch($order)->delay(now()->addMinutes(1));
 
             DB::commit();
         } catch (\Throwable $th) {

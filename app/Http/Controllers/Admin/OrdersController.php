@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Mail\OrderCompleted;
 use App\Models\Order;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class OrdersController extends Controller
 {
@@ -50,6 +52,11 @@ class OrdersController extends Controller
         $order = Order::find($request->order);
         $order->status = $status;
         $order->save();
+
+        if ($status == 'Completed') {
+            Mail::send(new OrderCompleted($order));
+        }
+
         return response()->json(['order' => $order], 200);
     }
 
