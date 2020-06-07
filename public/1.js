@@ -132,6 +132,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     product: {
@@ -154,6 +159,88 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* WEBPACK VAR INJECTION */(function(process) {/* harmony import */ var _components_products_RelatedProducts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../components/products/RelatedProducts */ "./resources/js/components/products/RelatedProducts.vue");
 /* harmony import */ var _components_global_SocialSharing__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/global/SocialSharing */ "./resources/js/components/global/SocialSharing.vue");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -582,7 +669,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //var moment = require('moment')
 
- //import { mapActions } from "vuex"
+
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   layout: 'mardom',
@@ -590,9 +677,27 @@ __webpack_require__.r(__webpack_exports__);
     return {
       title: this.product.name,
       titleTemplate: '%s | Khodgi',
+      property: 'og:title',
       meta: [{
+        name: 'site_name',
+        content: 'Khodgi',
+        property: 'og:site_name'
+      }, {
+        name: 'url',
+        content: this.sharing.url,
+        property: 'og:url'
+      }, {
         name: 'description',
-        content: this.product.name
+        content: this.product.short_description,
+        property: 'og:description'
+      }, {
+        name: 'type',
+        content: 'website',
+        property: 'og:type'
+      }, {
+        name: 'image',
+        content: this.product.image1,
+        property: 'og:image'
       }]
     };
   },
@@ -606,6 +711,7 @@ __webpack_require__.r(__webpack_exports__);
       text: '',
       valid: true,
       dialog: false,
+      dialog2: false,
       showForm: false,
       rating: 0,
       product: [],
@@ -625,7 +731,7 @@ __webpack_require__.r(__webpack_exports__);
       quantity: 1,
       related_products: [],
       form: {
-        product_id: 1,
+        product_id: '',
         name: '',
         email: '',
         rating: null,
@@ -661,6 +767,18 @@ __webpack_require__.r(__webpack_exports__);
           return /.+@.+\..+/.test(v) || 'Email must be valid';
         }
       },
+      login: {
+        email: "",
+        emailRules: [function (v) {
+          return !!v || "E-mail is required";
+        }, function (v) {
+          return /.+@.+\..+/.test(v) || "E-mail must be valid";
+        }],
+        password: "",
+        passwordRules: [function (v) {
+          return !!v || "Password is required";
+        }]
+      },
       sharing: {
         url: window.location.href,
         title: '',
@@ -668,6 +786,12 @@ __webpack_require__.r(__webpack_exports__);
         quote: 'Best quality fasion clothes',
         hashtags: 'clothe,fasion,ladies',
         twitterUser: ''
+      },
+      soldout: {
+        mible: '',
+        email: '' //   product_id: this.product.id,
+        //   product_name: this.product.name
+
       }
     };
   },
@@ -713,7 +837,9 @@ __webpack_require__.r(__webpack_exports__);
   //         console.log()
   //       })
   //   },
-  methods: {
+  methods: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapActions"])({
+    signIn: 'auth/signIn'
+  })), {}, {
     decreaseqty: function decreaseqty() {
       if (this.quantity > 1) {
         this.quantity--;
@@ -750,39 +876,67 @@ __webpack_require__.r(__webpack_exports__);
         _this2.snackbar = true;
       });
     },
-    loginAlert: function loginAlert() {
-      this.text = 'Please login to add product to your wish list.';
-      this.snackbar = true;
+    // loginAlert() {
+    //     this.text = 'Please login to add product to your wish list.'
+    //     this.snackbar = true
+    // },
+    notifyMe: function notifyMe() {
+      var _this3 = this;
+
+      var soldouts = {
+        mobile: this.soldout.mobile,
+        email: this.soldout.email,
+        product_slug: this.product.slug,
+        product_name: this.product.name
+      };
+      axios.post('/api/notifyme', soldouts).then(function (res) {
+        _this3.soldout.mobile = '';
+        _this3.soldout.email = '';
+      })["catch"](function (err) {//----
+      });
+    },
+    loginfx: function loginfx() {
+      var _this4 = this;
+
+      this.signIn(this.login).then(function (res) {//-------
+      })["catch"](function (err) {
+        _this4.text = err.response.data.errors.email[0];
+        _this4.snackbar = true;
+      });
+    },
+    windowPosition: function windowPosition() {
+      window.scrollTo(0, 0);
     } // ...mapActions({
     //    addProductToCart: 'cart/addProductToCart'
     // })
 
-  },
+  }),
   watch: {
     prod_id: function prod_id() {
-      var _this3 = this;
+      var _this5 = this;
 
+      this.windowPosition();
       axios.get("/api/products/".concat(this.$route.params.slug)).then(function (res) {
-        _this3.product = res.data.data;
-        _this3.sharing.title = res.data.data.name;
-        _this3.sharing.description = res.data.data.description;
+        _this5.product = res.data.data;
+        _this5.sharing.title = res.data.data.name;
+        _this5.sharing.description = res.data.data.description;
       })["catch"](function (err) {
         console.log();
       });
       axios.get("/api/products/get-related-products/".concat(this.$route.params.slug)).then(function (res) {
-        _this3.related_products = res.data;
+        _this5.related_products = res.data;
       })["catch"](function (err) {
         console.log();
       });
       axios.get("/api/product-sizes/".concat(this.$route.params.slug)).then(function (res) {
-        _this3.product_sizes = res.data.sizes;
+        _this5.product_sizes = res.data.sizes;
       })["catch"](function (err) {
         console.log();
       });
       axios.get("/api/ratings/".concat(this.$route.params.slug)).then(function (res) {
-        _this3.reviews = res.data.reviews;
-        _this3.stars = res.data.stars;
-        _this3.total_review = res.data.total_review;
+        _this5.reviews = res.data.reviews;
+        _this5.stars = res.data.stars;
+        _this5.total_review = res.data.total_review;
       })["catch"](function (err) {
         console.log();
       });
@@ -821,17 +975,23 @@ __webpack_require__.r(__webpack_exports__);
       }
     }
   },
-  computed: {
+  computed: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapGetters"])({
+    authenticated: "auth/authenticated",
+    user: "auth/user"
+  })), {}, {
     routeID: function routeID() {
       return this.prod_id = this.$route.params.slug;
     },
     pageTitle: function pageTitle() {
-      return this.metaInfo.title = this.product.name;
+      return this.metaInfo.title = this.product.name, this.sharing.title = this.metaInfo.title, this.sharing.description = this.product.short_description;
+    },
+    pId: function pId() {
+      return this.form.product_id = this.product.id;
     },
     linkURL: function linkURL() {
       return process.env.BASE_URL + this.$route.fullPath;
     }
-  }
+  })
 });
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../node_modules/process/browser.js */ "./node_modules/process/browser.js")))
 
@@ -1044,6 +1204,23 @@ var render = function() {
                     staticStyle: { position: "relative" }
                   },
                   [
+                    _vm.product.new
+                      ? _c(
+                          "v-btn",
+                          {
+                            staticClass: "white--text",
+                            attrs: {
+                              absolute: "",
+                              color: "orange",
+                              fab: "",
+                              right: "",
+                              top: ""
+                            }
+                          },
+                          [_vm._v("\n                  New\n              ")]
+                        )
+                      : _vm._e(),
+                    _vm._v(" "),
                     _c(
                       "div",
                       {
@@ -1062,14 +1239,40 @@ var render = function() {
                       [_vm._v(_vm._s(_vm.product.name))]
                     ),
                     _vm._v(" "),
-                    _c(
-                      "h3",
-                      {
-                        staticClass:
-                          "title font-weight-black orange--text mb-0 text-center"
-                      },
-                      [_vm._v(_vm._s(_vm.product.formatted_price))]
-                    ),
+                    _c("h3", { staticClass: "text-center" }, [
+                      _vm.product.offer > 0
+                        ? _c(
+                            "span",
+                            {
+                              staticClass:
+                                "subtitle-1 font-weight-medium orange--text mb-0 text-center",
+                              staticStyle: { "text-decoration": "line-through" }
+                            },
+                            [
+                              _vm._v(
+                                "\n                  " +
+                                  _vm._s(_vm.product.formatted_price) +
+                                  "\n                  "
+                              )
+                            ]
+                          )
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _c(
+                        "span",
+                        {
+                          staticClass:
+                            "title font-weight-black orange--text mb-0 text-center"
+                        },
+                        [
+                          _vm._v(
+                            "\n                      " +
+                              _vm._s(_vm.product.formatted_offer) +
+                              "\n                  "
+                          )
+                        ]
+                      )
+                    ]),
                     _vm._v(" "),
                     _c(
                       "v-row",
@@ -1152,43 +1355,127 @@ var render = function() {
                 _vm._v(_vm._s(_vm.product.name))
               ]),
               _vm._v(" "),
-              _c(
-                "div",
-                { staticClass: "my-4" },
-                [
-                  _c("span", { staticClass: "subheading" }, [_vm._v("Type")]),
-                  _vm._v(" "),
-                  _c(
-                    "v-chip-group",
-                    {
-                      attrs: {
-                        "active-class": "deep-purple--text text--accent-4",
-                        mandatory: ""
-                      },
-                      model: {
-                        value: _vm.selection_type,
-                        callback: function($$v) {
-                          _vm.selection_type = $$v
+              _vm.product.in_stock
+                ? _c(
+                    "div",
+                    { staticClass: "my-4" },
+                    [
+                      _c("span", { staticClass: "subheading" }, [
+                        _vm._v("Type")
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "v-chip-group",
+                        {
+                          attrs: {
+                            "active-class": "deep-purple--text text--accent-4",
+                            mandatory: ""
+                          },
+                          model: {
+                            value: _vm.selection_type,
+                            callback: function($$v) {
+                              _vm.selection_type = $$v
+                            },
+                            expression: "selection_type"
+                          }
                         },
-                        expression: "selection_type"
-                      }
-                    },
-                    _vm._l(_vm.types, function(type) {
-                      return _c(
-                        "v-chip",
-                        { key: type, attrs: { value: type } },
-                        [
-                          _vm._v(
-                            "\n            " + _vm._s(type) + "\n          "
+                        _vm._l(_vm.types, function(type) {
+                          return _c(
+                            "v-chip",
+                            { key: type, attrs: { value: type } },
+                            [
+                              _vm._v(
+                                "\n            " + _vm._s(type) + "\n          "
+                              )
+                            ]
                           )
-                        ]
+                        }),
+                        1
                       )
-                    }),
+                    ],
                     1
                   )
-                ],
-                1
-              ),
+                : _c(
+                    "div",
+                    { staticClass: "my-4" },
+                    [
+                      _c("p", { staticClass: "text-center" }, [
+                        _vm._v("Item out of stock - notify me!")
+                      ]),
+                      _vm._v(" "),
+                      _c("p", [
+                        _vm._v(
+                          "\n              Enter your phone number or email address below to be notified when this item is back in stock:\n          "
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "v-row",
+                        { staticClass: "mt-3 mr-auto" },
+                        [
+                          _c("v-text-field", {
+                            staticClass: "mt-2 mx-3",
+                            attrs: {
+                              label: "Mobile Number",
+                              outlined: "",
+                              dense: ""
+                            },
+                            model: {
+                              value: _vm.soldout.mobile,
+                              callback: function($$v) {
+                                _vm.$set(_vm.soldout, "mobile", $$v)
+                              },
+                              expression: "soldout.mobile"
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c(
+                            "v-btn",
+                            {
+                              staticClass: "mt-2",
+                              attrs: { dark: "" },
+                              on: { click: _vm.notifyMe }
+                            },
+                            [_vm._v("Text me")]
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-row",
+                        { staticClass: " mr-auto" },
+                        [
+                          _c("v-text-field", {
+                            staticClass: " mx-3",
+                            attrs: {
+                              label: "Enter your email",
+                              outlined: "",
+                              dense: ""
+                            },
+                            model: {
+                              value: _vm.soldout.email,
+                              callback: function($$v) {
+                                _vm.$set(_vm.soldout, "email", $$v)
+                              },
+                              expression: "soldout.email"
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c(
+                            "v-btn",
+                            {
+                              attrs: { dark: "" },
+                              on: { click: _vm.notifyMe }
+                            },
+                            [_vm._v("Email me")]
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  ),
               _vm._v(" "),
               _vm.selection_type == "Stitched"
                 ? _c(
@@ -1883,7 +2170,7 @@ var render = function() {
               _c(
                 "div",
                 [
-                  2 > 1
+                  _vm.authenticated
                     ? _c(
                         "v-btn",
                         {
@@ -1891,27 +2178,174 @@ var render = function() {
                           on: { click: _vm.addTotWishList }
                         },
                         [
-                          _c("v-icon", { attrs: { left: "" } }, [
+                          _c("v-icon", { attrs: { left: "", color: "red" } }, [
                             _vm._v("mdi-heart")
                           ]),
                           _vm._v("Add to wish list\n        ")
                         ],
                         1
                       )
-                    : _c(
-                        "v-btn",
+                    : _vm._e(),
+                  _vm._v(" "),
+                  !_vm.authenticated
+                    ? _c(
+                        "v-dialog",
                         {
-                          attrs: { tile: "", text: "", color: "" },
-                          on: { click: _vm.loginAlert }
+                          attrs: { "max-width": "500px" },
+                          scopedSlots: _vm._u(
+                            [
+                              {
+                                key: "activator",
+                                fn: function(ref) {
+                                  var on = ref.on
+                                  return [
+                                    _c(
+                                      "v-btn",
+                                      _vm._g(
+                                        {
+                                          attrs: {
+                                            tile: "",
+                                            text: "",
+                                            color: ""
+                                          }
+                                        },
+                                        on
+                                      ),
+                                      [
+                                        _c("v-icon", { attrs: { left: "" } }, [
+                                          _vm._v("mdi-account")
+                                        ]),
+                                        _vm._v(
+                                          "Login to Add to wish list\n                      "
+                                        )
+                                      ],
+                                      1
+                                    )
+                                  ]
+                                }
+                              }
+                            ],
+                            null,
+                            false,
+                            3346630525
+                          ),
+                          model: {
+                            value: _vm.dialog2,
+                            callback: function($$v) {
+                              _vm.dialog2 = $$v
+                            },
+                            expression: "dialog2"
+                          }
                         },
                         [
-                          _c("v-icon", { attrs: { left: "" } }, [
-                            _vm._v("mdi-heart")
-                          ]),
-                          _vm._v("Add to wish list\n        ")
+                          _vm._v(" "),
+                          _c(
+                            "v-card",
+                            [
+                              _c("v-card-title", [
+                                _c("span", { staticClass: "headline" }, [
+                                  _vm._v("Login")
+                                ])
+                              ]),
+                              _vm._v(" "),
+                              _c(
+                                "v-card-text",
+                                [
+                                  _c(
+                                    "v-form",
+                                    {
+                                      attrs: { method: "post" },
+                                      on: {
+                                        submit: function($event) {
+                                          $event.stopPropagation()
+                                          $event.preventDefault()
+                                          return _vm.login($event)
+                                        }
+                                      },
+                                      model: {
+                                        value: _vm.valid,
+                                        callback: function($$v) {
+                                          _vm.valid = $$v
+                                        },
+                                        expression: "valid"
+                                      }
+                                    },
+                                    [
+                                      _c("v-text-field", {
+                                        attrs: {
+                                          label: "Login",
+                                          rules: _vm.login.emailRules,
+                                          name: "login",
+                                          "prepend-icon": "mdi-account-circle",
+                                          type: "text",
+                                          required: ""
+                                        },
+                                        model: {
+                                          value: _vm.login.email,
+                                          callback: function($$v) {
+                                            _vm.$set(_vm.login, "email", $$v)
+                                          },
+                                          expression: "login.email"
+                                        }
+                                      }),
+                                      _vm._v(" "),
+                                      _c("v-text-field", {
+                                        attrs: {
+                                          id: "password",
+                                          label: "Password",
+                                          rules: _vm.login.passwordRules,
+                                          name: "password",
+                                          "prepend-icon": "mdi-lock",
+                                          type: "password",
+                                          required: ""
+                                        },
+                                        model: {
+                                          value: _vm.login.password,
+                                          callback: function($$v) {
+                                            _vm.$set(_vm.login, "password", $$v)
+                                          },
+                                          expression: "login.password"
+                                        }
+                                      })
+                                    ],
+                                    1
+                                  )
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-card-actions",
+                                [
+                                  _c("v-spacer"),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-btn",
+                                    {
+                                      attrs: {
+                                        color: "primary",
+                                        block: "",
+                                        disabled: !_vm.valid
+                                      },
+                                      on: {
+                                        click: function($event) {
+                                          $event.preventDefault()
+                                          return _vm.loginfx($event)
+                                        }
+                                      }
+                                    },
+                                    [_vm._v("Login")]
+                                  )
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          )
                         ],
                         1
                       )
+                    : _vm._e()
                 ],
                 1
               ),
@@ -1986,14 +2420,20 @@ var render = function() {
                 "div",
                 { staticClass: "py-4" },
                 [
-                  _c(
-                    "v-btn",
-                    {
-                      attrs: { color: "grey darken-4", dark: "" },
-                      on: { click: _vm.addToCart }
-                    },
-                    [_vm._v("Add to Cart")]
-                  )
+                  _vm.product.in_stock
+                    ? _c(
+                        "v-btn",
+                        {
+                          attrs: { color: "primary", dark: "" },
+                          on: { click: _vm.addToCart }
+                        },
+                        [_vm._v("Add to Cart")]
+                      )
+                    : _c(
+                        "v-btn",
+                        { attrs: { color: "grey darken-4", dark: "" } },
+                        [_vm._v("Sold out")]
+                      )
                 ],
                 1
               ),
@@ -2652,7 +3092,9 @@ var render = function() {
         1
       ),
       _vm._v(" "),
-      _c("div", { attrs: { hidden: "" } }, [_vm._v(_vm._s(_vm.routeID))]),
+      _c("div", { attrs: { hidden: "" } }, [
+        _vm._v(_vm._s(_vm.routeID) + " " + _vm._s(_vm.pId))
+      ]),
       _vm._v(" "),
       _c(
         "v-snackbar",

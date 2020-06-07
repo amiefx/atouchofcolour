@@ -170,6 +170,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     product: {
@@ -730,6 +737,23 @@ var render = function() {
                     staticStyle: { position: "relative" }
                   },
                   [
+                    _vm.product.new
+                      ? _c(
+                          "v-btn",
+                          {
+                            staticClass: "white--text",
+                            attrs: {
+                              absolute: "",
+                              color: "orange",
+                              fab: "",
+                              right: "",
+                              top: ""
+                            }
+                          },
+                          [_vm._v("\n          New\n      ")]
+                        )
+                      : _vm._e(),
+                    _vm._v(" "),
                     _c(
                       "div",
                       {
@@ -738,14 +762,40 @@ var render = function() {
                       [_vm._v(_vm._s(_vm.product.name))]
                     ),
                     _vm._v(" "),
-                    _c(
-                      "h3",
-                      {
-                        staticClass:
-                          "title font-weight-black orange--text mb-0 text-center"
-                      },
-                      [_vm._v(_vm._s(_vm.product.formatted_price))]
-                    ),
+                    _c("h3", { staticClass: "text-center" }, [
+                      _vm.product.offer > 0
+                        ? _c(
+                            "span",
+                            {
+                              staticClass:
+                                "subtitle-1 font-weight-medium orange--text mb-0 text-center",
+                              staticStyle: { "text-decoration": "line-through" }
+                            },
+                            [
+                              _vm._v(
+                                "\n          " +
+                                  _vm._s(_vm.product.formatted_price) +
+                                  "\n          "
+                              )
+                            ]
+                          )
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _c(
+                        "span",
+                        {
+                          staticClass:
+                            "title font-weight-black orange--text mb-0 text-center"
+                        },
+                        [
+                          _vm._v(
+                            "\n              " +
+                              _vm._s(_vm.product.formatted_offer) +
+                              "\n          "
+                          )
+                        ]
+                      )
+                    ]),
                     _vm._v(" "),
                     _c(
                       "v-row",

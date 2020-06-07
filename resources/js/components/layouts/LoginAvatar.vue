@@ -22,6 +22,9 @@
           <v-list-item to="/account">
             <v-list-item-title>Profile</v-list-item-title>
           </v-list-item>
+          <v-list-item v-if="admin" to="/admin/dashboard">
+            <v-list-item-title>Dashboard</v-list-item-title>
+          </v-list-item>
           <v-list-item @click="logout()">
             <v-list-item-title>Log Out</v-list-item-title>
           </v-list-item>
@@ -36,7 +39,8 @@ export default {
   computed: {
     ...mapGetters({
       authenticated: "auth/authenticated",
-      user: "auth/user"
+      user: "auth/user",
+      admin: "auth/admin"
     })
   },
 

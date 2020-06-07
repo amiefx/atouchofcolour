@@ -8,6 +8,7 @@ use Money\Currency;
 use Money\Money;
 use Money\Formatter\IntlMoneyFormatter;
 use Money\Currencies\ISOCurrencies;
+use phpDocumentor\Reflection\Types\Float_;
 
 class Product extends Model
 {
@@ -28,6 +29,7 @@ class Product extends Model
         'price_aud',
         'price_eur',
         'price_gbp',
+        'in_stock',
         'special_price_percentage',
         'special_price_start',
         'special_price_end',
@@ -55,6 +57,28 @@ class Product extends Model
     public function category()
     {
         return $this->belongsTo(Category::class);
+    }
+
+    public function getNewAttribute()
+    {
+        $today = date('Y-m-d');
+        if ($this->new_from && $this->new_to) {
+
+          return ($today >= $this->new_from && $today <= $this->new_to) ? true : false ;
+        } else {
+            return false;
+        }
+    }
+
+    public function getOfferAttribute()
+    {
+        $today = date('Y-m-d');
+        if ($this->special_price_start && $this->special_price_end) {
+
+            return ($today >= $this->special_price_start && $today <= $this->special_price_end) ? $this->special_price_percentage/100 : 0 ;
+        } else {
+              return 0;
+          }
     }
 
     public function getPriceAttribute()
@@ -97,10 +121,10 @@ class Product extends Model
     public function getSymbolAttribute()
     {
         $user_location = geoip()->getLocation($_SERVER['REMOTE_ADDR']);
-       // $user_location = geoip()->getLocation('195.208.218.98');
+      //  $user_location = geoip()->getLocation('45.116.232.34');
         $currency = $user_location->currency;
-        $symbol = null;
 
+        $symbol = null;
         if ( $currency == "PKR") {
             $symbol = 'Rs';
         } elseif ($currency == "EUR") {
@@ -119,11 +143,60 @@ class Product extends Model
     public function getFormattedPriceAttribute()
     {
         $formatter = new IntlMoneyFormatter(
-            new NumberFormatter('en_GB', NumberFormatter::CURRENCY),
+            new NumberFormatter('en_US', NumberFormatter::CURRENCY),
             new ISOCurrencies()
         );
 
         return $formatter->format($this->price);
+    }
+
+    public function getOfferPriceAttribute()
+    {
+        $user_location = geoip()->getLocation($_SERVER['REMOTE_ADDR']);
+      //  $user_location = geoip()->getLocation('45.116.232.34');
+        $currency = $user_location->currency;
+
+        $price = null;
+
+        if ( $currency == "PKR") {
+            $price = $this->price_pkr - ($this->price_pkr * $this->offer);
+        } elseif ($currency == "EUR") {
+            $price = $this->price_eur - ($this->price_eur * $this->offer);
+        } elseif ($currency == "AUD") {
+            $price = $this->price_aud - ($this->price_aud * $this->offer);
+        } elseif ($currency == "GBP") {
+            $price = $this->price_gbp - ($this->price_gbp  * $this->offer);
+        } else {
+            $price = $this->price_usd - ($this->price_usd * $this->offer);
+        }
+
+        $int = (int)$price;
+
+        // symbol
+        $symbol = null;
+        if ( $currency == "PKR") {
+            $symbol = 'PKR';
+        } elseif ($currency == "EUR") {
+            $symbol = 'EUR';
+        } elseif ($currency == "AUD") {
+            $symbol = 'AUD';
+        } elseif ($currency == "GBP") {
+            $symbol = 'GBP';
+        } else {
+            $symbol = 'USD';
+        }
+
+        return new Money($int , new Currency($symbol));
+    }
+
+    public function getFormattedOfferAttribute()
+    {
+        $formatter = new IntlMoneyFormatter(
+            new NumberFormatter('en_US', NumberFormatter::CURRENCY),
+            new ISOCurrencies()
+        );
+
+        return $formatter->format($this->offer_price);
     }
 
     public function getPrice2Attribute()
@@ -145,7 +218,7 @@ class Product extends Model
             $price = $this->price_usd;
         }
 
-        return $price;
+        return $price - ($price * $this->offer);
     }
 
 

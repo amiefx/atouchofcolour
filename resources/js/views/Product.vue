@@ -3,9 +3,9 @@
     <v-row>
       <v-col cols="12" sm="5" md="5" lg="5" xl="5" class="pa-6 grey lighten-4 order-sm-first">
         <div class="headline mb-4">{{ product.name }}</div>
-        <div class="my-4">
-          <span class="subheading">Type</span>
 
+        <div class="my-4" v-if="product.in_stock">
+          <span class="subheading">Type</span>
           <v-chip-group
             v-model="selection_type"
             active-class="deep-purple--text text--accent-4"
@@ -16,6 +16,34 @@
             </v-chip>
           </v-chip-group>
         </div>
+
+        <div class="my-4" v-else>
+            <p class="text-center">Item out of stock - notify me!</p>
+            <p>
+                Enter your phone number or email address below to be notified when this item is back in stock:
+            </p>
+            <v-row class="mt-3 mr-auto">
+            <v-text-field
+                v-model="soldout.mobile"
+                class="mt-2 mx-3"
+                label="Mobile Number"
+                outlined
+                dense
+            ></v-text-field>
+            <v-btn @click="notifyMe" dark class="mt-2">Text me</v-btn>
+            </v-row>
+            <v-row class=" mr-auto">
+            <v-text-field
+                v-model="soldout.email"
+                class=" mx-3"
+                label="Enter your email"
+                outlined
+                dense
+            ></v-text-field>
+            <v-btn @click="notifyMe" dark class="">Email me</v-btn>
+            </v-row>
+        </div>
+
         <div class="my-4" v-if="selection_type == 'Stitched'">
           <span class="subheading">Size</span>
 
@@ -169,12 +197,58 @@
           </v-dialog>
         </div>
         <div>
-          <v-btn v-if="2 >1" class tile text color @click="addTotWishList">
-            <v-icon left>mdi-heart</v-icon>Add to wish list
+          <v-btn v-if="authenticated" class tile text color @click="addTotWishList">
+            <v-icon left color="red">mdi-heart</v-icon>Add to wish list
           </v-btn>
-          <v-btn v-else class tile text color @click="loginAlert">
-            <v-icon left>mdi-heart</v-icon>Add to wish list
-          </v-btn>
+
+            <v-dialog v-model="dialog2" max-width="500px" v-if="!authenticated">
+                    <template v-slot:activator="{ on }">
+                      <v-btn v-on="on"  class tile text color>
+                            <v-icon left>mdi-account</v-icon>Login to Add to wish list
+                        </v-btn>
+                    </template>
+                    <v-card>
+                      <v-card-title>
+                        <span class="headline">Login</span>
+                      </v-card-title>
+
+                      <v-card-text>
+                        <v-form v-model="valid" method="post" v-on:submit.stop.prevent="login">
+                          <v-text-field
+                            label="Login"
+                            v-model="login.email"
+                            :rules="login.emailRules"
+                            name="login"
+                            prepend-icon="mdi-account-circle"
+                            type="text"
+                            required
+                          />
+
+                          <v-text-field
+                            id="password"
+                            label="Password"
+                            v-model="login.password"
+                            :rules="login.passwordRules"
+                            name="password"
+                            prepend-icon="mdi-lock"
+                            type="password"
+                            required
+                          />
+                        </v-form>
+                      </v-card-text>
+                      <v-card-actions>
+                        <v-spacer />
+                        <v-btn
+                          color="primary"
+                          block
+                          :disabled="!valid"
+                          @click.prevent="loginfx"
+                        >Login</v-btn>
+                      </v-card-actions>
+                    </v-card>
+                  </v-dialog>
+
+
         </div>
         <div class="py-4 pl-1">
           <div class="subheading">Quantity</div>
@@ -187,8 +261,9 @@
           </v-btn>
         </div>
         <div class="py-4 headline">{{ product.formatted_price }}</div>
-        <div class="py-4">
-          <v-btn color="grey darken-4" dark @click="addToCart">Add to Cart</v-btn>
+        <div class="py-4" >
+          <v-btn v-if="product.in_stock" color="primary" dark @click="addToCart">Add to Cart</v-btn>
+          <v-btn v-else color="grey darken-4" dark >Sold out</v-btn>
         </div>
         <div class="py-4">
           <div v-html="product.description"></div>
@@ -406,7 +481,7 @@
       </v-row>
       <!------->
     </v-row>
-    <div hidden>{{ routeID }}</div>
+    <div hidden>{{ routeID }} {{pId}}</div>
 
     <v-snackbar
     v-model="snackbar"
@@ -428,14 +503,21 @@
 //var moment = require('moment')
 import RelatedProducts from '../components/products/RelatedProducts'
 import SocialSharing from '../components/global/SocialSharing'
-//import { mapActions } from "vuex"
+import { mapGetters, mapActions } from "vuex"
 export default {
   layout: 'mardom',
   metaInfo() {
     return {
       title: this.product.name,
       titleTemplate: '%s | Khodgi',
-      meta: [{ name: 'description', content: this.product.name }]
+      property: 'og:title',
+      meta: [
+          { name: 'site_name', content: 'Khodgi', property: 'og:site_name' },
+          { name: 'url', content: this.sharing.url, property:'og:url' },
+          { name: 'description', content: this.product.short_description, property:'og:description' },
+          { name: 'type', content: 'website', property:'og:type' },
+          { name: 'image', content: this.product.image1, property:'og:image' },
+          ]
     }
   },
 
@@ -450,6 +532,7 @@ export default {
       text:'',
       valid: true,
       dialog: false,
+      dialog2: false,
       showForm: false,
       rating: 0,
       product: [],
@@ -469,7 +552,7 @@ export default {
       quantity: 1,
       related_products: [],
       form: {
-        product_id: 1,
+        product_id: '',
         name: '',
         email: '',
         rating: null,
@@ -500,6 +583,15 @@ export default {
         min: v => v.length >= 5 || 'Minimum 5 Chracters Required',
         validEmail: v => /.+@.+\..+/.test(v) || 'Email must be valid'
       },
+      login: {
+        email: "",
+        emailRules: [
+            v => !!v || "E-mail is required",
+            v => /.+@.+\..+/.test(v) || "E-mail must be valid"
+        ],
+        password: "",
+        passwordRules: [v => !!v || "Password is required"]
+    },
 
       sharing: {
         url: window.location.href,
@@ -509,6 +601,13 @@ export default {
         hashtags: 'clothe,fasion,ladies',
         twitterUser: ''
       },
+
+      soldout: {
+          mible: '',
+          email: '',
+        //   product_id: this.product.id,
+        //   product_name: this.product.name
+      }
 
     }
   },
@@ -562,6 +661,11 @@ export default {
 //   },
 
   methods: {
+
+    ...mapActions({
+        signIn: 'auth/signIn'
+    }),
+
     decreaseqty: function() {
       if (this.quantity > 1) {
         this.quantity--
@@ -602,9 +706,44 @@ export default {
         })
     },
 
-    loginAlert() {
-        this.text = 'Please login to add product to your wish list.'
-        this.snackbar = true
+    // loginAlert() {
+    //     this.text = 'Please login to add product to your wish list.'
+    //     this.snackbar = true
+    // },
+
+    notifyMe() {
+        let soldouts = {
+            mobile: this.soldout.mobile,
+            email: this.soldout.email,
+            product_slug: this.product.slug,
+            product_name: this.product.name
+        }
+
+        axios
+        .post('/api/notifyme', soldouts)
+        .then(res => {
+          this.soldout.mobile = ''
+          this.soldout.email = ''
+        })
+        .catch(err => {
+            //----
+        })
+    },
+
+    loginfx: function() {
+
+    this.signIn(this.login)
+        .then(res => {
+            //-------
+        })
+        .catch( err => {
+            this.text = err.response.data.errors.email[0]
+            this.snackbar = true
+        })
+    },
+
+    windowPosition() {
+        window.scrollTo(0, 0);
     }
 
     // ...mapActions({
@@ -614,6 +753,8 @@ export default {
 
   watch: {
       prod_id() {
+
+          this.windowPosition();
 
           axios.get(`/api/products/${this.$route.params.slug}`)
             .then(res => {
@@ -695,17 +836,30 @@ export default {
   },
 
   computed: {
+    ...mapGetters({
+    authenticated: "auth/authenticated",
+    user: "auth/user"
+    }),
+
     routeID() {
       return (this.prod_id = this.$route.params.slug)
     },
 
     pageTitle() {
-      return (this.metaInfo.title = this.product.name)
+      return (
+          this.metaInfo.title = this.product.name,
+          this.sharing.title = this.metaInfo.title,
+          this.sharing.description = this.product.short_description
+          )
+    },
+
+    pId() {
+        return (this.form.product_id = this.product.id)
     },
 
     linkURL() {
       return process.env.BASE_URL + this.$route.fullPath;
-    }
+    },
   }
 }
 </script>

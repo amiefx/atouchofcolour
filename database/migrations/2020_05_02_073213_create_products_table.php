@@ -25,6 +25,7 @@ class CreateProductsTable extends Migration
             $table->integer('price_aud');
             $table->integer('price_eur');
             $table->integer('price_gbp');
+            $table->boolean('in_stock')->default(true);
             $table->string('special_price_percentage')->nullable();
             $table->date('special_price_start')->nullable();
             $table->date('special_price_end')->nullable();

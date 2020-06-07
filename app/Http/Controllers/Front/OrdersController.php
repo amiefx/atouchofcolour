@@ -7,6 +7,8 @@ use App\Jobs\SendOrderTransactionMail;
 use App\Mail\OrderPlaced;
 use App\Models\Order;
 use App\Models\OrderItem;
+use App\Models\Product;
+use App\Models\Product_size;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
@@ -136,4 +138,6 @@ class OrdersController extends Controller
         $order->save();
         return response()->json(['order' => $order], 200);
     }
+
+
 }

@@ -15,21 +15,32 @@
         <v-row class="wrap">
           <v-col cols="6" sm="4" md="4" lg="4" xl="4" class="px-3" v-for="(i, index) in products" :key="index">
             <v-hover v-slot:default="{ hover }">
-              <v-card class="mb-2" color="grey lighten-4">
+              <v-card class="mb-2 img__wrapper" color="grey lighten-4">
                 <router-link :to="`/products/${i.slug}`">
                     <v-img :aspect-ratio="0.66" :src="i.image1">
                   <v-img v-if="hover" :aspect-ratio="0.66" :src="i.image2"></v-img>
                 </v-img>
                 </router-link>
+
+                <a class="sold_out white--text" v-if="!i.in_stock"
+                href="">Sold out</a>
+
                 <v-card-text class="pt-6" style="position: relative;">
-                  <!-- <v-btn absolute color="orange" class="white--text" :id="index" @click="addToCart" fab large right top>
-              <v-icon>mdi-cart</v-icon>
-                  </v-btn> -->
+                  <v-btn v-if="i.new" absolute color="orange" class="white--text" :id="index"  fab right top>
+                        New
+                  </v-btn>
                   <div class="font-weight-light title mb-0 text-center hidden-xs-only">{{i.name}}</div>
                   <div class="font-weight-light hidden-sm-and-up mb-0 text-center">{{i.name}}</div>
-                  <h3
-                    class="title font-weight-black orange--text mb-0 text-center"
-                  >{{i.symbol}}{{i.price}}</h3>
+                  <h3 class="text-center">
+                    <span v-if="i.offer > 0" style="text-decoration: line-through"  class="subtitle-1 font-weight-medium orange--text mb-0 text-center">
+                    {{i.formatted_price}}
+                  </span>
+                  <span  class="title font-weight-black orange--text mb-0 text-center">
+                      {{i.formatted_offer}}
+                  </span>
+
+                  </h3>
+
                   <v-row align="center" class="mx-0 text-center d-flex justify-center">
                     <v-rating
                       :value="parseFloat(i.rating)"
@@ -73,9 +84,18 @@ export default {
     return {
       title: this.category,
       titleTemplate: '%s | Khodgi',
+      property: 'og:title',
       meta: [
-        { name: 'description', content: this.category}
-      ]
+            { name: 'site_name', content: 'Khodgi', property: 'og:site_name' },
+            { name: 'url', content: this.currentUrl, property:'og:url' },
+            {
+                name: 'description',
+                content: `Essence of classic, contemporary embroidery submerging beautifully with base color. ${this.category}`,
+                property:'og:description'
+            },
+            { name: 'type', content: 'website', property:'og:type' },
+            { name: 'image', content: this.pageImage, property:'og:image' },
+          ]
     }
   },
   data: () => {
@@ -84,7 +104,7 @@ export default {
       user_location: [],
       cat: "",
       pagination: {},
-      // currentUrl: window.location.origin,
+      currentUrl: window.location.href,
       category: '',
       page: 1,
       itemSort: [
@@ -101,7 +121,8 @@ export default {
         sortBy: ""
       },
       url: '',
-      data: []
+      data: [],
+      pageImage: ''
     };
   },
 
@@ -135,6 +156,7 @@ export default {
         .then(res => {
           this.products = res.data.data;
           this.category = res.data.data[0].category;
+          this.pageImage = res.data.data[0].image1;
           this.pagination = {
             path: res.data.meta.path+"?page=",
              prev_page_url: res.data.links.prev,
@@ -203,6 +225,46 @@ export default {
   opacity: 1;
   position: absolute;
   width: 100%;
+}
+
+.img__wrapper{
+  position:relative;
+  overflow:hidden;
+}
+.img__wrapper img{
+  width: 100%;
+}
+.sold_out {
+    top: 2em;
+    left: -4em;
+    color: #fff;
+    display: block;
+    position:absolute;
+    text-align: center;
+    text-decoration: none;
+    letter-spacing: .06em;
+    background-color: #A00;
+    padding: 0.5em 5em 0.4em 5em;
+    text-shadow: 0 0 0.75em #444;
+    box-shadow: 0 0 0.5em rgba(0,0,0,0.5);
+    font: bold 16px/1.2em Arial, Sans-Serif;
+    -webkit-text-shadow: 0 0 0.75em #444;
+    -webkit-box-shadow: 0 0 0.5em rgba(0,0,0,0.5);
+    -webkit-transform: rotate(-45deg) scale(0.75,1);
+    z-index:1;
+}
+.sold_out:before {
+    content: '';
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    position: absolute;
+    margin: -0.3em -5em;
+    transform: scale(0.7);
+    -webkit-transform: scale(0.7);
+    border: 2px rgba(255,255,255,0.7) dashed;
+
 }
 </style>
 

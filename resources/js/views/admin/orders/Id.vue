@@ -66,6 +66,7 @@
                         <th class="text-left">Unit Price</th>
                         <th class="text-left">Quantity</th>
                         <th class="text-left">Line Total</th>
+                        <th width="8%"></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -76,6 +77,87 @@
                         <td>{{item.currency_symbol}}{{ item.unit_price }}</td>
                         <td>{{ item.qty }}</td>
                         <td>{{item.currency_symbol}}{{ item.line_total }}</td>
+                        <th v-if="item.size">
+                            <div v-if="item.size != 'Custom Size'">
+                                <v-dialog v-model="dialog" width="300px">
+                                    <template v-slot:activator="{ on }">
+                                    <v-btn icon v-on="on" @click="getSize(item)">
+                                        <v-icon left>mdi-tshirt-v</v-icon>
+                                    </v-btn>
+                                    </template>
+                                    <v-card>
+                                    <v-card-title>
+                                        <span class="headline">Size Chart</span>
+                                    </v-card-title>
+                                    <v-card-text>
+                                        <div v-for="(topic, label, index) in product_sizes" :key="index" class="mt-3">
+                                        <div class="d-flex justify-center">
+                                            <strong class="text-center mt-3"> #Order: {{order.id}} | {{item.product_name}} | {{ item.type }} | {{ item.size }}</strong>
+                                        </div>
+                                        <div class="d-flex justify-center">
+                                            <strong class="text-center mt-3"> {{ label }}</strong>
+                                        </div>
+
+                                        <v-simple-table>
+                                            <template v-slot:default>
+                                            <thead>
+                                                <tr>
+                                                <th width="60%" class="text-left">Size Attribute</th>
+                                                <th class="text-left">Size</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr v-for="(item, itemID) in topic" :key="itemID">
+                                                <td>{{ item.name }}</td>
+                                                <td>{{ item.size }}</td>
+                                                </tr>
+                                            </tbody>
+                                            </template>
+                                        </v-simple-table>
+                                        </div>
+                                    </v-card-text>
+                                    </v-card>
+                                </v-dialog>
+                            </div>
+
+                            <div v-else>
+                                <v-dialog v-model="dialog2" width="300px">
+                                    <template v-slot:activator="{ on }">
+                                    <v-btn icon v-on="on" @click="getItemIndex(item)">
+                                        <v-icon left>mdi-tshirt-v</v-icon>
+                                    </v-btn>
+                                    </template>
+                                    <v-card>
+                                    <v-card-title>
+                                        <span class="headline">Size Chart</span>
+                                    </v-card-title>
+                                    <v-card-text>
+                                        <div class="d-flex justify-center">
+                                            <strong class="text-center mt-3"> #Order: {{order.id}} | {{item.product_name}} | {{ item.type }} | {{ item.size }}</strong>
+                                        </div>
+
+                                        <v-simple-table>
+                                            <template v-slot:default>
+                                            <thead>
+                                                <tr>
+                                                <th width="60%" class="text-left">Size Attribute</th>
+                                                <th class="text-left">Size</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr v-for="(value, key) in order.order_items[`${ itemIndex }`].custom_size" :key="key">
+                                                <td>{{ key }}</td>
+                                                <td>{{ value }}</td>
+                                                </tr>
+                                            </tbody>
+                                            </template>
+                                        </v-simple-table>
+                                    </v-card-text>
+                                    </v-card>
+                                </v-dialog>
+                            </div>
+
+                        </th>
                         </tr>
                     </tbody>
                     </template>
@@ -104,6 +186,7 @@
                 </v-simple-table>
             </v-col>
         </div>
+
     </div>
 </template>
 
@@ -121,7 +204,10 @@ export default {
     data: () => {
     return {
         order: [],
-
+        dialog: false,
+        dialog2: false,
+        product_sizes: '',
+        itemIndex: ''
         }
     },
 
@@ -149,6 +235,21 @@ export default {
             // document.body.innerHTML = restorepage;
             window.print();
             // document.body.innerHTML = restorepage;
+        },
+
+        getSize(item) {
+            axios
+            .post(`/api/admin/orders/get-item-size`,  { product_id: item.product_id, order_id: this.order.id })
+            .then(res => {
+                this.product_sizes = res.data.sizes
+            })
+            .catch(err => {
+                console.log()
+            })
+        },
+
+        getItemIndex(item) {
+            this.itemIndex = this.order.order_items.indexOf(item)
         }
     },
 

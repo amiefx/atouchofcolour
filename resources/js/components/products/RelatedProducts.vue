@@ -15,14 +15,19 @@
                 </v-expand-transition>-->
               </v-img>
               <v-card-text class="pt-6" style="position: relative;">
-                <!-- <v-btn absolute color="orange" class="white--text" fab large right top>
-              <v-icon>mdi-cart</v-icon>
-                </v-btn>-->
+                <v-btn v-if="product.new" absolute color="orange" class="white--text"  fab right top>
+                    New
+                </v-btn>
                 <div class="font-weight-light title mb-0 text-center hidden-xs-only">{{product.name}}</div>
                 <div class="font-weight-light hidden-sm-and-up mb-0 text-center">{{product.name}}</div>
-                <h3
-                  class="title font-weight-black orange--text mb-0 text-center"
-                >{{product.formatted_price}}</h3>
+                <h3 class="text-center">
+                    <span v-if="product.offer > 0" style="text-decoration: line-through"  class="subtitle-1 font-weight-medium orange--text mb-0 text-center">
+                    {{product.formatted_price}}
+                    </span>
+                    <span  class="title font-weight-black orange--text mb-0 text-center">
+                        {{product.formatted_offer}}
+                    </span>
+                </h3>
                 <v-row align="center" class="mx-0 text-center d-flex justify-center">
                   <v-rating
                     :value="parseFloat(product.rating)"

@@ -33,7 +33,7 @@ class ProductResource extends ProductIndexResource
             'image5' => $this->image5 ? asset('storage/' . $this->image5) : null,
             'image6' => $this->image6 ? asset('storage/' . $this->image6) : null,
             'Ratings' =>  RatingResource::collection($this->ratings),
-            'size_attribs' => ProductSizesResource::collection($this->product_sizes)
+            'size_attribs' => ProductSizesResource::collection($this->product_sizes),
 
         ]);
     }

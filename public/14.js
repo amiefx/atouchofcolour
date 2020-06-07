@@ -1,9 +1,9 @@
 (window["webpackJsonp"] = window["webpackJsonp"] || []).push([[14],{
 
-/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/admin/Coupons.vue?vue&type=script&lang=js&":
-/*!*******************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/admin/Coupons.vue?vue&type=script&lang=js& ***!
-  \*******************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/admin/Attribute-sets.vue?vue&type=script&lang=js&":
+/*!**************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/admin/Attribute-sets.vue?vue&type=script&lang=js& ***!
+  \**************************************************************************************************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -99,12 +99,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   layout: 'admin',
   middleware: ['auth', 'admin'],
   metaInfo: {
     // title will be injected into parent titleTemplate
-    title: 'Coupons',
+    title: 'Size Group',
     titleTemplate: '%s | Khodgi'
   },
   data: function data() {
@@ -117,43 +119,27 @@ __webpack_require__.r(__webpack_exports__);
         sortable: false,
         value: 'id'
       }, {
-        text: 'Code',
-        value: 'code'
+        text: 'Name',
+        value: 'name'
       }, {
-        text: 'Type',
-        value: 'type'
-      }, {
-        text: 'Value',
-        value: 'value'
-      }, {
-        text: 'Percent_off',
-        value: 'percent_off'
-      }, {
-        text: 'Status',
-        value: 'is_active'
+        text: 'Order',
+        value: 'order'
       }, {
         text: 'Actions',
         value: 'action',
         sortable: false
       }],
-      coupons: [],
-      type: ['fixed', 'percent'],
+      attribute_sets: [],
       editedIndex: -1,
       editedItem: {
         id: '',
-        code: '',
-        type: '',
-        value: '',
-        percent_off: '',
-        is_active: ''
+        name: '',
+        order: ''
       },
       defaultItem: {
         id: '',
-        code: '',
-        type: '',
-        value: '',
-        percent_off: '',
-        is_active: ''
+        name: '',
+        order: ''
       }
     };
   },
@@ -190,28 +176,28 @@ __webpack_require__.r(__webpack_exports__);
         _this.loading = false;
         return Promise.reject(error);
       });
-      axios.get('/api/admin/coupons').then(function (res) {
-        return _this.coupons = res.data.coupons;
+      axios.get('/api/admin/attribute-sets').then(function (res) {
+        return _this.attribute_sets = res.data.data;
       })["catch"](function (err) {
         console.log(err);
       });
     },
     editItem: function editItem(item) {
-      this.editedIndex = this.coupons.indexOf(item);
+      this.editedIndex = this.attribute_sets.indexOf(item);
       this.editedItem = Object.assign({}, item);
       this.dialog = true;
     },
     deleteItem: function deleteItem(item) {
       var _this2 = this;
 
-      var index = this.coupons.indexOf(item);
+      var index = this.attribute_sets.indexOf(item);
       var decide = confirm('Are you sure you want to delete this item?');
 
       if (decide) {
-        axios["delete"]('/api/admin/coupons/' + item.id).then(function (res) {
+        axios["delete"]('/api/admin/attribute-sets/' + item.id).then(function (res) {
           _this2.snackbar = true;
 
-          _this2.coupons.splice(index, 1);
+          _this2.attribute_sets.splice(index, 1);
         })["catch"](function (err) {
           return console.log(err.response);
         });
@@ -230,13 +216,13 @@ __webpack_require__.r(__webpack_exports__);
       var _this4 = this;
 
       if (this.editedIndex > -1) {
-        axios.put('/api/admin/coupons/' + this.editedItem.id, this.editedItem); //   .then(res => Object.assign(this.coupons[this.editedIndex], res.data.data.coupon))
+        axios.put('/api/admin/attribute-sets/' + this.editedItem.id, this.editedItem); //   .then(res => Object.assign(this.roles[this.editedIndex], res.data.data.attribute_set))
         //  .catch(err => console.log(err.response))
 
-        Object.assign(this.coupons[this.editedIndex], this.editedItem);
+        Object.assign(this.attribute_sets[this.editedIndex], this.editedItem);
       } else {
-        axios.post('/api/admin/coupons', this.editedItem).then(function (res) {
-          return _this4.coupons.push(res.data.coupon);
+        axios.post('/api/admin/attribute-sets', this.editedItem).then(function (res) {
+          return _this4.attribute_sets.push(res.data.attribute_set);
         })["catch"](function (err) {
           return console.dir(err.response);
         });
@@ -249,10 +235,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/admin/Coupons.vue?vue&type=template&id=809b3584&":
-/*!***********************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/admin/Coupons.vue?vue&type=template&id=809b3584& ***!
-  \***********************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/admin/Attribute-sets.vue?vue&type=template&id=29960841&":
+/*!******************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/admin/Attribute-sets.vue?vue&type=template&id=29960841& ***!
+  \******************************************************************************************************************************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -269,7 +255,11 @@ var render = function() {
     [
       _c("v-data-table", {
         staticClass: "elevation-1",
-        attrs: { headers: _vm.headers, items: _vm.coupons, "sort-by": "id" },
+        attrs: {
+          headers: _vm.headers,
+          items: _vm.attribute_sets,
+          "sort-by": "id"
+        },
         scopedSlots: _vm._u([
           {
             key: "top",
@@ -279,7 +269,7 @@ var render = function() {
                   "v-toolbar",
                   { attrs: { flat: "", color: "white" } },
                   [
-                    _c("v-toolbar-title", [_vm._v("Coupons")]),
+                    _c("v-toolbar-title", [_vm._v("Attribute Sets")]),
                     _vm._v(" "),
                     _c("v-divider", {
                       staticClass: "mx-4",
@@ -307,7 +297,7 @@ var render = function() {
                                     },
                                     on
                                   ),
-                                  [_vm._v("New Coupon")]
+                                  [_vm._v("New Attribute Set")]
                                 )
                               ]
                             }
@@ -352,83 +342,32 @@ var render = function() {
                                           },
                                           [
                                             _c("v-text-field", {
-                                              attrs: { label: "Code" },
+                                              attrs: { label: "Name" },
                                               model: {
-                                                value: _vm.editedItem.code,
+                                                value: _vm.editedItem.name,
                                                 callback: function($$v) {
                                                   _vm.$set(
                                                     _vm.editedItem,
-                                                    "code",
+                                                    "name",
                                                     $$v
                                                   )
                                                 },
-                                                expression: "editedItem.code"
-                                              }
-                                            }),
-                                            _vm._v(" "),
-                                            _c("v-select", {
-                                              attrs: {
-                                                items: _vm.type,
-                                                label: "Type"
-                                              },
-                                              model: {
-                                                value: _vm.editedItem.type,
-                                                callback: function($$v) {
-                                                  _vm.$set(
-                                                    _vm.editedItem,
-                                                    "type",
-                                                    $$v
-                                                  )
-                                                },
-                                                expression: "editedItem.type"
+                                                expression: "editedItem.name"
                                               }
                                             }),
                                             _vm._v(" "),
                                             _c("v-text-field", {
-                                              attrs: { label: "Value" },
+                                              attrs: { label: "Order" },
                                               model: {
-                                                value: _vm.editedItem.value,
+                                                value: _vm.editedItem.order,
                                                 callback: function($$v) {
                                                   _vm.$set(
                                                     _vm.editedItem,
-                                                    "value",
+                                                    "order",
                                                     $$v
                                                   )
                                                 },
-                                                expression: "editedItem.value"
-                                              }
-                                            }),
-                                            _vm._v(" "),
-                                            _c("v-text-field", {
-                                              attrs: { label: "Percentage" },
-                                              model: {
-                                                value:
-                                                  _vm.editedItem.percent_off,
-                                                callback: function($$v) {
-                                                  _vm.$set(
-                                                    _vm.editedItem,
-                                                    "percent_off",
-                                                    $$v
-                                                  )
-                                                },
-                                                expression:
-                                                  "editedItem.percent_off"
-                                              }
-                                            }),
-                                            _vm._v(" "),
-                                            _c("v-switch", {
-                                              attrs: { label: "Status" },
-                                              model: {
-                                                value: _vm.editedItem.is_active,
-                                                callback: function($$v) {
-                                                  _vm.$set(
-                                                    _vm.editedItem,
-                                                    "is_active",
-                                                    $$v
-                                                  )
-                                                },
-                                                expression:
-                                                  "editedItem.is_active"
+                                                expression: "editedItem.order"
                                               }
                                             })
                                           ],
@@ -452,7 +391,7 @@ var render = function() {
                                 _c(
                                   "v-btn",
                                   {
-                                    attrs: { color: "blue darken-1", text: "" },
+                                    attrs: { color: "primary", text: "" },
                                     on: { click: _vm.close }
                                   },
                                   [_vm._v("Cancel")]
@@ -461,7 +400,7 @@ var render = function() {
                                 _c(
                                   "v-btn",
                                   {
-                                    attrs: { color: "blue darken-1", text: "" },
+                                    attrs: { color: "primary", text: "" },
                                     on: { click: _vm.save }
                                   },
                                   [_vm._v("Save")]
@@ -574,17 +513,17 @@ render._withStripped = true
 
 /***/ }),
 
-/***/ "./resources/js/views/admin/Coupons.vue":
-/*!**********************************************!*\
-  !*** ./resources/js/views/admin/Coupons.vue ***!
-  \**********************************************/
+/***/ "./resources/js/views/admin/Attribute-sets.vue":
+/*!*****************************************************!*\
+  !*** ./resources/js/views/admin/Attribute-sets.vue ***!
+  \*****************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _Coupons_vue_vue_type_template_id_809b3584___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Coupons.vue?vue&type=template&id=809b3584& */ "./resources/js/views/admin/Coupons.vue?vue&type=template&id=809b3584&");
-/* harmony import */ var _Coupons_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Coupons.vue?vue&type=script&lang=js& */ "./resources/js/views/admin/Coupons.vue?vue&type=script&lang=js&");
+/* harmony import */ var _Attribute_sets_vue_vue_type_template_id_29960841___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Attribute-sets.vue?vue&type=template&id=29960841& */ "./resources/js/views/admin/Attribute-sets.vue?vue&type=template&id=29960841&");
+/* harmony import */ var _Attribute_sets_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Attribute-sets.vue?vue&type=script&lang=js& */ "./resources/js/views/admin/Attribute-sets.vue?vue&type=script&lang=js&");
 /* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
@@ -594,9 +533,9 @@ __webpack_require__.r(__webpack_exports__);
 /* normalize component */
 
 var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
-  _Coupons_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _Coupons_vue_vue_type_template_id_809b3584___WEBPACK_IMPORTED_MODULE_0__["render"],
-  _Coupons_vue_vue_type_template_id_809b3584___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  _Attribute_sets_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _Attribute_sets_vue_vue_type_template_id_29960841___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _Attribute_sets_vue_vue_type_template_id_29960841___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
   false,
   null,
   null,
@@ -606,38 +545,38 @@ var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_
 
 /* hot reload */
 if (false) { var api; }
-component.options.__file = "resources/js/views/admin/Coupons.vue"
+component.options.__file = "resources/js/views/admin/Attribute-sets.vue"
 /* harmony default export */ __webpack_exports__["default"] = (component.exports);
 
 /***/ }),
 
-/***/ "./resources/js/views/admin/Coupons.vue?vue&type=script&lang=js&":
-/*!***********************************************************************!*\
-  !*** ./resources/js/views/admin/Coupons.vue?vue&type=script&lang=js& ***!
-  \***********************************************************************/
+/***/ "./resources/js/views/admin/Attribute-sets.vue?vue&type=script&lang=js&":
+/*!******************************************************************************!*\
+  !*** ./resources/js/views/admin/Attribute-sets.vue?vue&type=script&lang=js& ***!
+  \******************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Coupons_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./Coupons.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/admin/Coupons.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Coupons_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Attribute_sets_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./Attribute-sets.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/admin/Attribute-sets.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Attribute_sets_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
 
 /***/ }),
 
-/***/ "./resources/js/views/admin/Coupons.vue?vue&type=template&id=809b3584&":
-/*!*****************************************************************************!*\
-  !*** ./resources/js/views/admin/Coupons.vue?vue&type=template&id=809b3584& ***!
-  \*****************************************************************************/
+/***/ "./resources/js/views/admin/Attribute-sets.vue?vue&type=template&id=29960841&":
+/*!************************************************************************************!*\
+  !*** ./resources/js/views/admin/Attribute-sets.vue?vue&type=template&id=29960841& ***!
+  \************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Coupons_vue_vue_type_template_id_809b3584___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./Coupons.vue?vue&type=template&id=809b3584& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/admin/Coupons.vue?vue&type=template&id=809b3584&");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Coupons_vue_vue_type_template_id_809b3584___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Attribute_sets_vue_vue_type_template_id_29960841___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./Attribute-sets.vue?vue&type=template&id=29960841& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/admin/Attribute-sets.vue?vue&type=template&id=29960841&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Attribute_sets_vue_vue_type_template_id_29960841___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Coupons_vue_vue_type_template_id_809b3584___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Attribute_sets_vue_vue_type_template_id_29960841___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

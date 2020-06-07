@@ -69,4 +69,12 @@ class LoginController extends Controller
         $this->guard()->logout();
         return response()->json(['message' => 'Logged out successfully!']);
     }
+
+    protected function credentials(Request $request)
+    {
+        $credentials = $request->only($this->username(), 'password');
+        $credentials['is_active'] = 1;
+
+        return $credentials;
+    }
 }

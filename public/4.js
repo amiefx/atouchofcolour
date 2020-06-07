@@ -72,6 +72,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   layout: 'mardom',
   props: {
@@ -82,9 +93,27 @@ __webpack_require__.r(__webpack_exports__);
     return {
       title: this.category,
       titleTemplate: '%s | Khodgi',
+      property: 'og:title',
       meta: [{
+        name: 'site_name',
+        content: 'Khodgi',
+        property: 'og:site_name'
+      }, {
+        name: 'url',
+        content: this.currentUrl,
+        property: 'og:url'
+      }, {
         name: 'description',
-        content: this.category
+        content: "Essence of classic, contemporary embroidery submerging beautifully with base color. ".concat(this.category),
+        property: 'og:description'
+      }, {
+        name: 'type',
+        content: 'website',
+        property: 'og:type'
+      }, {
+        name: 'image',
+        content: this.pageImage,
+        property: 'og:image'
       }]
     };
   },
@@ -94,7 +123,7 @@ __webpack_require__.r(__webpack_exports__);
       user_location: [],
       cat: "",
       pagination: {},
-      // currentUrl: window.location.origin,
+      currentUrl: window.location.href,
       category: '',
       page: 1,
       itemSort: ["Price, low to high", "Price, high to low", "Alphabetically, A-Z", "Alphabetically, Z-A", "Date, old to new", "Date, new to old"],
@@ -104,7 +133,8 @@ __webpack_require__.r(__webpack_exports__);
         sortBy: ""
       },
       url: '',
-      data: []
+      data: [],
+      pageImage: ''
     };
   },
   watch: {
@@ -139,6 +169,7 @@ __webpack_require__.r(__webpack_exports__);
       }).then(function (res) {
         _this.products = res.data.data;
         _this.category = res.data.data[0].category;
+        _this.pageImage = res.data.data[0].image1;
         _this.pagination = {
           path: res.data.meta.path + "?page=",
           prev_page_url: res.data.links.prev,
@@ -211,7 +242,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.v-card--reveal {\n  align-items: center;\n  bottom: 0;\n  justify-content: center;\n  opacity: 1;\n  position: absolute;\n  width: 100%;\n}\n", ""]);
+exports.push([module.i, "\n.v-card--reveal {\n  align-items: center;\n  bottom: 0;\n  justify-content: center;\n  opacity: 1;\n  position: absolute;\n  width: 100%;\n}\n.img__wrapper{\n  position:relative;\n  overflow:hidden;\n}\n.img__wrapper img{\n  width: 100%;\n}\n.sold_out {\n    top: 2em;\n    left: -4em;\n    color: #fff;\n    display: block;\n    position:absolute;\n    text-align: center;\n    text-decoration: none;\n    letter-spacing: .06em;\n    background-color: #A00;\n    padding: 0.5em 5em 0.4em 5em;\n    text-shadow: 0 0 0.75em #444;\n    box-shadow: 0 0 0.5em rgba(0,0,0,0.5);\n    font: bold 16px/1.2em Arial, Sans-Serif;\n    -webkit-text-shadow: 0 0 0.75em #444;\n    -webkit-box-shadow: 0 0 0.5em rgba(0,0,0,0.5);\n    -webkit-transform: rotate(-45deg) scale(0.75,1);\n    z-index:1;\n}\n.sold_out:before {\n    content: '';\n    top: 0;\n    left: 0;\n    right: 0;\n    bottom: 0;\n    position: absolute;\n    margin: -0.3em -5em;\n    transform: scale(0.7);\n    -webkit-transform: scale(0.7);\n    border: 2px rgba(255,255,255,0.7) dashed;\n}\n", ""]);
 
 // exports
 
@@ -350,7 +381,7 @@ var render = function() {
                                   _c(
                                     "v-card",
                                     {
-                                      staticClass: "mb-2",
+                                      staticClass: "mb-2 img__wrapper",
                                       attrs: { color: "grey lighten-4" }
                                     },
                                     [
@@ -384,6 +415,18 @@ var render = function() {
                                         1
                                       ),
                                       _vm._v(" "),
+                                      !i.in_stock
+                                        ? _c(
+                                            "a",
+                                            {
+                                              staticClass:
+                                                "sold_out white--text",
+                                              attrs: { href: "" }
+                                            },
+                                            [_vm._v("Sold out")]
+                                          )
+                                        : _vm._e(),
+                                      _vm._v(" "),
                                       _c(
                                         "v-card-text",
                                         {
@@ -391,6 +434,28 @@ var render = function() {
                                           staticStyle: { position: "relative" }
                                         },
                                         [
+                                          i.new
+                                            ? _c(
+                                                "v-btn",
+                                                {
+                                                  staticClass: "white--text",
+                                                  attrs: {
+                                                    absolute: "",
+                                                    color: "orange",
+                                                    id: index,
+                                                    fab: "",
+                                                    right: "",
+                                                    top: ""
+                                                  }
+                                                },
+                                                [
+                                                  _vm._v(
+                                                    "\n                      New\n                "
+                                                  )
+                                                ]
+                                              )
+                                            : _vm._e(),
+                                          _vm._v(" "),
                                           _c(
                                             "div",
                                             {
@@ -411,14 +476,46 @@ var render = function() {
                                           _vm._v(" "),
                                           _c(
                                             "h3",
-                                            {
-                                              staticClass:
-                                                "title font-weight-black orange--text mb-0 text-center"
-                                            },
+                                            { staticClass: "text-center" },
                                             [
-                                              _vm._v(
-                                                _vm._s(i.symbol) +
-                                                  _vm._s(i.price)
+                                              i.offer > 0
+                                                ? _c(
+                                                    "span",
+                                                    {
+                                                      staticClass:
+                                                        "subtitle-1 font-weight-medium orange--text mb-0 text-center",
+                                                      staticStyle: {
+                                                        "text-decoration":
+                                                          "line-through"
+                                                      }
+                                                    },
+                                                    [
+                                                      _vm._v(
+                                                        "\n                  " +
+                                                          _vm._s(
+                                                            i.formatted_price
+                                                          ) +
+                                                          "\n                "
+                                                      )
+                                                    ]
+                                                  )
+                                                : _vm._e(),
+                                              _vm._v(" "),
+                                              _c(
+                                                "span",
+                                                {
+                                                  staticClass:
+                                                    "title font-weight-black orange--text mb-0 text-center"
+                                                },
+                                                [
+                                                  _vm._v(
+                                                    "\n                    " +
+                                                      _vm._s(
+                                                        i.formatted_offer
+                                                      ) +
+                                                      "\n                "
+                                                  )
+                                                ]
                                               )
                                             ]
                                           ),

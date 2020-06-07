@@ -51,6 +51,10 @@
                     required
                   />
 
+                  <vue-recaptcha ref="recaptcha"
+                    @verify="onVerify" sitekey="6LfyD_4UAAAAAERoUg4F4avADxNTXtiIOAOYoa0z">
+                  </vue-recaptcha>
+
               </v-card-text>
               <v-card-actions>
                 <v-spacer />
@@ -89,13 +93,18 @@
 </template>
 
 <script>
+import VueRecaptcha from 'vue-recaptcha';
 import { mapGetters, mapActions } from "vuex";
   export default {
+      components: {
+            'vue-recaptcha': VueRecaptcha
+        },
       data(){
           return {
               form: {
                 email: '',
-                password: ''
+                password: '',
+                robot: false
               },
               text: '',
               loading: false,
@@ -116,6 +125,9 @@ import { mapGetters, mapActions } from "vuex";
             }),
 
           submit() {
+
+            if (this.form.robot) {
+
               // Add a request interceptor
             axios.interceptors.request.use((config) => {
                 this.loading = true
@@ -161,6 +173,13 @@ import { mapGetters, mapActions } from "vuex";
             //     })
 
           }
+
+          },
+
+          onVerify: function (response) {
+            if (response) this.form.robot = true;
+          },
+
       },
 
       computed: {

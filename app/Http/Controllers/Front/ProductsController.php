@@ -43,7 +43,7 @@ class ProductsController extends Controller
 
     public function getHomeProducts()
     {
-        $products = ProductIndexResource::collection(Product::with(['ratings'])->where('is_active', true)->get());
+        $products = ProductIndexResource::collection(Product::with(['ratings'])->where([['is_active', true], ['in_stock', true]])->get());
         $total_products = $products->count();
         if ($total_products < 7) {
             $total = $total_products;

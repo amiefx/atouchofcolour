@@ -5,9 +5,24 @@ namespace App\Http\Controllers\Front;
 use App\Http\Controllers\Controller;
 use App\Models\WishList;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class WishListController extends Controller
 {
+    public function index()
+    {
+        $users = auth()->user()->id;
+        $wishlist = DB::query()
+            ->select([
+                'wl.*', 'pd.name', 'pd.slug', 'pd.image1',
+            ])
+            ->from('wish_lists as wl')
+            ->join('products as pd', 'wl.product_id', '=', 'pd.id')
+            ->where('user_id', $users)->get();
+
+        return response()->json(['wishlist' =>  $wishlist], 200);
+    }
+
     public function store(Request $request)
     {
         $user_product_id = auth()->user()->id .'-'. $request->product_id;
@@ -20,17 +35,10 @@ class WishListController extends Controller
         return response()->json(['wishlist' => $wishlist], 200);
     }
 
-    public function myReviews()
+    public function destroy($id)
     {
-        $users = auth()->user()->id;
-        logger($users);
-       // $orders = Rating::where('customer_id', $users)->get(['id', 'status', 'created_at', 'total', 'currency_symbol']);
-
-       $reviews =  Rating::with(array('product'=>function($query){
-        $query->select('id', 'slug', 'name', 'image1');
-        }))->where('user_id', $users)->get();
-
-       return response()->json(['reviews' => $reviews], 200);
+        $wishlist = WishList::find($id)->delete();
+        return response()->json(['wishlist' => $wishlist], 200);
     }
 
 

@@ -146,6 +146,17 @@ const routes = [
         }
     },
     {
+        path: '/admin/notify',
+        name: 'notify',
+        component: () => import('../views/admin/notify.vue'),
+        meta: {
+            layout: 'admin',
+            middleware: [
+                auth, admin
+            ]
+        }
+    },
+    {
         path: '/admin/attribute-sets',
         name: 'attribute-sets',
         component: () => import('../views/admin/Attribute-sets.vue'),
@@ -366,6 +377,17 @@ const routes = [
         path: '/account/reviews',
         name: 'my-reviews',
         component: () => import('../views/account/reviews.vue'),
+        meta: {
+            layout: 'khod',
+            middleware: [
+                auth
+            ]
+        }
+    },
+    {
+        path: '/account/wishlist',
+        name: 'my-wishlist',
+        component: () => import('../views/account/wishlist.vue'),
         meta: {
             layout: 'khod',
             middleware: [

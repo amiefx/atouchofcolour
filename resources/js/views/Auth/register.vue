@@ -48,6 +48,10 @@
                 @click:append="showPassword2 = !showPassword2"
             ></v-text-field>
 
+            <vue-recaptcha ref="recaptcha"
+                @verify="onVerify" sitekey="6LfyD_4UAAAAAERoUg4F4avADxNTXtiIOAOYoa0z">
+            </vue-recaptcha>
+
         </v-card-text>
         <v-card-actions>
           <v-spacer />
@@ -73,9 +77,13 @@
 </template>
 
 <script>
+import VueRecaptcha from 'vue-recaptcha';
 export default {
   layout: 'mardom',
   middleware: ['guest'],
+  components: {
+        'vue-recaptcha': VueRecaptcha
+    },
   metaInfo: {
     // title will be injected into parent titleTemplate
     title: 'Register',
@@ -86,7 +94,8 @@ export default {
       name: '',
       email: '',
       password: '',
-      password_confirmation: ''
+      password_confirmation: '',
+      robot: false
     },
     valid: true,
     loading: false,
@@ -110,6 +119,8 @@ export default {
   },
   methods: {
     submit() {
+
+    if (this.form.robot) {
       // Add a request interceptor
       axios.interceptors.request.use(
         config => {
@@ -145,6 +156,12 @@ export default {
           this.snackbar = true;
       })
     }
+    },
+
+    onVerify: function (response) {
+        if (response) this.form.robot = true;
+    },
+
   }
 }
 </script>

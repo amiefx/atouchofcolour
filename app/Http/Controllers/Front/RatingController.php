@@ -64,7 +64,7 @@ class RatingController extends Controller
     public function myReviews()
     {
         $users = auth()->user()->id;
-        logger($users);
+       // logger($users);
        // $orders = Rating::where('customer_id', $users)->get(['id', 'status', 'created_at', 'total', 'currency_symbol']);
 
        $reviews =  Rating::with(array('product'=>function($query){

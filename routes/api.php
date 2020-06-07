@@ -47,6 +47,10 @@ Route::group(['namespace' => 'Front'], function () {
     // Orders
     Route::resource('/orders', 'OrdersController');
 
+    // Notify
+    Route::put('notifyme/reply/{id}', 'NotifyMeController@reply');
+    Route::resource('notifyme', 'NotifyMeController');
+
 });
 
 // Route group for authenticated users only
@@ -98,6 +102,7 @@ Route::group(['middleware' => ['auth:api']], function () {
 
         // Products
         Route::post('admin/products/change-active', 'ProductsController@changeActiveStatus');
+        Route::post('admin/products/change-stock', 'ProductsController@changeStockLevel');
         Route::post('admin/products/change-photo1', 'ProductsController@changePhoto1');
         Route::post('admin/products/change-photo2', 'ProductsController@changePhoto2');
         Route::post('admin/products/change-photo3', 'ProductsController@changePhoto3');
@@ -105,6 +110,7 @@ Route::group(['middleware' => ['auth:api']], function () {
         Route::post('admin/products/change-photo5', 'ProductsController@changePhoto5');
         Route::post('admin/products/change-photo6', 'ProductsController@changePhoto6');
         Route::resource('admin/products', 'ProductsController');
+        Route::resource('admin/product-search', 'ProductSearchController');
 
         // Product sizes
         Route::post('admin/product-sizes/multiupdate', 'ProductSizesController@multiUpdate');
@@ -128,6 +134,7 @@ Route::group(['middleware' => ['auth:api']], function () {
         Route::resource('admin/coupons', 'CouponsController');
 
         // Orders
+        Route::post('/admin/orders/get-item-size', 'OrdersController@getOrderItemSize');
         Route::get('admin/orders/single-order/{id}', 'OrdersController@singleOrder');
         Route::post('admin/orders/change-status', 'OrdersController@changeStatus');
         Route::resource('admin/orders', 'OrdersController');

@@ -269,6 +269,19 @@
         </v-edit-dialog>
     </template>
 
+    <template v-slot:item.in_stock = "{ item }">
+        <v-edit-dialog large block persistent :return-value.sync="item.in_stock" @save="updateStockLevel(item)">
+
+            <v-chip :color="getColor(item.in_stock)" dark>
+                <span v-if="item.in_stock == 1">InStock</span>
+                <span v-else>Sold out</span>
+            </v-chip>
+            <template v-slot:input>
+                <v-select v-model="item.in_stock" :items="status2" :item-text="status2.text" :item-value="status2.value" label="Select stock level"></v-select>
+            </template>
+        </v-edit-dialog>
+    </template>
+
     <template v-slot:item.image1="{ item }">
         <v-avatar horizontal size="36px">
           <img :src="item.image1" alt="Avatar" />
@@ -350,6 +363,10 @@ export default {
           {text: 'Active', value: true},
           {text: 'InActive', value: false}
       ],
+    status2: [
+          {text: 'InStock', value: true},
+          {text: 'Sold Out', value: false}
+      ],
     rules: {
       required: v => !!v || "This Field is Required",
       min: v => v.length >= 5 || "Minimum 5 Chracters Required",
@@ -364,6 +381,7 @@ export default {
       { text: "Name", value: "name" },
       { text: "Price", value: "price" },
       { text: "Status", value: "is_active" },
+      { text: "InStock", value: "in_stock" },
       { text: "Created", value: "created_at" },
       { text: "Actions", value: "action", sortable: false }
     ],
@@ -375,6 +393,7 @@ export default {
       category_id: "",
       description: "",
       isActive: "",
+      in_stock: "",
       price_pkr: "",
       price_usd: "",
       price_aud: "",
@@ -410,6 +429,7 @@ export default {
       category_id: "",
       description: "",
       isActive: "",
+      in_stock: "",
       price_pkr: "",
       price_usd: "",
       price_aud: "",
@@ -466,6 +486,20 @@ export default {
         axios.post('/api/admin/products/change-active', {'is_active': item.is_active, 'product': item.id})
           .then(res => {
               this.text = "Products active status updated successfully."
+              this.snackbar = true
+              })
+          .catch(error => {
+              this.categories[index].role = error.response
+              this.snackbar = true
+              console.dir(error.response)
+              })
+      },
+
+    updateStockLevel(item) {
+        const index = this.categories.indexOf(item);
+        axios.post('/api/admin/products/change-stock', {'in_stock': item.in_stock, 'product': item.id})
+          .then(res => {
+              this.text = "Products stock level updated successfully."
               this.snackbar = true
               })
           .catch(error => {
@@ -539,7 +573,7 @@ export default {
     uploadPhoto(item) {
       if (this.editedItem.photo != null) {
         const index = this.products.data.indexOf(item);
-        console.log(this.editedItem);
+      //  console.log(this.editedItem);
 
         let formData = new FormData();
         formData.append(
@@ -595,7 +629,7 @@ export default {
       if (e.length > 0) {
         this.selected = e.map(val => val.id);
       }
-      console.dir(this.selected);
+    //  console.dir(this.selected);
     },
     deleteAll() {
       let decide = confirm("Are you sure you want to delete these items?");
@@ -620,8 +654,8 @@ export default {
     searchIt(e) {
       if (e.length > 3) {
         axios
-          .get(`/api/admin/products/${e}`)
-          .then(res => (this.products = res.data.data.users))
+          .get(`/api/admin/product-search/${e}`)
+          .then(res => (this.products = res.data.products))
           .catch(err => console.dir(err.response));
       }
       if (e.length <= 0) {
@@ -630,33 +664,35 @@ export default {
         //     .then(res => this.users = res.data.data.users)
         //     .catch(err => console.dir(err.response))
 
-        const sortBy =
-          this.options.sortBy.length == 0 ? "name" : this.options.sortBy[0];
-        const orderBy =
-          this.options.sortDesc.length > 0 || this.options.sortDesc[0]
-            ? "asc"
-            : "desc";
-        axios
-          .get(`/api/admin/products?page=${e.page}`, {
-            params: {
-              per_page: e.itemsPerPage,
-              sort_by: sortBy,
-              order_by: orderBy
-            }
-          })
-          .then(res => {
-            this.products = res.data.data.products;
-          })
-          .catch(err => console.dir(err.response));
+        // const sortBy =
+        //   this.options.sortBy.length == 0 ? "id" : this.options.sortBy[0];
+        // const orderBy =
+        //   this.options.sortDesc.length > 0 || this.options.sortDesc[0]
+        //     ? "desc"
+        //     : "asc";
+        // axios
+        //   .get(`/api/admin/products?page=${e.page}`, {
+        //     params: {
+        //       per_page: e.itemsPerPage,
+        //       sort_by: sortBy,
+        //       order_by: orderBy
+        //     }
+        //   })
+        //   .then(res => {
+        //     this.products = res.data.data.products;
+        //   })
+        //   .catch(err => console.dir(err.response));
+
+        this.paginate(e);
       }
     },
     paginate(e) {
       const sortBy =
-        this.options.sortBy.length == 0 ? "name" : this.options.sortBy[0];
+        this.options.sortBy.length == 0 ? "id" : this.options.sortBy[0];
       const orderBy =
         this.options.sortDesc.length > 0 || this.options.sortDesc[0]
-          ? "asc"
-          : "desc";
+          ? "desc"
+          : "asc";
       axios
         .get(`/api/admin/products?page=${e.page}`, {
           params: {
@@ -667,7 +703,7 @@ export default {
         })
         .then(res => {
           this.products = res.data.products;
-          console.log(res);
+        //  console.log(res);
         })
         .catch(err => {
           if (err.response.status == 401)
@@ -753,7 +789,7 @@ export default {
         axios
           .post("/api/admin/products", this.editedItem)
           .then(res => {
-              this.$router.replace(`/api/admin/products/${res.data.product.slug}`, {
+              this.$router.replace(`/admin/products/${res.data.product.slug}`, {
             params: { slug: res.data.product.slug }
           })
           //  this.text = "Record Added Successfully!";
@@ -771,7 +807,7 @@ export default {
 
     deleteRow(index, size_attrib) {
       var idx = this.editedItem.size_attribs.indexOf(size_attrib);
-      console.log(idx, index);
+    //  console.log(idx, index);
       if (idx > -1) {
         this.editedItem.size_attribs.splice(idx, 1);
       }

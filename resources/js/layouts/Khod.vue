@@ -71,7 +71,7 @@
          <v-img width="55" :src="logoImg" alt="Khodgi" />
       </span>
 
-      <minicart />
+      <MiniCart />
     </v-app-bar>
 
     <v-content>
@@ -126,7 +126,7 @@ export default {
         { icon: 'mdi-view-dashboard', name: 'Profile', link: '/account' },
         { icon: 'mdi-cart', name: 'My Orders', link: '/account/orders' },
         { icon: 'mdi-chat', name: 'My Reviews', link: '/account/reviews' },
-        // { icon: 'mdi-account-circle', name: 'My Profile', link:'/account/profile' },
+        { icon: 'mdi-chat', name: 'My Wishlist', link:'/account/wishlist' },
     ],
     socialicons: [
       "mdi-facebook",

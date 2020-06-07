@@ -21,25 +21,25 @@ class ProductsController extends Controller
      */
     public function index(Request $request)
     {
-        $user_location = geoip()->getLocation($_SERVER['REMOTE_ADDR']);
+      //  $user_location = geoip()->getLocation($_SERVER['REMOTE_ADDR']);
         $per_page = $request->per_page ? $request->per_page : 5;
-        // $sortBy = $request->sort_by;
-        // $orderBy = $request->order_by;
-        $sortBy = 'id';
-        $orderBy = 'asc';
+        //  $sortBy = $request->sort_by;
+        //  $orderBy = $request->order_by;
+         $sortBy = $request->sort_by ? $request->sort_by : 'id';
+         $orderBy = $request->order_by ? $request->order_by : 'desc';
         $product = new ProductCollection(Product::with('product_sizes')->orderBy($sortBy, $orderBy)->paginate($per_page));
-        $product->currency = $user_location->currency;
+     //   $product->currency = $user_location->currency;
 
         return response()->json([
            // 'products' => new ProductCollection(Product::with('product_sizes')->orderBy($sortBy, $orderBy)->paginate($per_page)),
            'products' => $product,
-           'currency' => $user_location->currency
+      //     'currency' => $user_location->currency
         ], 200);
     }
 
     public function getHomeProducts()
     {
-        $products = ProductResource::collection(Product::where('is_active', true)->get());
+        $products = ProductResource::collection(Product::where(['is_active', true], ['in_stock', true])->get());
 
         return $products->random(6);
 
@@ -185,20 +185,20 @@ class ProductsController extends Controller
             ]);
             $product->save();
 
-           $sizes = $request->size_attribs;
+        //    $sizes = $request->size_attribs;
 
-            foreach( $sizes as $size )
-            {
-                Product_size::create([
-                    'product_id' => $product->id,
-                    'attributes_id' => $size['attributes_id'],
-                    'xs' => $size['xs'],
-                    's' => $size['s'],
-                    'm' => $size['m'],
-                    'l' => $size['l'],
-                    'xl' => $size['xl'],
-                ]);
-            }
+        //     foreach( $sizes as $size )
+        //     {
+        //         Product_size::create([
+        //             'product_id' => $product->id,
+        //             'attributes_id' => $size['attributes_id'],
+        //             'xs' => $size['xs'],
+        //             's' => $size['s'],
+        //             'm' => $size['m'],
+        //             'l' => $size['l'],
+        //             'xl' => $size['xl'],
+        //         ]);
+        //     }
 
             return response()->json(['product'=> new ProductResource($product)], 200);
     }
@@ -400,6 +400,14 @@ class ProductsController extends Controller
     {
         $product = Product::find($request->product);
         $product->is_active = $request->is_active;
+        $product->save();
+        return new ProductIndexResource($product);
+    }
+
+    public function changeStockLevel(Request $request)
+    {
+        $product = Product::find($request->product);
+        $product->in_stock = $request->in_stock;
         $product->save();
         return new ProductIndexResource($product);
     }

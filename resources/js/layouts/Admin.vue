@@ -106,6 +106,7 @@ export default {
             ]
       },
       { icon: "mdi-chevron-right", text: "Customer Reviews", link: "/admin/ratings" },
+      { icon: "mdi-chevron-right", text: "Notifications to reply", link: "/admin/notify" },
       {
         icon: "mdi-chevron-up",
         "icon-alt": "mdi-chevron-down",
