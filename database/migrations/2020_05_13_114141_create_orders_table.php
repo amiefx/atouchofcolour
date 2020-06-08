@@ -41,6 +41,9 @@ class CreateOrdersTable extends Migration
             $table->string('total');
             $table->string('status')->default('pending');
             $table->timestamps();
+
+            $table->foreign('customer_id')->references('id')->on('users')->onCascade('delete');
+
         });
     }
 

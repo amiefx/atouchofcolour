@@ -23,6 +23,7 @@
     },
     "dependencies": {
         "vue-carousel": "^0.18.0",
+        "vue-html-to-paper": "^1.3.1",
         "vue-meta": "^2.3.3",
         "vue-product-zoomer": "^3.0.1",
         "vue-progressbar": "^0.7.5",

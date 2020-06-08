@@ -19,6 +19,8 @@ class CreateAttributesTable extends Migration
             $table->bigInteger('attribute_sets_id');
             $table->integer('order');
             $table->timestamps();
+
+           // $table->foreign('attribute_sets_id')->references('id')->on('attribute_sets')->onCascade('delete');
         });
     }
 

@@ -39,6 +39,8 @@ class CreateProductsTable extends Migration
             $table->date('new_to')->nullable();
             $table->text('short_description')->nullable();
             $table->timestamps();
+
+            $table->foreign('category_id')->references('id')->on('categories')->onCascade('delete');
         });
     }
 

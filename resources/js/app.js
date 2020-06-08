@@ -55,6 +55,22 @@ Vue.use(Vue2Editor);
 import VueMeta from 'vue-meta';
 Vue.use(VueMeta)
 
+import VueHtmlToPaper from 'vue-html-to-paper';
+
+const options2 = {
+  name: '_blank',
+  specs: [
+    'fullscreen=no',
+    'titlebar=yes',
+    'scrollbars=yes'
+  ],
+  styles: [
+    "https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css"
+  ]
+}
+
+Vue.use(VueHtmlToPaper, options2);
+
 
 import App from './components/AppComponent';
 

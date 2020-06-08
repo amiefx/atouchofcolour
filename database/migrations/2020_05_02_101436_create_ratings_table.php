@@ -24,6 +24,10 @@ class CreateRatingsTable extends Migration
             $table->unsignedBigInteger('user_id')->nullable();
             $table->boolean('approved')->default(false);
             $table->timestamps();
+
+            $table->foreign('product_id')->references('id')->on('products')->onCascade('delete');
+            $table->foreign('user_id')->references('id')->on('users')->onCascade('delete');
+
         });
     }
 

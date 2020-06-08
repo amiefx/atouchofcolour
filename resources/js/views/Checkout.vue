@@ -116,7 +116,7 @@
                   <v-text-field
                     v-model="ordersData.customersData.appartment"
                     class
-                    label="Appartment"
+                    label="Appartment / House No"
                     outlined
                     dense
                   ></v-text-field>
@@ -499,8 +499,36 @@ export default {
     },
     countries: [
       {
+        name: "Pakistan",
+        code: "PK"
+      },
+      {
         name: "Afghanistan",
         code: "AF"
+      },
+      {
+        name: "Australia",
+        code: "AU"
+      },
+      {
+        name: "New Zealand",
+        code: "NZ"
+      },
+      {
+        name: "Canada",
+        code: "CA"
+      },
+      {
+        name: "United Arab Emirates",
+        code: "AE"
+      },
+      {
+        name: "United Kingdom",
+        code: "GB"
+      },
+      {
+        name: "United States",
+        code: "US"
       },
       {
         name: "Åland Islands",
@@ -549,10 +577,6 @@ export default {
       {
         name: "Aruba",
         code: "AW"
-      },
-      {
-        name: "Australia",
-        code: "AU"
       },
       {
         name: "Austria",
@@ -650,10 +674,7 @@ export default {
         name: "Cameroon",
         code: "CM"
       },
-      {
-        name: "Canada",
-        code: "CA"
-      },
+
       {
         name: "Cape Verde",
         code: "CV"
@@ -1123,10 +1144,6 @@ export default {
         code: "NC"
       },
       {
-        name: "New Zealand",
-        code: "NZ"
-      },
-      {
         name: "Nicaragua",
         code: "NI"
       },
@@ -1157,10 +1174,6 @@ export default {
       {
         name: "Oman",
         code: "OM"
-      },
-      {
-        name: "Pakistan",
-        code: "PK"
       },
       {
         name: "Palau",
@@ -1405,18 +1418,6 @@ export default {
       {
         name: "Ukraine",
         code: "UA"
-      },
-      {
-        name: "United Arab Emirates",
-        code: "AE"
-      },
-      {
-        name: "United Kingdom",
-        code: "GB"
-      },
-      {
-        name: "United States",
-        code: "US"
       },
       {
         name: "United States Minor Outlying Islands",

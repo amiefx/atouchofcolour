@@ -26,6 +26,10 @@ class CreateOrderItemsTable extends Migration
             $table->string('qty');
             $table->string('line_total');
             $table->timestamps();
+
+            $table->foreign('product_id')->references('id')->on('products')->onCascade('delete');
+            $table->foreign('order_id')->references('id')->on('orders')->onCascade('delete');
+
         });
     }
 

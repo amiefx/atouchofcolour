@@ -282,7 +282,7 @@
           :navigation-next-label='`<img src="https://img.icons8.com/ios-glyphs/24/000000/chevron-right.png" class="chev-next"/>`'
           :navigation-prev-label='`<img src="https://img.icons8.com/ios-glyphs/24/000000/chevron-left.png" class="chev-prev"/>`'
           :navigationClickTargetSize="15"
-          :autoplay="true"
+          :autoplay="false"
           :paginationEnabled="true"
           class="hidden-sm-and-down"
         >

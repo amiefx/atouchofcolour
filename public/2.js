@@ -519,8 +519,29 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         billing_add_type: ""
       },
       countries: [{
+        name: "Pakistan",
+        code: "PK"
+      }, {
         name: "Afghanistan",
         code: "AF"
+      }, {
+        name: "Australia",
+        code: "AU"
+      }, {
+        name: "New Zealand",
+        code: "NZ"
+      }, {
+        name: "Canada",
+        code: "CA"
+      }, {
+        name: "United Arab Emirates",
+        code: "AE"
+      }, {
+        name: "United Kingdom",
+        code: "GB"
+      }, {
+        name: "United States",
+        code: "US"
       }, {
         name: "Åland Islands",
         code: "AX"
@@ -557,9 +578,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }, {
         name: "Aruba",
         code: "AW"
-      }, {
-        name: "Australia",
-        code: "AU"
       }, {
         name: "Austria",
         code: "AT"
@@ -632,9 +650,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }, {
         name: "Cameroon",
         code: "CM"
-      }, {
-        name: "Canada",
-        code: "CA"
       }, {
         name: "Cape Verde",
         code: "CV"
@@ -987,9 +1002,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         name: "New Caledonia",
         code: "NC"
       }, {
-        name: "New Zealand",
-        code: "NZ"
-      }, {
         name: "Nicaragua",
         code: "NI"
       }, {
@@ -1013,9 +1025,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }, {
         name: "Oman",
         code: "OM"
-      }, {
-        name: "Pakistan",
-        code: "PK"
       }, {
         name: "Palau",
         code: "PW"
@@ -1199,15 +1208,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }, {
         name: "Ukraine",
         code: "UA"
-      }, {
-        name: "United Arab Emirates",
-        code: "AE"
-      }, {
-        name: "United Kingdom",
-        code: "GB"
-      }, {
-        name: "United States",
-        code: "US"
       }, {
         name: "United States Minor Outlying Islands",
         code: "UM"
@@ -1894,7 +1894,7 @@ var render = function() {
                                   _vm._v(" "),
                                   _c("v-text-field", {
                                     attrs: {
-                                      label: "Appartment",
+                                      label: "Appartment / House No",
                                       outlined: "",
                                       dense: ""
                                     },

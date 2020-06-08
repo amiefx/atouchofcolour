@@ -88,8 +88,10 @@
                                     <v-card>
                                     <v-card-title>
                                         <span class="headline">Size Chart</span>
+                                        <v-spacer></v-spacer>
+                                        <v-btn text @click="print">Print</v-btn>
                                     </v-card-title>
-                                    <v-card-text>
+                                    <v-card-text id="printMe">
                                         <div v-for="(topic, label, index) in product_sizes" :key="index" class="mt-3">
                                         <div class="d-flex justify-center">
                                             <strong class="text-center mt-3"> #Order: {{order.id}} | {{item.product_name}} | {{ item.type }} | {{ item.size }}</strong>
@@ -130,8 +132,10 @@
                                     <v-card>
                                     <v-card-title>
                                         <span class="headline">Size Chart</span>
+                                        <v-spacer></v-spacer>
+                                        <v-btn text @click="print">Print</v-btn>
                                     </v-card-title>
-                                    <v-card-text>
+                                    <v-card-text id="printMe">
                                         <div class="d-flex justify-center">
                                             <strong class="text-center mt-3"> #Order: {{order.id}} | {{item.product_name}} | {{ item.type }} | {{ item.size }}</strong>
                                         </div>
@@ -207,7 +211,8 @@ export default {
         dialog: false,
         dialog2: false,
         product_sizes: '',
-        itemIndex: ''
+        itemIndex: '',
+        output: null
         }
     },
 
@@ -250,6 +255,10 @@ export default {
 
         getItemIndex(item) {
             this.itemIndex = this.order.order_items.indexOf(item)
+        },
+
+        print() {
+            this.$htmlToPaper('printMe');
         }
     },
 

@@ -23,6 +23,9 @@ class CreateProductSizesTable extends Migration
             $table->string('l')->nullable();
             $table->string('xl')->nullable();
             $table->timestamps();
+
+            $table->foreign('product_id')->references('id')->on('products')->onCascade('delete');
+            $table->foreign('attributes_id')->references('id')->on('attributes')->onCascade('delete');
         });
     }
 

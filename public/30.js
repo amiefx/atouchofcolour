@@ -201,6 +201,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 //var moment = require('moment');
 /* harmony default export */ __webpack_exports__["default"] = ({
   layout: 'admin',
@@ -216,7 +220,8 @@ __webpack_require__.r(__webpack_exports__);
       dialog: false,
       dialog2: false,
       product_sizes: '',
-      itemIndex: ''
+      itemIndex: '',
+      output: null
     };
   },
   //     filters: {
@@ -254,6 +259,9 @@ __webpack_require__.r(__webpack_exports__);
     },
     getItemIndex: function getItemIndex(item) {
       this.itemIndex = this.order.order_items.indexOf(item);
+    },
+    print: function print() {
+      this.$htmlToPaper('printMe');
     }
   },
   computed: {
@@ -579,18 +587,39 @@ var render = function() {
                                               _c(
                                                 "v-card",
                                                 [
-                                                  _c("v-card-title", [
-                                                    _c(
-                                                      "span",
-                                                      {
-                                                        staticClass: "headline"
-                                                      },
-                                                      [_vm._v("Size Chart")]
-                                                    )
-                                                  ]),
+                                                  _c(
+                                                    "v-card-title",
+                                                    [
+                                                      _c(
+                                                        "span",
+                                                        {
+                                                          staticClass:
+                                                            "headline"
+                                                        },
+                                                        [_vm._v("Size Chart")]
+                                                      ),
+                                                      _vm._v(" "),
+                                                      _c("v-spacer"),
+                                                      _vm._v(" "),
+                                                      _c(
+                                                        "v-btn",
+                                                        {
+                                                          attrs: { text: "" },
+                                                          on: {
+                                                            click: _vm.print
+                                                          }
+                                                        },
+                                                        [_vm._v("Print")]
+                                                      )
+                                                    ],
+                                                    1
+                                                  ),
                                                   _vm._v(" "),
                                                   _c(
                                                     "v-card-text",
+                                                    {
+                                                      attrs: { id: "printMe" }
+                                                    },
                                                     _vm._l(
                                                       _vm.product_sizes,
                                                       function(
@@ -862,18 +891,39 @@ var render = function() {
                                               _c(
                                                 "v-card",
                                                 [
-                                                  _c("v-card-title", [
-                                                    _c(
-                                                      "span",
-                                                      {
-                                                        staticClass: "headline"
-                                                      },
-                                                      [_vm._v("Size Chart")]
-                                                    )
-                                                  ]),
+                                                  _c(
+                                                    "v-card-title",
+                                                    [
+                                                      _c(
+                                                        "span",
+                                                        {
+                                                          staticClass:
+                                                            "headline"
+                                                        },
+                                                        [_vm._v("Size Chart")]
+                                                      ),
+                                                      _vm._v(" "),
+                                                      _c("v-spacer"),
+                                                      _vm._v(" "),
+                                                      _c(
+                                                        "v-btn",
+                                                        {
+                                                          attrs: { text: "" },
+                                                          on: {
+                                                            click: _vm.print
+                                                          }
+                                                        },
+                                                        [_vm._v("Print")]
+                                                      )
+                                                    ],
+                                                    1
+                                                  ),
                                                   _vm._v(" "),
                                                   _c(
                                                     "v-card-text",
+                                                    {
+                                                      attrs: { id: "printMe" }
+                                                    },
                                                     [
                                                       _c(
                                                         "div",
