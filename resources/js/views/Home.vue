@@ -12,7 +12,7 @@
 
       <carousel
         :perPage="1"
-        :scrollPerPage="true"
+        :scrollPerPage="false"
         :mouse-drag="true"
         :touchDrag="true"
         :navigationEnabled="true"

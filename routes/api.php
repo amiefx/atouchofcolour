@@ -139,6 +139,10 @@ Route::group(['middleware' => ['auth:api']], function () {
         Route::post('admin/orders/change-status', 'OrdersController@changeStatus');
         Route::resource('admin/orders', 'OrdersController');
 
+        // Dashboard
+        Route::post('admin/dashboard', 'DashboardController@index');
+        Route::post('admin/report', 'DashboardController@report');
+
     });
 
 });

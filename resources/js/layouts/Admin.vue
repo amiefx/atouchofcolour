@@ -83,6 +83,7 @@ export default {
     users: {},
     items: [
       { icon: "mdi-chevron-right", text: "Dashboard", link: "/admin/dashboard" },
+      { icon: "mdi-chevron-right", text: "Reports", link: "/admin/reports" },
       {
         icon: "mdi-chevron-up",
         "icon-alt": "mdi-chevron-down",

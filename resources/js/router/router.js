@@ -299,6 +299,18 @@ const routes = [
             ]
         }
     },
+    {
+        path: '/admin/reports',
+        name: 'admin-reports',
+        component: () => import('../views/admin/Reports.vue'),
+        meta: {
+            layout: 'admin',
+            middleware: [
+                auth, admin
+            ]
+        }
+    },
+
 
     // Other Pages
     {

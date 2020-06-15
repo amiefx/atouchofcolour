@@ -260,7 +260,10 @@
             <v-icon>mdi-plus</v-icon>
           </v-btn>
         </div>
-        <div class="py-4 headline">{{ product.formatted_price }}</div>
+
+        <div class="py-4 headline" v-if="selection_type == 'Stitched'">{{product.symbol}}{{ (product.price + product.stitched_price).toFixed(2) }}</div>
+        <div class="py-4 headline" v-else>{{ product.formatted_price }}</div>
+
         <div class="py-4" >
           <v-btn v-if="product.in_stock" color="primary" dark @click="addToCart">Add to Cart</v-btn>
           <v-btn v-else color="grey darken-4" dark >Sold out</v-btn>
@@ -308,7 +311,7 @@
 
         <carousel
           :perPage="1"
-          :scrollPerPage="true"
+          :scrollPerPage="false"
           :mouse-drag="true"
           :touchDrag="true"
           :navigationEnabled="true"
@@ -550,6 +553,7 @@ export default {
       total_review: null,
       reviews: [],
       quantity: 1,
+     // price: 0,
       related_products: [],
       form: {
         product_id: '',
@@ -687,6 +691,7 @@ export default {
       this.$store.dispatch("cart/addProductToCart", {
           product: this.product,
           quantity: this.quantity,
+          price: this.price,
           type: this.selection_type,
           size: this.selection_size,
           customSize: this.customSize
@@ -795,8 +800,9 @@ export default {
                 console.log()
             })
 
-
       },
+
+
     // prod_id() {
     //     this.$axios
     // .$get(`/admin/products/get-products/${this.$route.params.id}`)
@@ -860,6 +866,15 @@ export default {
     linkURL() {
       return process.env.BASE_URL + this.$route.fullPath;
     },
+
+    price() {
+          if (this.selection_type == 'Stitched') {
+              return (this.product.price + this.product.stitched_price);
+          } else {
+              return (this.product.price);
+          }
+      },
+
   }
 }
 </script>

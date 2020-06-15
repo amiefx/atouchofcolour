@@ -32,7 +32,7 @@ class OrderPlaced extends Mailable
     public function build()
     {
         return $this->from('sales@khodgi.com', 'Khodgi.com')
-                    ->to($this->order->customer_email, $this->order->billing_first_name.' '.$this->order->billing_last_name,)
+                    ->to($this->order->customer_email, $this->order->billing_first_name.' '.$this->order->billing_last_name)
                     ->subject('Your order has been placed ('. $this->order->id .')')
                     ->view('emails.orders.placed');
     }

@@ -31,7 +31,7 @@
             <v-list-item-title>
               <strong>{{item.product.name}}</strong>
             </v-list-item-title>
-            <v-list-item-subtitle>{{item.quantity}} X {{item.product.symbol}}{{(item.product.price).toFixed(2)}}</v-list-item-subtitle>
+            <v-list-item-subtitle>{{item.quantity}} X {{item.product.symbol}}{{(item.price).toFixed(2)}}</v-list-item-subtitle>
           </v-list-item-content>
 
           <v-list-item-action>

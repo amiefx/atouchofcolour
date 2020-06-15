@@ -25,6 +25,11 @@ class CreateProductsTable extends Migration
             $table->integer('price_aud');
             $table->integer('price_eur');
             $table->integer('price_gbp');
+            $table->integer('stitched_price_pkr');
+            $table->integer('stitched_price_usd');
+            $table->integer('stitched_price_aud');
+            $table->integer('stitched_price_eur');
+            $table->integer('stitched_price_gbp');
             $table->boolean('in_stock')->default(true);
             $table->string('special_price_percentage')->nullable();
             $table->date('special_price_start')->nullable();

@@ -27,6 +27,7 @@ class ProductIndexResource extends JsonResource
             'image2' => $this->image2 ? asset('storage/' . $this->image2) : null,
             'formatted_price' => $this->formattedPrice,
             'price' => (float)$this->price2 / 100,
+            'stitched_price' => (float)$this->stitchedPrice / 100,
             'symbol' => $this->symbol,
             'category' => $this->category->name,
             'in_stock' => $this->in_stock,

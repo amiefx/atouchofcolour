@@ -92,15 +92,20 @@
                     <tbody class="">
                         <tr>
                             <td>Subtotal:</td>
-                            <td  class="pl-5 text-right">{{order.currency_symbol}}{{subtotal}}</td>
+                            <td  class="pl-5 text-right">{{order.currency_symbol}}{{subTotal}}</td>
                         </tr>
-                        <tr>
+                        <tr v-if="order.shipping_cost >0">
+                            <td>Shipping Cost:</td>
+                            <td  class="pl-5 text-right">{{order.currency_symbol}}{{order.shipping_cost}}</td>
+                        </tr>
+                        <tr v-if="order.discount >0">
                             <td>Discount:</td>
                             <td  class="pl-5 text-right">{{order.currency_symbol}}{{order.discount}}</td>
                         </tr>
+
                         <tr>
                             <td><strong>Total:</strong></td>
-                            <td  class="pl-5 text-right"><strong>{{order.currency_symbol}}{{order.total}}</strong></td>
+                            <td  class="pl-5 text-right"><strong>{{order.currency_symbol}}{{finalTotal}}</strong></td>
                         </tr>
                     </tbody>
                 </v-simple-table>
@@ -170,9 +175,22 @@ export default {
   },
 
     computed: {
-        subtotal() {
-            return parseFloat(this.order.total) + parseFloat(this.order.discount);
-        }
+        subTotal() {
+            // var sum = 0;
+            // this.order.order_items.forEach(e => {
+            //     sum += parseFloat(e.line_total);
+            // });
+            // return sum
+            return parseFloat(this.order.total)
+            + parseFloat(this.order.discount ? this.order.discount : 0)
+            - parseFloat(this.order.shipping_cost ? this.order.shipping_cost : 0);
+        },
+
+        finalTotal() {
+            return parseFloat(this.subTotal)
+            - parseFloat(this.order.discount ? this.order.discount : 0)
+            + parseFloat(this.order.shipping_cost ? this.order.shipping_cost : 0);
+        },
     }
 }
 </script>

@@ -135,26 +135,26 @@ class ProductsController extends Controller
 
     public function store(Request $request)
     {
-        if ($request->image1) {
-                $name_img1 = Str::random(16).'.'.explode('/', explode(':', substr($request->image1, 0, strpos($request->image1, ';')))[1])[1];
-                \Image::make($request->image1)->resize(600, 800)->save(public_path('storage/images/').$name_img1);
-            $request->image1 = $name_img1;
-        }
-        if ($request->image2) {
-                $name_img2 = Str::random(16).'.'.explode('/', explode(':', substr($request->image2, 0, strpos($request->image2, ';')))[1])[1];
-                \Image::make($request->image2)->resize(600, 800)->save(public_path('storage/images/').$name_img2);
-            $request->image2 = $name_img2;
-        }
-        if ($request->image3) {
-                $name_img3 = Str::random(16).'.'.explode('/', explode(':', substr($request->image3, 0, strpos($request->image3, ';')))[1])[1];
-                \Image::make($request->image3)->resize(600, 800)->save(public_path('storage/images/').$name_img3);
-            $request->image3 = $name_img3;
-        }
-        if ($request->image4) {
-                $name_img4 = Str::random(16).'.'.explode('/', explode(':', substr($request->image4, 0, strpos($request->image4, ';')))[1])[1];
-                \Image::make($request->image4)->resize(600, 800)->save(public_path('storage/images/').$name_img4);
-            $request->image4 = $name_img4;
-        }
+        // if ($request->image1) {
+        //         $name_img1 = Str::random(16).'.'.explode('/', explode(':', substr($request->image1, 0, strpos($request->image1, ';')))[1])[1];
+        //         \Image::make($request->image1)->resize(600, 800)->save(public_path('storage/images/').$name_img1);
+        //     $request->image1 = $name_img1;
+        // }
+        // if ($request->image2) {
+        //         $name_img2 = Str::random(16).'.'.explode('/', explode(':', substr($request->image2, 0, strpos($request->image2, ';')))[1])[1];
+        //         \Image::make($request->image2)->resize(600, 800)->save(public_path('storage/images/').$name_img2);
+        //     $request->image2 = $name_img2;
+        // }
+        // if ($request->image3) {
+        //         $name_img3 = Str::random(16).'.'.explode('/', explode(':', substr($request->image3, 0, strpos($request->image3, ';')))[1])[1];
+        //         \Image::make($request->image3)->resize(600, 800)->save(public_path('storage/images/').$name_img3);
+        //     $request->image3 = $name_img3;
+        // }
+        // if ($request->image4) {
+        //         $name_img4 = Str::random(16).'.'.explode('/', explode(':', substr($request->image4, 0, strpos($request->image4, ';')))[1])[1];
+        //         \Image::make($request->image4)->resize(600, 800)->save(public_path('storage/images/').$name_img4);
+        //     $request->image4 = $name_img4;
+        // }
       //  dd($request);
        // $product = Product::create($request->all() + ['image1' =>  $request->image1]);
        $product = new Product([
@@ -278,6 +278,11 @@ class ProductsController extends Controller
             'price_aud' => $request->price_aud,
             'price_eur' => $request->price_eur,
             'price_gbp' => $request->price_gbp,
+            'stitched_price_pkr' => $request->stitched_price_pkr,
+            'stitched_price_usd' => $request->stitched_price_usd,
+            'stitched_price_aud' => $request->stitched_price_aud,
+            'stitched_price_eur' => $request->stitched_price_eur,
+            'stitched_price_gbp' => $request->stitched_price_gbp,
             'description' => $request->description,
             'is_active' => $request->is_active,
             'special_price_percentage' => $request->special_price_percentage,

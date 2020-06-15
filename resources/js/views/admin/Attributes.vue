@@ -164,7 +164,8 @@ export default {
       axios
         .get("/api/admin/attribute-sets")
         .then(res => {
-          this.attribute_sets = rest.data.data;
+            console.log(res)
+          this.attribute_sets = res.data.data;
         })
         .catch(err => {
           console.log(err);
@@ -202,13 +203,13 @@ export default {
     save() {
       if (this.editedIndex > -1) {
         axios.put("/api/admin/attributes/" + this.editedItem.id, this.editedItem);
-        //   .then(res => Object.assign(this.roles[this.editedIndex], rest.data.data.attribute_set))
+        //   .then(res => Object.assign(this.roles[this.editedIndex], res.data.data.attribute_set))
         //  .catch(err => console.log(err.response))
         Object.assign(this.attributes[this.editedIndex], this.editedItem);
       } else {
         axios
           .post("/api/admin/attributes", this.editedItem)
-          .then(res => this.attributes.push(rest.data.attribute))
+          .then(res => this.attributes.push(res.data.attribute))
           .catch(err => console.dir(err.response));
       }
       this.close();

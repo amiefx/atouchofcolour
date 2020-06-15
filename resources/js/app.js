@@ -56,7 +56,6 @@ import VueMeta from 'vue-meta';
 Vue.use(VueMeta)
 
 import VueHtmlToPaper from 'vue-html-to-paper';
-
 const options2 = {
   name: '_blank',
   specs: [
@@ -68,8 +67,15 @@ const options2 = {
     "https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css"
   ]
 }
-
 Vue.use(VueHtmlToPaper, options2);
+
+
+import VMdDateRangePicker from "v-md-date-range-picker";
+Vue.use(VMdDateRangePicker);
+
+import Chartkick from 'vue-chartkick'
+import Chart from 'chart.js'
+Vue.use(Chartkick.use(Chart))
 
 
 import App from './components/AppComponent';

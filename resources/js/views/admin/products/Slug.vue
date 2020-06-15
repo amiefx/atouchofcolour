@@ -54,7 +54,7 @@
           </v-expansion-panel-header>
           <v-expansion-panel-content>
             <v-row no-gutters class="d-flex justify-space-around">
-              <v-col cols="12" sm="5" md="5" lg="5" xl="5">
+              <v-col cols="12" sm="3" md="3" lg="3" xl="3">
                 <v-text-field v-model="editedItem.price_pkr" label="Price PKR"></v-text-field>
                 <v-text-field v-model="editedItem.price_usd" label="Price USD"></v-text-field>
                 <v-text-field v-model="editedItem.price_aud" label="Price AUD"></v-text-field>
@@ -62,7 +62,15 @@
                 <v-text-field v-model="editedItem.price_gbp" label="Price GBP"></v-text-field>
               </v-col>
               <v-divider vertical class="mx-4 hidden-xs-only"></v-divider>
-              <v-col cols="12" sm="5" md="5" lg="5" xl="5">
+              <v-col cols="12" sm="3" md="3" lg="3" xl="3">
+                <v-text-field v-model="editedItem.stitched_price_pkr" label="Stitched Price PKR"></v-text-field>
+                <v-text-field v-model="editedItem.stitched_price_usd" label="Stitched Price USD"></v-text-field>
+                <v-text-field v-model="editedItem.stitched_price_aud" label="Stitched Price AUD"></v-text-field>
+                <v-text-field v-model="editedItem.stitched_price_eur" label="Stitched Price EUR"></v-text-field>
+                <v-text-field v-model="editedItem.stitched_price_gbp" label="Stitched Price GBP"></v-text-field>
+              </v-col>
+              <v-divider vertical class="mx-4 hidden-xs-only"></v-divider>
+              <v-col cols="12" sm="4" md="4" lg="4" xl="4">
                 <v-text-field
                   v-model="editedItem.special_price_percentage"
                   label="Special Price % OFF"
@@ -527,6 +535,11 @@ export default {
       price_aud: '',
       price_eur: '',
       price_gbp: '',
+      stitched_price_pkr: '',
+      stitched_price_usd: '',
+      stitched_price_aud: '',
+      stitched_price_eur: '',
+      stitched_price_gbp: '',
       special_price_percentage: '',
       special_price_start: '',
       special_price_end: '',
@@ -712,7 +725,8 @@ export default {
           .put(`/api/admin/products/${this.$route.params.slug}`, this.editedItem)
           .then(res => {
         //    console.log(res)
-            this.editedItem = res.data.product
+         //   this.editedItem = res.data.product
+            this.$router.replace(`/admin/products`)
             this.text = "Record Updated Successfully!";
             this.snackbar = true;
           })

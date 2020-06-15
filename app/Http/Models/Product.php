@@ -29,6 +29,11 @@ class Product extends Model
         'price_aud',
         'price_eur',
         'price_gbp',
+        'stitched_price_pkr',
+        'stitched_price_usd',
+        'stitched_price_aud',
+        'stitched_price_eur',
+        'stitched_price_gbp',
         'in_stock',
         'special_price_percentage',
         'special_price_start',
@@ -130,7 +135,7 @@ class Product extends Model
         } elseif ($currency == "EUR") {
             $symbol = '€';
         } elseif ($currency == "AUD") {
-            $symbol = 'A$.';
+            $symbol = 'A$';
         } elseif ($currency == "GBP") {
             $symbol = '£';
         } else {
@@ -219,6 +224,28 @@ class Product extends Model
         }
 
         return $price - ($price * $this->offer);
+    }
+
+    public function getStitchedPriceAttribute()
+    {
+        $user_location = geoip()->getLocation($_SERVER['REMOTE_ADDR']);
+      //  $user_location = geoip()->getLocation('45.116.232.34');
+        $currency = $user_location->currency;
+        $price = null;
+
+        if ( $currency == "PKR") {
+            $price = $this->stitched_price_pkr;
+        } elseif ($currency == "EUR") {
+            $price = $this->stitched_price_eur;
+        } elseif ($currency == "AUD") {
+            $price = $this->stitched_price_aud;
+        } elseif ($currency == "GBP") {
+            $price = $this->stitched_price_gbp;
+        } else {
+            $price = $this->stitched_price_usd;
+        }
+
+        return $price;
     }
 
 

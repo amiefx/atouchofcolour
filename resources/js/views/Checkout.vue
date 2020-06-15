@@ -372,9 +372,9 @@
                   <br />
                   {{item.type}} / {{item.size}}
                   <br />
-                  {{item.quantity}} X {{item.product.symbol}}{{ item.product.price }}
+                  {{item.quantity}} X {{item.product.symbol}}{{ (item.price).toFixed(2) }}
                 </td>
-                <td>{{item.product.symbol}}{{ item.product.price * item.quantity }}</td>
+                <td>{{item.product.symbol}}{{ (item.price * item.quantity).toFixed(2) }}</td>
               </tr>
             </tbody>
           </template>
@@ -395,7 +395,7 @@
           <v-col cols="12" class="d-flex">
             Subtotal:
             <v-spacer></v-spacer>
-            {{ shippingCost.symbol }} {{ cartTotalPrice }}
+            {{ shippingCost.symbol }} {{ (cartTotalPrice).toFixed(2) }}
             <!-- {{cart[0].product.symbol}}{{subtotal}} -->
           </v-col>
           <v-col v-if="this.discount != ''" cols="12" class="d-flex mt-n4">
@@ -1501,7 +1501,7 @@ export default {
       this.subtotal = total;
     },
     finalTotal() {
-      this.total = this.cartTotalPrice - this.discount - this.shipping_cost;
+       return this.cartTotalPrice - this.discount + this.shipping_cost;
     },
     currencySymbol() {
         return this.cart[0].product.symbol;
@@ -1612,7 +1612,7 @@ export default {
                 coupon: this.coupon,
                 currency_symbol: this.currencySymbol,
                 discount: this.discount,
-                total: this.cartTotalPrice,
+                total: this.finalTotal,
             },
             orderedItems: this.cart,
         }

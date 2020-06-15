@@ -16,7 +16,7 @@ export default {
         cartTotalPrice(state) {
             let total = 0;
             state.cart.forEach(item => {
-                total += item.product.price * item.quantity;
+                total += item.price * item.quantity;
             })
             return total;
         }
@@ -24,7 +24,7 @@ export default {
 
     mutations: {
 
-        ADD_TO_CART(state, { product, quantity, type, size, customSize }) {
+        ADD_TO_CART(state, { product, quantity, price, type, size, customSize }) {
 
             let productInCart = state.cart.find(item => {
                 return item.product.id === product.id;
@@ -39,6 +39,7 @@ export default {
             state.cart.push({
                 product,
                 quantity,
+                price,
                 type,
                 size,
                 customSize
@@ -90,8 +91,8 @@ export default {
 
     actions: {
 
-        addProductToCart({ commit }, { product, quantity, type, size, customSize }) {
-            commit('ADD_TO_CART', { product, quantity, type, size, customSize });
+        addProductToCart({ commit }, { product, quantity, price, type, size, customSize }) {
+            commit('ADD_TO_CART', { product, quantity, price, type, size, customSize });
         },
 
         removeProductFromCart({ commit }, product) {

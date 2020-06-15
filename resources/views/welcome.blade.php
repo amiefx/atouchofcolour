@@ -10,6 +10,21 @@
         <link rel="icon" type="image/png" sizes="16x16" href="{{ URL::asset('/favicon/favicon-16x16.png') }}">
         <link rel="manifest" href="{{ URL::asset('/favicon/site.webmanifest') }}">
 
+        <style>
+            @-ms-viewport{
+            width: device-width;
+            }
+            html, body {
+                overflow-x: hidden
+            }
+
+            body {
+                overflow: hidden !important;
+                width: 100%;
+                height: 100%;
+            }
+        </style>
+
         <title>Khodgi</title>
         <link rel="stylesheet" href="{{asset('css/app.css')}}">
         <script src="https://www.google.com/recaptcha/api.js?onload=vueRecaptchaApiLoaded&render=explicit" async defer>
