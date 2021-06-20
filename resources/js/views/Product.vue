@@ -15,6 +15,8 @@
               {{type}}
             </v-chip>
           </v-chip-group>
+        <div class="py-4 " v-if="selection_type == 'Stitched'">Product Price: {{product.symbol}} {{ (product.price).toFixed(2) }}</div>
+        <div class=" " v-if="selection_type == 'Stitched'">Stitching Fee: {{product.symbol}} {{ (product.stitched_price).toFixed(2) }}</div>
         </div>
 
         <div class="my-4" v-else>
@@ -499,6 +501,15 @@
     </v-btn>
   </v-snackbar>
 
+  <div class="vld-parent">
+        <loading
+        :active.sync="isLoading"
+        loader="dots"
+        :opacity="opacity"
+        color='#6200E'
+        ></loading>
+    </div>
+
   </div>
 </template>
 
@@ -507,6 +518,11 @@
 import RelatedProducts from '../components/products/RelatedProducts'
 import SocialSharing from '../components/global/SocialSharing'
 import { mapGetters, mapActions } from "vuex"
+
+// Import component
+import Loading from 'vue-loading-overlay';
+// Import stylesheet
+import 'vue-loading-overlay/dist/vue-loading.css';
 export default {
   layout: 'mardom',
   metaInfo() {
@@ -526,7 +542,8 @@ export default {
 
   components: {
     RelatedProducts,
-    SocialSharing
+    SocialSharing,
+    Loading
   },
 
   data: () => {
@@ -536,6 +553,11 @@ export default {
       valid: true,
       dialog: false,
       dialog2: false,
+
+      isLoading: false,
+      fullPage: false,
+      opacity: 0.99,
+
       showForm: false,
       rating: 0,
       product: [],
@@ -615,54 +637,6 @@ export default {
 
     }
   },
-
-// created() {
-//     axios.get(`/api/products/${this.$route.params.slug}`)
-//     .then(res => {
-//       this.product= res.data.data
-//     })
-//     .catch(err => {
-//         console.log()
-//       })
-// },
-
-//   filters: {
-//     formatDate: function(value) {
-//       return moment(value).format('MMMM D, YYYY')
-//     }
-//   },
-
-//   mounted() {
-//     axios
-//    .get(`/api/products/get-related-products/${this.$route.params.slug}`)
-//       .then(res => {
-//         this.related_products = res.data
-//       })
-//       .catch(err => {
-//         console.log()
-//       })
-
-//     axios
-//       .get(`/api/product-sizes/5`)
-//       .then(res => {
-//         this.product_sizes = res.sizes
-//       })
-//       .catch(err => {
-//         console.log()
-//       })
-
-//     axios
-//       .get(`/api/ratings/5`)
-//       .then(res => {
-//         this.reviews = res.reviews
-//         this.stars = res.stars
-//         this.total_review = res.total_review
-//       })
-//       .catch(err => {
-//         console.log()
-//       })
-
-//   },
 
   methods: {
 
@@ -749,15 +723,28 @@ export default {
 
     windowPosition() {
         window.scrollTo(0, 0);
-    }
+    },
 
     // ...mapActions({
     //    addProductToCart: 'cart/addProductToCart'
     // })
+
+    doAjax() {
+        this.isLoading = true;
+    },
+    loadingStart() {
+        this.isLoading = true;
+    },
+    loadingEnd() {
+        this.isLoading = false;
+    }
+
   },
 
   watch: {
       prod_id() {
+
+          this.doAjax()
 
           this.windowPosition();
 
@@ -795,44 +782,13 @@ export default {
                 this.reviews = res.data.reviews
                 this.stars = res.data.stars
                 this.total_review = res.data.total_review
+                this.isLoading = false
             })
             .catch(err => {
                 console.log()
             })
 
       },
-
-
-    // prod_id() {
-    //     this.$axios
-    // .$get(`/admin/products/get-products/${this.$route.params.id}`)
-    // .then(res => {
-    //   this.product = res.data.product;
-    //   this.form.product_id = this.product.id;
-    // })
-    // .catch(err => {
-    //   console.log();
-    // });
-
-    // this.$axios
-    //   .$get(`/admin/product-sizes/${this.$route.params.id}`)
-    //   .then(res => {
-    //     this.product_sizes = res.data.sizes;
-    //   })
-    //   .catch(err => {
-    //     console.log();
-    //   });
-
-    // this.$axios.$get(`/admin/ratings/${this.$route.params.id}`)
-    // .then(res => {
-    //   this.reviews = res.data.reviews;
-    //   this.stars = res.data.stars;
-    //   this.total_review = res.data.total_review;
-    // })
-    // .catch(err => {
-    //   console.log();
-    // });
-    //},
 
     selection_type() {
       if (this.selection_type == 'Stitched') {

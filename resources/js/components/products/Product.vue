@@ -1,9 +1,19 @@
 <template>
   <v-hover v-slot:default="{ hover }">
     <v-card :to="`/products/${ product.slug }`" class="mx-2 mb-2" color="grey lighten-4">
-      <v-img :aspect-ratio="0.66" :src="product.image1">
+      <v-img :aspect-ratio="0.66" :src="product.image1"
+        class="grey lighten-2"
+      >
+        <template v-slot:placeholder>
+            <v-row
+            class="fill-height ma-0"
+            align="center"
+            justify="center"
+            >
+            <v-progress-circular indeterminate color="grey lighten-5"></v-progress-circular>
+            </v-row>
+        </template>
         <v-img v-if="hover" :aspect-ratio="0.66" :src="product.image2"></v-img>
-
         <v-expand-transition>
           <div
             v-if="hover"

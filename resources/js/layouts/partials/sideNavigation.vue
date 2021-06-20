@@ -16,7 +16,7 @@
           v-for="(child, i) in item.children"
           :key="i"
           link
-          :to="`/collection/${child.slug}`"
+          :to="`/${child.slug}`"
         >
           <v-list-item-action v-if="child.icon">
             <v-icon>mdi-chevron-right</v-icon>
@@ -30,7 +30,7 @@
         v-else
         :key="item.name"
         link
-        :to="`/collection/${item.slug}`"
+        :to="`/${item.slug}`"
       >
         <v-list-item-content>
           <v-list-item-title>{{ item.name }}</v-list-item-title>

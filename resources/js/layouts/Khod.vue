@@ -53,11 +53,7 @@
         </div>
       </div>
       <div class="menu-icons mt-5">
-        <Search />
-
         <login-avatar />
-
-        <MiniCart />
       </div>
       <template v-slot:extension class="nav-menu d-flex justify-center">
         <top-nav />
@@ -70,8 +66,6 @@
       <span class="text-center mx-auto my-auto">
          <v-img width="55" :src="logoImg" alt="Khodgi" />
       </span>
-
-      <MiniCart />
     </v-app-bar>
 
     <v-content>
@@ -84,11 +78,7 @@
       <v-row justify="center" no-gutters>
         <v-col cols="12" class="text-center body-2 py-4">
           &copy; {{ new Date().getFullYear() }} —
-          <strong>Khodgi</strong>
-          <span>
-            | Tech Partner
-            <a class="default--text" href="https://wogale.com">Wogale</a>
-          </span>
+          <strong>A Touch of Colour</strong>
         </v-col>
       </v-row>
     </v-footer>
@@ -124,9 +114,6 @@ export default {
     items: [],
     items2: [
         { icon: 'mdi-view-dashboard', name: 'Profile', link: '/account' },
-        { icon: 'mdi-cart', name: 'My Orders', link: '/account/orders' },
-        { icon: 'mdi-chat', name: 'My Reviews', link: '/account/reviews' },
-        { icon: 'mdi-chat', name: 'My Wishlist', link:'/account/wishlist' },
     ],
     socialicons: [
       "mdi-facebook",

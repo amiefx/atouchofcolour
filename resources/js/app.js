@@ -19,25 +19,6 @@ Vue.component('mardom-layout', Mardom)
 Vue.component('admin-layout', Admin)
 Vue.component('khod-layout', Khod)
 
-
-import VueProgressBar from 'vue-progressbar'
-
-const options = {
-    color: '#6200ea',
-    failedColor: '#874b4b',
-    thickness: '2px',
-    transition: {
-      speed: '0.2s',
-      opacity: '0.6s',
-      termination: 300
-    },
-    autoRevert: true,
-    location: 'top',
-    inverse: false
-  }
-
-  Vue.use(VueProgressBar, options)
-
 Vue.filter('date', DateFilter)
 
 import VueCarousel from 'vue-carousel';
@@ -53,7 +34,10 @@ import Vue2Editor from "vue2-editor";
 Vue.use(Vue2Editor);
 
 import VueMeta from 'vue-meta';
-Vue.use(VueMeta)
+Vue.use(VueMeta);
+
+import VueSilentbox from 'vue-silentbox';
+Vue.use(VueSilentbox);
 
 import VueHtmlToPaper from 'vue-html-to-paper';
 const options2 = {

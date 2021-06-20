@@ -57,6 +57,12 @@
       </v-toolbar>
     </template>
     <template v-slot:item.action="{ item }">
+      <v-tooltip bottom>
+      <template v-slot:activator="{ on, attrs }">
+        <span
+          v-bind="attrs"
+          v-on="on"
+        >
       <v-icon
         small
         class="mr-2"
@@ -64,6 +70,29 @@
       >
         mdi-check-circle
       </v-icon>
+      </span>
+      </template>
+      <span>Approve</span>
+    </v-tooltip>
+
+      <v-tooltip bottom>
+      <template v-slot:activator="{ on, attrs }">
+        <span
+          v-bind="attrs"
+          v-on="on"
+        >
+        <v-icon
+        small
+        class="mr-2"
+        @click="approveTestimonial(item)"
+      >
+        mdi-text-box-check
+      </v-icon>
+        </span>
+      </template>
+      <span>Approve Testimonial</span>
+    </v-tooltip>
+
       <v-icon
         small
         @click="deleteItem(item)"
@@ -111,6 +140,7 @@
         { text: 'Title', value: 'title' },
         { text: 'Body', value: 'body' },
         { text: 'Approved', value: 'approved' },
+        { text: 'Testimonial', value: 'testimonial' },
         { text: 'Date', value: 'created_at' },
         { text: 'Actions', value: 'action', sortable: false },
       ],
@@ -124,6 +154,7 @@
         title: '',
         body: '',
         approved: '',
+        testimonial: '',
         created_at: ''
       },
       defaultItem: {
@@ -134,6 +165,7 @@
         title: '',
         body: '',
         approved: '',
+        testimonial: '',
         created_at: ''
       },
     }),
@@ -193,7 +225,7 @@
         if(decide){
             axios.delete('/api/admin/reviews/'+item.id)
             .then(res => {
-                this.texgt = 'Review deleted successfully.';
+                this.text = 'Review deleted successfully.';
                 this.snackbar = true
                 this.reviews.splice(index, 1)
             })
@@ -229,7 +261,18 @@
             .then(res => {
                 this.text = 'Review approved successully.'
                 this.snackbar = true
-                this.reviews.splice(index, 1)
+                this.initialize()
+            })
+            .catch(err => console.log(err.response))
+      },
+
+      approveTestimonial (item) {
+        const index = this.reviews.indexOf(item)
+            axios.put('/api/admin/ratings/approve-testimonial/'+item.id)
+            .then(res => {
+                this.text = 'Testimonial approved successully.'
+                this.snackbar = true
+                this.initialize()
             })
             .catch(err => console.log(err.response))
       },

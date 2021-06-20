@@ -52,7 +52,7 @@
                   />
 
                   <vue-recaptcha ref="recaptcha"
-                    @verify="onVerify" sitekey="6LfyD_4UAAAAAERoUg4F4avADxNTXtiIOAOYoa0z">
+                    @verify="onVerify" sitekey="6Lc0fNsZAAAAAJoq33n9PPWeN7nWgNeJDBVaNNZ1">
                   </vue-recaptcha>
 
               </v-card-text>

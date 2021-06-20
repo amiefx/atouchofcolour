@@ -18,6 +18,7 @@ class CreateSocialsTable extends Migration
             $table->string('name');
             $table->string('icon');
             $table->string('link');
+            $table->string('color');
             $table->timestamps();
         });
     }

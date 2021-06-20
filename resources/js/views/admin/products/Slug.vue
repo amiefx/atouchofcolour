@@ -449,6 +449,7 @@
         </div>
 
     </v-container>
+    {{autoFillSize}}
   </div>
 </template>
 
@@ -567,7 +568,211 @@ export default {
           xl: ''
         }
       ]
-    }
+    },
+
+    size_attribs2: [
+        {
+          id: '',
+          attribute_set: '',
+          attributes_id: 1,
+          xs: '37',
+          s: '37',
+          m: '38',
+          l: '39',
+          xl: '40'
+        },
+        {
+          id: '',
+          attribute_set: '',
+          attributes_id: 2,
+          xs: '13.5',
+          s: '14',
+          m: '14.5',
+          l: '15',
+          xl: '16'
+        },
+        {
+          id: '',
+          attribute_set: '',
+          attributes_id: 3,
+          xs: '21.5',
+          s: '22',
+          m: '22.5',
+          l: '23',
+          xl: '23.5'
+        },
+        {
+          id: '',
+          attribute_set: '',
+          attributes_id: 4,
+          xs: '10',
+          s: '11',
+          m: '11.5',
+          l: '12',
+          xl: '13'
+        },
+        {
+          id: '',
+          attribute_set: '',
+          attributes_id: 5,
+          xs: '18.5',
+          s: '19.5',
+          m: '21',
+          l: '23',
+          xl: '24.5'
+        },
+        {
+          id: '',
+          attribute_set: '',
+          attributes_id: 6,
+          xs: '17.5',
+          s: '18.5',
+          m: '19.5',
+          l: '21.5',
+          xl: '23'
+        },
+        {
+          id: '',
+          attribute_set: '',
+          attributes_id: 7,
+          xs: '19.5',
+          s: '21',
+          m: '22.5',
+          l: '24',
+          xl: '26'
+        },
+        {
+          id: '',
+          attribute_set: '',
+          attributes_id: 8,
+          xs: '9',
+          s: '9',
+          m: '10',
+          l: '11',
+          xl: '11.5'
+        },
+        {
+          id: '',
+          attribute_set: '',
+          attributes_id: 9,
+          xs: '20',
+          s: '21',
+          m: '22.5',
+          l: '24',
+          xl: '26'
+        },
+        {
+          id: '',
+          attribute_set: '',
+          attributes_id: 10,
+          xs: '6.5',
+          s: '6.5',
+          m: '7',
+          l: '7.5',
+          xl: '8'
+        },
+        {
+          id: '',
+          attribute_set: '',
+          attributes_id: 11,
+          xs: '3',
+          s: '3',
+          m: '3.5',
+          l: '4',
+          xl: '4.5'
+        },
+        {
+          id: '',
+          attribute_set: '',
+          attributes_id: 12,
+          xs: '2.5',
+          s: '2.5',
+          m: '3',
+          l: '3.5',
+          xl: '4'
+        },
+        {
+          id: '',
+          attribute_set: '',
+          attributes_id: 13,
+          xs: '5',
+          s: '5',
+          m: '5.5',
+          l: '6',
+          xl: '7'
+        },
+        {
+          id: '',
+          attribute_set: '',
+          attributes_id: 14,
+          xs: '34',
+          s: '34',
+          m: '35',
+          l: '36',
+          xl: '37'
+        },
+        {
+          id: '',
+          attribute_set: '',
+          attributes_id: 15,
+          xs: '29/25',
+          s: '30/27',
+          m: '32/30',
+          l: '34/33',
+          xl: '36/35'
+        },
+        {
+          id: '',
+          attribute_set: '',
+          attributes_id: 16,
+          xs: '36',
+          s: '38',
+          m: '44',
+          l: '48',
+          xl: '52'
+        },
+        {
+          id: '',
+          attribute_set: '',
+          attributes_id: 17,
+          xs: '21',
+          s: '22',
+          m: '25',
+          l: '27',
+          xl: '28'
+        },
+        {
+          id: '',
+          attribute_set: '',
+          attributes_id: 18,
+          xs: '20',
+          s: '20',
+          m: '21',
+          l: '21',
+          xl: '22'
+        },
+        {
+          id: '',
+          attribute_set: '',
+          attributes_id: 19,
+          xs: '16',
+          s: '17',
+          m: '19',
+          l: '21.5',
+          xl: '22'
+        },
+        {
+          id: '',
+          attribute_set: '',
+          attributes_id: 20,
+          xs: '6',
+          s: '6',
+          m: '6.5',
+          l: '7',
+          xl: '7.5'
+        }
+      ]
+
   }),
 
 //   async asyncData({ $axios, params, error, redirect }) {
@@ -737,6 +942,14 @@ export default {
           });
     }
   },
+
+  computed: {
+      autoFillSize() {
+          if ( !this.editedItem.size_attribs[0]) {
+              this.editedItem.size_attribs = this.size_attribs2;
+          }
+      }
+  }
 
 //   mounted() {
 //     if (this.product) {

@@ -19,6 +19,7 @@ class SocialController extends Controller
             'name' => $request->name,
             'icon' => $request->icon,
             'link' => $request->link,
+            'color' => $request->color,
         ]);
         return response()->json(['social' => $social], 200);
     }
@@ -31,6 +32,7 @@ class SocialController extends Controller
             'name' => $request->name,
             'link' => $request->link,
             'icon' => $request->icon,
+            'color' => $request->color,
         ]);
         return response()->json(['social' => $social], 200);
     }

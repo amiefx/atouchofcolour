@@ -8,7 +8,7 @@
             :key="item.slug"
         >
             <template v-slot:activator="{ on }">
-                <v-btn text :to="`/collection/${item.slug}`" v-on="on">{{
+                <v-btn text :to="`/${item.slug}`" v-on="on">{{
                     item.name
                 }}</v-btn>
             </template>
@@ -18,7 +18,7 @@
                     v-for="(child, i) in item.children"
                     :key="i"
                     link
-                    :to="`/collection/${child.slug}`"
+                    :to="`/${child.slug}`"
                 >
                     <v-list-item-title>{{ child.name }}</v-list-item-title>
                 </v-list-item>
@@ -49,4 +49,7 @@ export default {
 };
 </script>
 
-<style></style>
+<style lang="scss" scoped>
+
+
+</style>

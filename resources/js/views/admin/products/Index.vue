@@ -356,7 +356,7 @@ export default {
     error: "",
     categories: [],
     options: {
-      sortBy: ["name"],
+      sortBy: ["id"],
       sortDesc: [true]
     },
     status: [

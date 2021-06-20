@@ -10,19 +10,20 @@
     </div>
     <div class="mx-12">
       <v-row>
-        <v-col cols="12" sm="6" md="6" lg="6" xl="6" class="px-6">
-            <p>Phone Number: <strong>+92 00000000</strong></p>
-            <p>Whatsapp: <strong>+92 00000000</strong></p>
-            <p>Customer Complains: <strong><a href="mailto:complains@khodgi.com?Subject=complain" target="_top">complains@khodgi.com</a></strong></p>
-            <p>Order Queries: <strong><a href="customerservices@khodgi.com?Subject=services" target="_top">customerservices@khodgi.com</a></strong></p>
+        <v-col cols="12" sm="6" md="6" lg="6" xl="6" class="px-6 text-center">
+            
+            <p>
+              Phone support is available throughout the day. <br> Feel free to give us a call.
+            </p>
+            <a href="tel:+61417382263"> <v-icon color="primary">mdi-phone-in-talk-outline</v-icon> +61 417 382 263</a>
+
+            <p class="mt-10">
+              For general enquiries and questions, contact us via email
+            </p>
+            <a href="mailto:atouchofcolour@hotmail.com?Subject=Painting" target="_top"> <v-icon color="primary">mdi-email-outline</v-icon> atouchofcolour@hotmail.com</a>
         </v-col>
         <v-col cols="12" sm="6" md="6" lg="6" xl="6">
-            <v-text-field class="" label="Name" outlined dense :rules="[rules.required]"></v-text-field>
-            <v-text-field class="mt-n3" label="Email" outlined dense :rules="[rules.required]"></v-text-field>
-            <v-text-field class="mt-n3" label="Phone" outlined dense :rules="[rules.required]"></v-text-field>
-            <v-textarea class="mt-n3" label="Message" outlined dense :rules="[rules.required]"></v-textarea>
-            <!-- <v-btn class="float-right mt-n3" type="submit" :disabled="!valid" @click.prevent="save" dark>Submit</v-btn> -->
-            <v-btn color="primary" class="float-right mt-n3" dark>Send</v-btn>
+          <Contact />
         </v-col>
       </v-row>
     </div>
@@ -30,8 +31,12 @@
 </template>
 
 <script>
+import Contact from '../../components/global/Contact';
 export default {
   layout: 'mardom',
+  components: {
+    Contact
+  },
 
     metaInfo: {
         // title will be injected into parent titleTemplate
@@ -40,14 +45,14 @@ export default {
         },
 
     data: ()=> ({
-        rules: {
-          required: v => !!v || 'This Field is Required',
-          min: v => v.length >=5 || 'Minimum 5 Chracters Required',
-          validEmail: v => /.+@.+\..+/.test(v) || 'Email must be valid',
-      },
+
     })
 };
 </script>
 
 <style>
+a {
+  text-decoration: none;
+  font-weight: 800;
+}
 </style>

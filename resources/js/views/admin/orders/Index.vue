@@ -251,7 +251,7 @@
             //     .catch(err => console.dir(err.response))
 
             const sortBy = this.options.sortBy.length == 0 ? 'id' : this.options.sortBy[0];
-            const orderBy = this.options.sortDesc.length > 0 || this.options.sortDesc[0] ? 'asc' : 'desc';
+            const orderBy = this.options.sortDesc.length > 0 || this.options.sortDesc[0] ? 'desc' : 'asc';
                 axios.get(`/api/admin/orders?page=${e.page}`,{params:{'per_page': e.itemsPerPage, 'sort_by': sortBy, 'order_by': orderBy}})
                 .then(res => {
                     this.orders = res.data.orders
@@ -262,7 +262,7 @@
       },
       paginate(e){
           const sortBy = this.options.sortBy.length == 0 ? 'id' : this.options.sortBy[0];
-          const orderBy = this.options.sortDesc.length > 0 || this.options.sortDesc[0] ? 'asc' : 'desc';
+          const orderBy = this.options.sortDesc.length > 0 || this.options.sortDesc[0] ? 'desc' : 'asc';
             axios.get(`/api/admin/orders?page=${e.page}`,{params:{'per_page': e.itemsPerPage, 'sort_by': sortBy, 'order_by': orderBy}})
             .then(res => {
                 this.orders = res.data.orders

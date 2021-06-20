@@ -4,109 +4,65 @@
       <sideNavigation />
 
       <v-divider class="mx-5"></v-divider>
-      <!-- second part --->
-      <!-- <v-list dense>
-        <template v-for="item in items2">
-          <v-list-group
-            v-if="item.children"
-            :key="item.name"
-            v-model="item.model"
-            :append-icon="item.model ? 'mdi-chevron-down' : 'mdi-chevron-up'"
-          >
-            <template v-slot:activator>
-              <v-list-item-content>
-                <v-list-item-title>{{ item.name }}</v-list-item-title>
-              </v-list-item-content>
-            </template>
-            <v-list-item v-for="(child, i) in item.children" :key="i" link :to="child.link">
-              <v-list-item-action v-if="child.icon">
-                <v-icon>mdi-chevron-right</v-icon>
-              </v-list-item-action>
-              <v-list-item-content>
-                <v-list-item-title>{{ child.name }}</v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
-          </v-list-group>
-          <v-list-item v-else :key="item.name" link :to="item.link">
-            <v-list-item-content>
-              <v-list-item-title>{{ item.name }}</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-        </template>
-      </v-list> -->
-      <!-- second part --->
 
       <!-- third part --->
       <logout />
       <!-- third part --->
     </v-navigation-drawer>
 
-    <v-app-bar extended :clipped-left="$vuetify.breakpoint.mdAndUp" app class="hidden-sm-and-down">
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer" class="hidden-md-and-up" />
+    <div class="hidden-sm-and-down app-bar">
+      <!-- <v-app-bar-nav-icon @click.stop="drawer = !drawer" class="hidden-md-and-up" /> -->
 
-      <div class="logo">
-        <div>
+      <div class="top">
+        <div class="social">
+          <div class="email bold text"><a href="mailto:atouchofcolour@hotmail.com"> atouchofcolour@hotmail.com</a></div>
+          <div class="" v-for="icon in socialicons" :key="icon.id" icon>
+            <v-btn
+              :color="icon.color"
+              fab
+              small
+              dark
+              :href="icon.link" target="_blank"
+            >
+              <v-icon>{{ icon.icon }}</v-icon>
+            </v-btn>
+          </div>
+
+        </div>
+        <div class="logo">
           <router-link to="/">
-             <v-img height="60" width="70" :src="logoImg" alt="Khodgi" />
+             <v-img width="380"  :src="logoImg" alt="a touch of colour" />
           </router-link>
         </div>
+        <div class="phon font-weight-bold">
+          <a href="tel:+61417382263">
+            <v-icon color="primary">mdi-phone-in-talk-outline</v-icon>
+            +61 417 382 263</a>
+        </div>
       </div>
-      <div class="menu-icons mt-5">
-
-            <Search />
-
-            <login-avatar />
-
-            <MiniCart />
-
-      </div>
+      
 
 
-      <template v-slot:extension class="nav-menu d-flex justify-center">
+      <div class="nav">
         <top-nav />
-      </template>
+      </div>
 
-    </v-app-bar>
+    </div>
 
     <v-app-bar :clipped-left="$vuetify.breakpoint.mdAndUp" app class="hidden-md-and-up">
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" class="hidden-md-and-up" />
 
       <span class="text-center mx-auto my-auto">
         <router-link to="/">
-          <v-img width="55" :src="logoImg" alt="Khodgi" />
+          <v-img width="55" :src="logoImg2" alt="a touch of colour" />
         </router-link>
       </span>
-
-      <Search />
-
-      <MiniCart />
     </v-app-bar>
 
-    <v-content>
+    <v-content class="pt-0">
 
-      <div v-if="this.$route.path == '/'">
-      <v-carousel hide-delimiters height="600" class="hidden-sm-and-down">
-        <v-carousel-item
-          v-for="(item,i) in homeSlides"
-          :key="i"
-          :src="item.large_image"
-          :to="`/collection/${item.link}`"
-        ></v-carousel-item>
-      </v-carousel>
+      <slot />
 
-      <v-carousel hide-delimiters height="600" class="hidden-md-and-up">
-        <v-carousel-item
-          v-for="(item,i) in homeSlides"
-          :key="i"
-          :src="item.small_image"
-          :to="`/collection/${item.link}`"
-        ></v-carousel-item>
-      </v-carousel>
-    </div>
-
-      <v-container fluid>
-        <slot />
-      </v-container>
     </v-content>
 
   <fullFooter />
@@ -139,7 +95,8 @@ export default {
   data: () => ({
     dialog: false,
     drawer: false,
-    logoImg: window.location.origin + "/storage/images/khodgilogo.png",
+    logoImg: window.location.origin + "/storage/images/Logo3.png",
+    logoImg2: window.location.origin + "/storage/images/favicon.png",
     items: [],
     items2: [
       {
@@ -178,17 +135,20 @@ export default {
 
   computed: {
     ...mapGetters({
-       homeSlides: 'home/home_slides'
+       homeSlides: 'home/home_slides',
+       socialicons: 'social/social'
     })
   },
 
   created() {
     this.getHomeSlide();
+    this.getSocial();
   },
 
   methods: {
     ...mapActions({
       getHomeSlide: "home/getHomeSlide",
+      getSocial: 'social/getSocial',
     }),
   }
 
@@ -196,7 +156,8 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+
 .v-card--reveal {
   align-items: center;
   bottom: 0;
@@ -214,14 +175,6 @@ export default {
   right: 30px;
 }
 
-.logo {
-  position: absolute;
-  justify-content: center;
-  left: 50%;
-  transform: translateX(-50%);
-  top: 10px;
-}
-
 .nav-menu {
   position: absolute;
   justify-content: center;
@@ -229,5 +182,65 @@ export default {
   transform: translateX(-50%);
   background-color: transparent;
 }
+
+.app-bar {
+  background-color: #fff;
+  display: grid;
+  grid-template-rows: 100px 50px;
+}
+
+.top {
+  grid-row: 1 / 2;
+
+  display: grid;
+  grid-template-columns: 25% 50% 25%;
+
+  justify-items: center;
+  align-items: center;
+  justify-content: space-evenly;
+
+}
+
+.social {
+  grid-column: 1 / 2;
+
+  display: grid;
+  grid-template-rows: repeat(2, 1fr);
+  grid-template-columns: repeat(4, 1fr);
+
+  justify-items: center;
+  align-items: center;
+
+  grid: 8px;
+
+  .email {
+    grid-row: 1 / 2;
+    grid-column: 1 / -1;
+  }
+
+}
+
+.logo {
+  grid-column: 2 / 3;
+}
+
+.phon {
+  grid-column: 3 / 4;
+}
+
+a {
+  text-decoration: none;
+}
+
+.nav {
+  display: grid;
+  justify-items: center;
+  align-items: center;
+
+  border-bottom: 1px solid #999;
+  box-shadow: dimgrey;
+}
+
+
 
 </style>

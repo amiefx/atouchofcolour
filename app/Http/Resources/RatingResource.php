@@ -18,19 +18,24 @@ class RatingResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'email' => $this->email,
-            'product_id' => $this->product_id,
-            'product' => $this->product->name,
             'rating' => $this->rating,
             'title' => $this->title,
             'body' => $this->body,
             'approved' => $this->approved,
+            'testimonial' => $this->testimonial,
             'created_at' => $this->created_at->diffForHumans()
         ];
 
         if ($this->approved == 1) {
-            $data['approved'] = 'Approved';
+            $data['approved'] = 'Yes';
         } else {
-            $data['approved'] = 'Not Approved';
+            $data['approved'] = 'No';
+        }
+
+        if ($this->testimonial == 1) {
+            $data['testimonial'] = 'Yes';
+        } else {
+            $data['testimonial'] = 'No';
         }
 
         return $data;

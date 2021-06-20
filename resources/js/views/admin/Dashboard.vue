@@ -1,58 +1,6 @@
 <template>
   <div class="container">
-    <v-md-date-range-picker class="ma-2" @change="handleChange" :presets="presets"></v-md-date-range-picker>
-    <v-divider></v-divider>
-    <v-row>
-        <v-col cols="12" sm="6" md="3" class="pa-2">
-            <v-card class="pa-4" outlined color="" >
-            <div class="overline mb-2">Total Sales</div>
-            <div class="title deep-purple--text text-capitalize">Rs. {{total_sales}}</div>
-          </v-card>
-        </v-col>
-        <v-col cols="12" sm="6" md="3" class="pa-2">
-            <v-card class="pa-4 " outlined color="">
-            <div class="overline mb-2">Total Orders</div>
-            <div class="title text-capitalize">{{total_orders}}</div>
-          </v-card>
-        </v-col>
-        <v-col cols="12" sm="6" md="3" class="pa-2">
-            <v-card class="pa-4 " outlined color="" >
-            <div class="overline mb-2">Total Products</div>
-            <div class="title text-capitalize">{{total_products}}</div>
-          </v-card>
-        </v-col>
-        <v-col cols="12" sm="6" md="3" class="pa-2">
-            <v-card class="pa-4 " outlined color="" >
-            <div class="overline mb-2">Total Customers</div>
-            <div class="title text-capitalize">{{total_customers}}</div>
-          </v-card>
-        </v-col>
-    </v-row>
-
-    <v-row>
-        <v-col cols="12" sm="12" md="6" class="pa-2">
-            <v-card class="" outlined color="" >
-            <column-chart :data="monthly_sales[0].data" title="Monthly Sales PKR"></column-chart>
-            </v-card>
-        </v-col>
-        <v-col cols="12" sm="12" md="6" class="pa-2">
-            <v-card class="" outlined color="" >
-            <column-chart :data="monthly_sales[1].data" title="Monthly Sales AUD"></column-chart>
-            </v-card>
-        </v-col>
-        <v-col cols="12" sm="12" md="6" class="pa-2">
-            <v-card class="" outlined color="" >
-            <line-chart :data="orders_monthly" title="Monthly Orders"></line-chart>
-            </v-card>
-        </v-col>
-        <v-col cols="12" sm="12" md="6" class="pa-2">
-            <v-card class="" outlined color="" >
-            <pie-chart :data="TopTenProducts" title="Top 10 Products"></pie-chart>
-            </v-card>
-        </v-col>
-
-
-    </v-row>
+    <h1>Welcome to A Touch of Colour</h1>
   </div>
 </template>
 

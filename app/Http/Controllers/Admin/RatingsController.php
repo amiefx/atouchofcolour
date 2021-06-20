@@ -12,21 +12,10 @@ class RatingsController extends Controller
     public function index()
     {
         //return response(['attribute_sets' => AttributeSetResource::collection(Attribute_set::all())], 200);
-        return RatingResource::collection(Rating::where('approved', false)->orderBy('created_at', 'desc')->get());
+        return RatingResource::collection(Rating::orderBy('id', 'asc')->get());
         //return response()(['reviews' => RatingResource::collection(Rating::where('approved', false)->orderBy('created_at', 'desc')->get())], 200);
     }
 
-    public function show($id)
-    {
-        $reviews = Rating::where([['approved', '=', 1], ['product_id', $id]])->get();
-        $stars =  $reviews->average('rating');
-        $total_review =  $reviews->count();
-        return response()->json([
-            'reviews' => $reviews,
-            'stars' => $stars,
-            'total_review' => $total_review,
-         ], 200);
-    }
 
     public function store(Request $request)
     {
@@ -50,10 +39,26 @@ class RatingsController extends Controller
 
     }
 
+    
+    public function delete($id)
+    {
+        dd($id);
+        $review = Rating::find($id)->delete();
+        return response()->json(['review' => new RatingResource($review)], 200);
+    }
+
     public function approve($id)
     {
         $review = Rating::find($id);
         $review->approved = true;
+        $review->save();
+        return response()->json(['review' => new RatingResource($review)], 200);
+    }
+
+    public function approveTestimonial($id)
+    {
+        $review = Rating::find($id);
+        $review->testimonial = true;
         $review->save();
         return response()->json(['review' => new RatingResource($review)], 200);
     }

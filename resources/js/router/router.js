@@ -17,40 +17,65 @@ const routes = [
     {
         path: '/',
         name: 'home',
-        component: () => import('../views/Home.vue'),
+        component: () => import(/* webpackPreload: true */ '../views/Home.vue'),
         meta: {
             layout: 'mardom'
         }
     },
-    { path: '/collection/home', redirect: '/' },
+    { path: '/home', redirect: '/' },
     {
-        path: '/collection/:slug',
-        name: 'product-collection',
-        component: () => import('../views/ProductCollection.vue'),
+        path: '/painting-decorating',
+        name: 'painting',
+        component: () => import(/* webpackPreload: true */ '../views/Painting.vue'),
         meta: {
             layout: 'mardom'
         }
     },
+    { path: '/our-services', redirect: '/painting-decorating' },
     {
-        path: '/products/:slug',
-        name: 'product',
-        component: () => import('../views/Product.vue'),
-        meta: {
-            layout: 'mardom'
-        }
-    },
-    {
-        path: '/checkout',
-        name: 'checkout',
-        component: () => import('../views/Checkout.vue'),
+        path: '/interior-design',
+        name: 'Interior',
+        component: () => import(/* webpackPreload: true */ '../views/Interior.vue'),
         meta: {
             layout: 'mardom'
         }
     },
     {
-        path: '/checkout/:id',
-        name: 'order-complete',
-        component: () => import('../views/OrderComplete.vue'),
+        path: '/property-maintenance',
+        name: 'property-maintenance',
+        component: () => import(/* webpackPreload: true */ '../views/Maintenance.vue'),
+        meta: {
+            layout: 'mardom'
+        }
+    },
+    {
+        path: '/cleaning-services',
+        name: 'cleaning-services',
+        component: () => import(/* webpackPreload: true */ '../views/Cleaning.vue'),
+        meta: {
+            layout: 'mardom'
+        }
+    },
+    {
+        path: '/reviews',
+        name: 'reviews',
+        component: () => import(/* webpackPreload: true */ '../views/Reviews.vue'),
+        meta: {
+            layout: 'mardom'
+        }
+    },
+    {
+        path: '/about-us',
+        name: 'about-us',
+        component: () => import(/* webpackPreload: true */ '../views/About.vue'),
+        meta: {
+            layout: 'mardom'
+        }
+    },
+    {
+        path: '/feedback',
+        name: 'feedback',
+        component: () => import(/* webpackPreload: true */ '../views/Feedback.vue'),
         meta: {
             layout: 'mardom'
         }

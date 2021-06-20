@@ -22,6 +22,7 @@
                       <v-text-field v-model="editedItem.name" label="Name"></v-text-field>
                       <v-text-field v-model="editedItem.icon" label="Icon"></v-text-field>
                       <v-text-field v-model="editedItem.link" label="Link"></v-text-field>
+                      <v-text-field v-model="editedItem.color" label="color"></v-text-field>
                     </v-col>
                   </v-row>
                 </v-container>
@@ -75,6 +76,7 @@ export default {
       { text: "Name", value: "name" },
       { text: "Icon", value: "icon" },
       { text: "Link", value: "link" },
+      { text: "Color", value: "color" },
       { text: "Actions", value: "action", sortable: false }
     ],
     social: [],
@@ -83,13 +85,15 @@ export default {
       id: "",
       name: "",
       icon: "",
-      link: ""
+      link: "",
+      color: ""
     },
     defaultItem: {
       id: "",
       name: "",
       icon: "",
-      link: ""
+      link: "",
+      color: ""
     },
 
   }),

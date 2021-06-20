@@ -23,6 +23,8 @@ Route::group(['namespace' => 'Front'], function () {
     Route::resource('product-sizes', 'ProductSizeController');
 
     // Ratings
+    Route::get('ratings/all', 'RatingController@all');
+    Route::get('ratings/testimonials', 'RatingController@testimonials');
     Route::resource('ratings', 'RatingController');
 
     // Other Pages
@@ -50,6 +52,9 @@ Route::group(['namespace' => 'Front'], function () {
     // Notify
     Route::put('notifyme/reply/{id}', 'NotifyMeController@reply');
     Route::resource('notifyme', 'NotifyMeController');
+
+    // Messages
+    Route::resource('messages', 'MessagesController');
 
 });
 
@@ -89,6 +94,8 @@ Route::group(['middleware' => ['auth:api']], function () {
 
         // Ratings
         Route::put('admin/ratings/approve/{id}', 'RatingsController@approve');
+        Route::put('admin/ratings/approve-testimonial/{id}', 'RatingsController@approveTestimonial');
+        Route::delete('admin/ratings/{id}', 'RatingsController@delete');
         Route::resource('admin/ratings', 'RatingsController');
 
         // Attribute_Sets
@@ -142,6 +149,9 @@ Route::group(['middleware' => ['auth:api']], function () {
         // Dashboard
         Route::post('admin/dashboard', 'DashboardController@index');
         Route::post('admin/report', 'DashboardController@report');
+
+        // Messages
+        Route::resource('admin/messages', 'MessagesController');
 
     });
 

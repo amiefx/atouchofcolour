@@ -17,7 +17,24 @@
             <v-hover v-slot:default="{ hover }">
               <v-card class="mb-2 img__wrapper" color="grey lighten-4">
                 <router-link :to="`/products/${i.slug}`">
-                    <v-img :aspect-ratio="0.66" :src="i.image1">
+                    <!-- <v-img :aspect-ratio="0.66" :src="i.image1"> -->
+
+                    <v-img
+                    :src="i.image1"
+
+                    class="grey lighten-2"
+                    :aspect-ratio="0.66"
+                    >
+                    <template v-slot:placeholder>
+                        <v-row
+                        class="fill-height ma-0"
+                        align="center"
+                        justify="center"
+                        >
+                        <v-progress-circular indeterminate color="grey lighten-5"></v-progress-circular>
+                        </v-row>
+                    </template>
+
                   <v-img v-if="hover" :aspect-ratio="0.66" :src="i.image2"></v-img>
                 </v-img>
                 </router-link>
@@ -58,27 +75,56 @@
             </v-hover>
           </v-col>
         </v-row>
-        <v-row class="d-flex justify-center">
+        <!-- <v-row class="d-flex justify-center">
             <v-btn color="secondary" fab x-small light class="mx-2" @click="fetchProduct(pagination.prev_page_url)" :disabled="!pagination.prev_page_url">
               <v-icon>mdi-chevron-left</v-icon>
             </v-btn>
             <v-btn color="secondary" fab x-small light  class="mx-2" @click="fetchProduct(pagination.next_page_url)" :disabled="!pagination.next_page_url">
               <v-icon>mdi-chevron-right</v-icon>
             </v-btn>
-        </v-row>
+        </v-row> -->
+        <!-- <div class="inters"
+            v-intersect="{
+            handler: onIntersect,
+            options: {
+              threshold: 0
+            }
+          }"
+          >
+          Intersect
+        </div> -->
+        <div v-if="products.length" v-observe-visibility="handleScrollingToBottom"></div>
       </v-col>
     </v-row>
     <div hidden>{{routeID}} {{sortings}}</div>
+
+    <div class="vld-parent">
+        <loading
+        :active.sync="isLoading"
+        loader="dots"
+        :opacity="opacity"
+        color='#6200E'
+        ></loading>
+    </div>
+
   </div>
 </template>
 
 <script>
+// Import component
+import Loading from 'vue-loading-overlay';
+// Import stylesheet
+import 'vue-loading-overlay/dist/vue-loading.css';
+
+import VueObserveVisibility from 'vue-observe-visibility'
 export default {
   layout: 'mardom',
   props: {
     source: String
   },
   components: {
+      Loading,
+      VueObserveVisibility
   },
   metaInfo () {
     return {
@@ -122,8 +168,16 @@ export default {
       },
       url: '',
       data: [],
-      pageImage: ''
+      pageImage: '',
+
+      isLoading: false,
+      fullPage: false,
+      opacity: 0.99,
     };
+  },
+
+  created() {
+      this.loadingStart()
   },
 
   watch: {
@@ -154,7 +208,9 @@ export default {
       axios
         .get(pagei, {params:{'sort_by': sortBy, 'order_by': orderBy}})
         .then(res => {
-          this.products = res.data.data;
+          this.isLoading = false;
+        //   this.products = res.data.data;
+          this.products.push(...res.data.data);
           this.category = res.data.data[0].category;
           this.pageImage = res.data.data[0].image1;
           this.pagination = {
@@ -174,6 +230,25 @@ export default {
     fetchPaginatedProduct(url) {
         this.url = url
         this.fetchProduct()
+    },
+
+    loadingStart() {
+        this.isLoading = true;
+    },
+    loadingEnd() {
+        this.isLoading = false;
+    },
+
+    handleScrollingToBottom (isVisible) {
+        if (!isVisible) {
+            return
+        }
+
+        if (!this.pagination.next_page_url) {
+            return
+        }
+        this.fetchProduct(this.pagination.next_page_url)
+
     }
   },
 

@@ -79,57 +79,13 @@ export default {
   data: () => ({
     dialog: false,
     drawer: null,
-    logoImg: window.location.origin + "/storage/images/khodgilogo.png",
+    logoImg: window.location.origin + "/storage/images/favicon.png",
     users: {},
     items: [
       { icon: "mdi-chevron-right", text: "Dashboard", link: "/admin/dashboard" },
-      { icon: "mdi-chevron-right", text: "Reports", link: "/admin/reports" },
-      {
-        icon: "mdi-chevron-up",
-        "icon-alt": "mdi-chevron-down",
-        text: "Product Management",
-        link: '#',
-        children: [
-            { icon: "mdi-chevron-right", text: "Products", link: "/admin/products" },
-            { icon: "mdi-chevron-right", text: "Categories", link: "/admin/categories" },
-            { icon: "mdi-chevron-right", text: "Size Groups", link: "/admin/attribute-sets" },
-            { icon: "mdi-chevron-right", text: "Size Attributes", link: "/admin/attributes" },
-            { icon: "mdi-chevron-right", text: "Coupons", link: "/admin/coupons" },
-            ]
-      },
-      {
-        icon: "mdi-chevron-up",
-        "icon-alt": "mdi-chevron-down",
-        text: "Orders",
-        link: '#',
-        children: [
-            { icon: "mdi-chevron-right", text: "Orders", link: "/admin/orders" },
-            ]
-      },
-      { icon: "mdi-chevron-right", text: "Customer Reviews", link: "/admin/ratings" },
+      { icon: "mdi-chevron-right", text: "Menu", link: "/admin/categories" },
+      { icon: "mdi-chevron-right", text: "Reviews", link: "/admin/ratings" },
       { icon: "mdi-chevron-right", text: "Notifications to reply", link: "/admin/notify" },
-      {
-        icon: "mdi-chevron-up",
-        "icon-alt": "mdi-chevron-down",
-        text: "Home Page",
-        link: '#',
-        children: [
-            { icon: "mdi-chevron-right", text: "Slide Show", link: "/admin/slides" },
-            ]
-      },
-      {
-        icon: "mdi-chevron-up",
-        "icon-alt": "mdi-chevron-down",
-        text: "Other Pages",
-        link: '#',
-        children: [
-            { icon: "mdi-chevron-right", text: "About Us", link: "/admin/about" },
-            { icon: "mdi-chevron-right", text: "Delivery", link: "/admin/delivery" },
-            { icon: "mdi-chevron-right", text: "FAQ's", link: "/admin/faqs" },
-            { icon: "mdi-chevron-right", text: "Privacy Policy", link: "/admin/privacy" },
-            { icon: "mdi-chevron-right", text: "Order & Return", link: "/admin/order-return" },
-            ]
-      },
       {
         icon: "mdi-chevron-up",
         "icon-alt": "mdi-chevron-down",
@@ -148,16 +104,7 @@ export default {
         children: [
             { icon: "mdi-chevron-right", text: "Social Media Links", link: "/admin/social" },
             ]
-      },
-      {
-        icon: "mdi-chevron-up",
-        "icon-alt": "mdi-chevron-down",
-        text: "Shipping and Payment methods",
-        link: '#',
-        children: [
-            { icon: "mdi-chevron-right", text: "Shipping Methods", link: "/admin/shipping" },
-            ]
-      },
+      }
     ]
   }),
   methods: {

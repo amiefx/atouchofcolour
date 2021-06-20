@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\RatingResource;
-use App\Models\Product;
 use App\Models\Rating;
 use Illuminate\Http\Request;
 
@@ -13,8 +12,40 @@ class RatingController extends Controller
     public function index()
     {
         //return response(['attribute_sets' => AttributeSetResource::collection(Attribute_set::all())], 200);
-        return RatingResource::collection(Rating::where('approved', false)->orderBy('created_at', 'desc')->get());
+        return RatingResource::collection(Rating::get()->orderBy('created_at', 'desc'));
         //return response()(['reviews' => RatingResource::collection(Rating::where('approved', false)->orderBy('created_at', 'desc')->get())], 200);
+    }
+
+    public function testimonials()
+    {
+        $reviews = Rating::where([['approved', '=', 1], ['testimonial', '=', 1]])->get();
+        return response()->json([
+            'testimonials' => $reviews,
+         ], 200);
+    }
+
+    public function all()
+    {
+
+        $reviews = Rating::where('approved', '=', 1)->get();
+        $reviews_paginated = Rating::where('approved', '=', 1)->paginate(6);
+        $stars =  $reviews->average('rating');
+        $total_review =  $reviews->count();
+        $stars5 =  $reviews->where('rating', '=', 5)->count();
+        $stars4 =  $reviews->where('rating', '=', 4)->count();
+        $stars3 =  $reviews->where('rating', '=', 3)->count();
+        $stars2 =  $reviews->where('rating', '=', 2)->count();
+        $star1 =  $reviews->where('rating', '=', 1)->count();
+        return response()->json([
+            'reviews' => $reviews_paginated,
+            'stars' => $stars,
+            'total_review' => $total_review,
+            'stars5' => $stars5,
+            'stars4' => $stars4,
+            'stars3' => $stars3,
+            'stars2' => $stars2,
+            'star1' => $star1,
+         ], 200);
     }
 
     public function show($slug)
@@ -33,17 +64,11 @@ class RatingController extends Controller
 
     public function store(Request $request)
     {
-        if ( isset(auth('api')->user()->id )) {
-            $users_id = auth('api')->user()->id;
-        } else {
-            $users_id = null;
-        }
 
         $rating = new Rating([
             'name' => $request->name,
             'email' => $request->email,
             'product_id' => $request->product_id,
-            'user_id' => $users_id,
             'rating' => $request->rating,
             'title' => $request->title,
             'body' => $request->body,

@@ -35,7 +35,7 @@ class ProductsController extends Controller
         $products = Product::with(['ratings', 'product_sizes', 'category'])->where('is_active', true)
             ->where('category_id', '=', $category_id)
             ->orderBy($sortBy, $orderBy)
-            ->paginate(6);
+            ->paginate(3);
 
         return new ProductCollection($products);
 
@@ -43,14 +43,18 @@ class ProductsController extends Controller
 
     public function getHomeProducts()
     {
-        $products = ProductIndexResource::collection(Product::with(['ratings'])->where([['is_active', true], ['in_stock', true]])->get());
-        $total_products = $products->count();
-        if ($total_products < 7) {
-            $total = $total_products;
-        } else {
-            $total = 7;
-        }
-        return $products->random($total);
+        $products = cache()->remember('home_prod', 60*60, function() {
+            return ProductIndexResource::collection(Product::with(['ratings'])->where([['is_active', true], ['in_stock', true]])->orderByDesc('id')->paginate(12));
+        });
+
+        // $total_products = $products->count();
+        // if ($total_products < 10) {
+        //     $total = $total_products;
+        // } else {
+        //     $total = 10;
+        // }
+
+       return $products;
     }
 
     public function getRelatedProducts($slug)
